@@ -1,0 +1,23 @@
+# ignore everything by default
+*
+
+# don’t ignore these dirs and all their contents
+!.gitignore
+!anyrun/
+!anyrun/**
+
+!nvim/
+!nvim/**
+
+!waybar/
+!waybar/**
+
+!eww/
+!eww/**
+
+!hypr/
+!hypr/**
+
+# keep gitignore itself
+!.gitignore
+

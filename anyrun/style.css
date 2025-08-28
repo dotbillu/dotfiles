@@ -1,0 +1,91 @@
+/* GTK Vars */
+@define-color fg-color #ffffff;
+
+/* reset everything */
+* {
+  all: unset;
+  font-family: "MesloLGS NF Bold";
+}
+
+/* window itself */
+#window {
+  border-radius: 24px; /* rounded corners */
+  background: transparent; /* let hyprland blur show */
+}
+
+/* main box inside window */
+box#main {
+  border-radius: 24px;
+  background: transparent; /* no alpha color, fully transparent */
+  border: 1px solid alpha(@fg-color, 0.3); /* optional border */
+  box-shadow: 0 0 24px alpha(@fg-color, 0.3); /* optional glow */
+  padding: 16px;
+}
+
+/* entry field */
+entry#entry {
+  font-size: 2.5rem;
+  background: transparent;
+  box-shadow: 0 6px 1px rgba(255, 255, 255, 0.5);
+  border: none;
+  min-height: 100px;
+  caret-color: @primary-color;
+
+}
+
+/* result list */
+list#main {
+    background: transparent;
+    margin-top: 15px; /* vertical gap between entry and list */
+}
+
+
+/* plugin panel */
+#plugin {
+  background: transparent;
+  padding-bottom: 8px;
+}
+
+/* each match */
+#match {
+  font-size: 30px;
+  min-height:60px;
+  padding: 0px 0px;
+  padding-left: 0px;
+  border-radius: 12px; /* rounded individual items */
+  margin: 2px 4px;
+}
+
+/* selected / hover state */
+#match:selected,
+#match:hover {
+  background-color: @selected-bg-color;
+  box-shadow: 0 0 4px alpha(@fg-color, 0.2);
+  color: @selected-fg-color;
+}
+
+#match:selected label#info,
+#match:hover label#info {
+  color: @selected-fg-color;
+}
+
+#match:selected label#match-desc,
+#match:hover label#match-desc {
+  color: alpha(@selected-fg-color, 0.9);
+}
+
+/* default labels */
+#match label#info {
+  font-size: 50px;
+    color: transparent; /* hide text */
+   }
+
+
+label#match-desc {
+  font-size: 2rem;
+  color: @fg-color;
+}
+
+label#plugin {
+  font-size: 32px;
+}

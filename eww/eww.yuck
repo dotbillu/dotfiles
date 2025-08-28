@@ -1,0 +1,68 @@
+;; -- Variables & Listeners --
+(defvar dock_revealed false)
+(defvar hovered_window "")
+(defvar visual_hover "")
+(defvar original_window "")
+(deflisten clients :initial "[]" `scripts/get-clients.sh`)
+(defpoll hyprland_active_window :interval "16ms" `hyprctl activewindow -j | jq -c '.address'`)
+
+;; -- Widgets --
+(defwidget launcher []
+  (button
+    :class "launcher-btn"
+    :onclick "wofi --show drun"
+    "🔍"
+  ))
+
+;; Taskbar to show application icons
+(defwidget taskbar []
+  (box
+    :class "taskbar"
+    :space-evenly false
+    :spacing 0  ; No spacing, we'll use dividers
+    :orientation "h"
+    (for client in clients
+      (eventbox
+        :onhover "eww update visual_hover='${client.address}' && ~/.config/eww/scripts/window-preview.sh hover '${client.address}'"
+        :onhoverlost "eww update visual_hover='' && ~/.config/eww/scripts/window-preview.sh unhover '${client.address}'"
+        (button
+          :class "task-item ${visual_hover == client.address ? 'active' : (visual_hover == '' && client.focused ? 'active' : '')}"
+          :onclick "~/.config/eww/scripts/window-preview.sh click '${client.address}'"
+          ;; App icon
+          (image :path "${client.icon_path}"
+                 :image-width 48  ; Much larger icons for better visibility
+                 :image-height 48)
+        )
+      ))))
+
+
+;; -- The Dock Window --
+(defwindow dock
+  :monitor 0
+  ;; Dynamic width that adjusts to content
+  :geometry (geometry :x "0"
+                      :y "15px"  ; Increased bottom padding
+                      :width "1px"  ; Dynamic width that adjusts to content
+                      :height "52px"  ; More lean height to match container
+                      :anchor "bottom center")
+  :stacking "fg"
+
+  ;; This is the invisible trigger area for the hover effect.
+  (eventbox
+    :onhover "eww update dock_revealed=true"
+    :onhoverlost "eww update dock_revealed=false"
+    :style "min-height: 52px; min-width: 120px;" ; Minimum hover area for dock reveal
+    (revealer
+      :transition "crossfade"
+      :reveal dock_revealed
+      :duration "150ms"
+      (box
+        :class "dock-container"
+        :space-evenly false  ; Don't distribute space evenly
+        :spacing 0           ; No spacing, we'll use dividers
+        :orientation "h"     ; Horizontal orientation
+        (taskbar)
+      )
+    )
+  )
+)

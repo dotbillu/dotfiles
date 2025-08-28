@@ -1,0 +1,211 @@
+* {
+  font-size: 16px;
+  min-height: 0;
+  border-radius: 1rem;
+  padding: 0.1rem;
+}
+
+window#waybar {
+  background: #626880; /* Custom blue-gray background */
+  color: rgb(80, 60, 40); /* Dark brown text for contrast */
+  border-bottom: 2px solid rgba(210, 180, 140, 0.8); /* Tan border */
+}
+
+/* Center window title styling */
+#window {
+  color: #f2cdcd; /* Flamingo - unique color not used elsewhere */
+  font-weight: 500;
+}
+
+tooltip {
+  background: rgba(210, 180, 140, 0.95); /* Creamy tooltip background */
+  border: 1px solid rgba(180, 150, 120, 0.8);
+  border-radius: 0.5rem;
+}
+tooltip label {
+  color: rgb(60, 50, 40); /* Dark brown tooltip text */
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background: transparent;
+  color: rgb(100, 80, 60); /* Brown workspace text */
+  border-bottom: 3px solid transparent;
+}
+
+#workspaces button.focused {
+  background: transparent; /* No background shell */
+  border-bottom: none;
+  color: rgb(60, 50, 40); /* Darker text for focused */
+}
+
+#mode,
+#clock,
+#battery {
+  padding: 0 10px;
+}
+
+#mode {
+  background: transparent; /* No background shell */
+  border-bottom: none;
+  color: rgb(60, 50, 40); /* Dark brown text */
+}
+
+#clock {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 2px;
+  padding: 4px 12px;
+  color: #cdd6f4; /* Light text color that suits the blue-gray bar */
+  background: transparent;
+  border-radius: 0;
+}
+
+
+#temperature,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd {
+  margin: 0 6px;
+  padding: 0;
+  background: transparent; /* No background shells */
+  border-radius: 0;
+}
+
+/* Individual module colors */
+#cpu {
+  color: #f9e2af; /* Yellow */
+}
+
+#memory {
+  color: #a6e3a1; /* Green */
+}
+
+#temperature {
+  color: #fab387; /* Orange */
+}
+
+#network {
+  color: #89dceb; /* Sky blue */
+}
+
+#pulseaudio {
+  color: #f5c2e7; /* Pink */
+}
+
+#backlight {
+  color: #cba6f7; /* Purple */
+}
+
+#mpd {
+  color: #94e2d5; /* Teal */
+}
+
+#idle_inhibitor {
+  color: #b4befe; /* Lavender */
+}
+
+#tray {
+  color: #cdd6f4; /* Light text */
+}
+
+/* Battery with compact shell */
+#battery {
+  margin: 0 6px;
+  padding: 1px 6px;
+  color: #a6e3a1; /* Green for battery */
+  background: rgba(166, 227, 161, 0.15); /* Subtle green background */
+  border-radius: 0.4rem;
+  border: 1px solid rgba(166, 227, 161, 0.3);
+}
+
+.modules-left > widget:first-child > #workspaces {
+  margin-left: 0;
+}
+
+.modules-right > widget:last-child > #workspaces {
+  margin-right: 0;
+}
+
+/* Clock styling moved above */
+
+#battery icon {
+  color: red;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: #a6e3a1; /* Green text */
+  background-color: rgba(166, 227, 161, 0.25); /* Brighter green for charging */
+  border-color: rgba(166, 227, 161, 0.5);
+}
+
+@keyframes blink {
+  to {
+    background-color: rgba(245, 235, 220, 0.95); /* Cream background for blink */
+    color: rgb(80, 60, 40); /* Dark brown text for blink */
+  }
+}
+
+#battery.warning:not(.charging) {
+  background-color: #fab387;
+  color: #1e1e2e;
+  border-color: #fab387;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#battery.critical:not(.charging) {
+  background-color: #f38ba8;
+  color: #1e1e2e;
+  border-color: #f38ba8;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+label:focus {
+  background-color: #000000;
+}
+
+#network.disconnected {
+  background-color: #f53c3c;
+}
+
+#temperature.critical {
+  background-color: #eb4d4b;
+}
+
+#idle_inhibitor.activated {
+  background-color: transparent; /* No background shell */
+  color: rgb(60, 50, 40); /* Dark brown text */
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: #eb4d4b;
+}
+
+#custom-os_button {
+  font-size: 32px;
+  transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+#custom-os_button:hover {
+  background: transparent; /* No background shell */
+  color: rgb(60, 50, 40); /* Dark brown hover text */
+}

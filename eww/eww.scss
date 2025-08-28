@@ -1,0 +1,60 @@
+/* --- Global --- */
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", FontAwesome;
+  color: #000000; /* Black text by default */
+}
+
+/* --- Dock Window --- */
+.dock-container {
+  /* Creamy background color */
+  background-color: rgba(250, 248, 240, 0.95); /* Creamy white with transparency */
+  border-radius: 1.2rem;
+  padding: 2px 4px; /* Minimal horizontal padding */
+  /* Dynamic sizing */
+  min-height: 52px; /* More lean height */
+  border: 1px solid rgba(220, 215, 200, 0.6); /* Creamy border */
+  box-shadow: 0 0 15px 3px rgba(0, 0, 0, 0.2); /* Softer shadow */
+}
+
+/* --- Launcher --- */
+.launcher-btn {
+  font-size: 32px;
+  padding: 2px 6px; /* More lean padding */
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 0.6rem;
+  transition: all 0.08s ease-out;
+  /* Catppuccin styling */
+  background-color: transparent;
+  color: rgba(166, 227, 161, 0.9); /* Catppuccin green for search */
+  margin: 0; /* No margin - directly attached to divider */
+}
+
+/* --- Taskbar --- */
+.taskbar {
+  padding: 0; /* Remove extra padding */
+}
+
+.task-item {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 0; /* No padding for tighter spacing */
+  margin: 0; /* No margin */
+  border-bottom: 3px solid transparent;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 0.6rem;
+  transition: all 0.03s ease-out; /* Ultra-fast instant highlighting */
+  /* Creamy theme styling */
+  background-color: transparent;
+  color: rgba(80, 70, 60, 0.8); /* Dark brown text for creamy background */
+}
+
+/* Style for the currently active window */
+.task-item.active {
+  background-color: rgba(210, 180, 140, 0.8); /* Warm tan/beige for active state */
+  color: rgba(60, 50, 40, 1); /* Darker brown for contrast */
+  border-bottom: 3px solid rgba(180, 150, 120, 1); /* Darker tan accent */
+  /* Transition is handled by base .task-item class */
+}
