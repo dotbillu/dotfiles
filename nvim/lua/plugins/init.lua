@@ -192,23 +192,5 @@ return {
       require("crates").setup()
     end,
   },
-  {
-    "zbirenbaum/copilot.lua",
-    event = "InsertEnter", -- load automatically when you start typing
-    config = function()
-      require("copilot").setup {
-        suggestion = { enabled = true, auto_trigger = true }, -- enable inline suggestions
-        panel = { enabled = false }, -- optional
-      }
-    end,
-  },
-
-  {
-    "zbirenbaum/copilot-cmp",
-    event = "InsertEnter",
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-    dependencies = { "zbirenbaum/copilot.lua" },
-  },
+ 
 }
