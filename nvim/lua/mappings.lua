@@ -57,19 +57,4 @@ map("n", "<leader>rt", function() vim.cmd.RustLsp 'testables' end, { desc = "RUS
 -- The <leader>c prefix is used for C/C++ specific actions
 map("n", "<leader>cs", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "C++: Switch Source/Header" })
 
-------------------------------------------------------------------
--- Copilot
-------------------------------------------------------------------
-
-map("i", "<C-l>", function()
-  require("copilot.suggestion").accept()
-end, { desc = "Accept Copilot suggestion" })
-
-vim.keymap.set("n", "<leader>ct", function()
-  require("copilot.command").disable()
-end, { desc = "Disable Copilot" })
-
-vim.keymap.set("n", "<leader>ce", function()
-  require("copilot.command").enable()
-end, { desc = "Enable Copilot" })
 
