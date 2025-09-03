@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# kill existing wofi instances
-pkill -x wofi
-
-# launch wofi
-wofi --show drun
-
