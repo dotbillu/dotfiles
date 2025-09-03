@@ -117,6 +117,8 @@ return {
   ------------------------------------------------------------------
   -- UI & EDITOR ENHANCEMENTS
   ------------------------------------------------------------------
+  
+
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -192,5 +194,4 @@ return {
       require("crates").setup()
     end,
   },
- 
 }
