@@ -20,6 +20,7 @@ local servers = {
   "html",
   "cssls",
   "jsonls",
+  "rust analyzer"
 }
 
 -- 5. Loop through the servers and set them up with the merged options
