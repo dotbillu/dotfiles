@@ -7,6 +7,8 @@ local map = vim.keymap.set
 ------------------------------------------------------------------
 -- General Mappings
 ------------------------------------------------------------------
+--tree toggle
+map("n", "t", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim-tree" })
 
 -- Enter command mode with ;
 map("n", ";", ":", { desc = "CMD: Enter command mode" })
