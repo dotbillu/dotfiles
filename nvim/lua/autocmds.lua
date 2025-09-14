@@ -35,7 +35,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     -- THE FIX: Defer showing diagnostics until Neovim is ready.
     vim.schedule(function()
       vim.diagnostic.config({
-        virtual_text = true,
+        virtual_text = false,
         underline = true,
       })
     end)
