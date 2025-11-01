@@ -1,9 +1,10 @@
 *
 !/.gitignore
 
-# allow these 3
 !/hypr/
 !/nvim/
 !/fuzzel/
 !/kitty/
+
+!*/**
 
