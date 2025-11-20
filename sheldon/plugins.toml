@@ -33,6 +33,45 @@ github = "romkatv/powerlevel10k"
 [plugins.omz-git]
 github = "ohmyzsh/ohmyzsh"
 dir = "plugins/git"
+
+[plugins.omz-common-aliases]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/common-aliases"
+
 # [plugins.zsh-autocomplete] 
 # github="marlonrichert/zsh-autocomplete"
+
+# 1. Rust (Cargo shortcuts)
+[plugins.omz-rust]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/rust"
+
+# 2. NPM (Node shortcuts)
+[plugins.omz-npm]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/npm"
+
+[plugins.omz-extract]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/extract"
+
+[plugins.zsh-autopair]
+github = "hlissner/zsh-autopair"
+
+[plugins.omz-colored-man-pages]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/colored-man-pages"
+
+[plugins.omz-lib]
+github = "ohmyzsh/ohmyzsh"
+dir = "lib"
+use = ["functions.zsh"]
+
+[plugins.omz-web-search]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/web-search"
+
+[plugins.omz-docker]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/docker"
 

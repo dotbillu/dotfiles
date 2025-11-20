@@ -2,10 +2,12 @@
 alias zshalias="nvim ~/.zshrc.alias"
 alias zshtheme="nvim ~/.zshrc.themes"
 alias vzsh="nvim ~/.zshrc"
+alias vsheldon="nvim ~/.config/sheldon/plugins.toml"
+alias uconf="~/scripts/uconf.sh"
+
 #AUR
 alias yay=paru
 alias ps="paru -S"
-
 #Configs
 alias vkitty="cd ~/.config/kitty && nvim kitty.conf"
 alias vhyp="cd ~/.config/hypr && nvim hyprland.conf"
@@ -14,6 +16,7 @@ alias vgtk="nvim ~/.config/gtk-3.0/settings.ini"
 alias vapp="nvim /home/abhay/.local/share/applications"
 #daily use 
 alias ls="lsd"
+alias bat=less
 alias ping=gping
 alias df=duf
 alias du=dust
@@ -44,10 +47,21 @@ run() {
 
 #pnpm
 alias npm=pnpm
-alias pnd="pnpm run dev"
-alias pnb="pnpm run build"
 
 #pacman
-alias updateall='sudo pacman -Syu --noconfirm && paru -Syu --noconfirm && notify-send "System Updated " || notify-send "Update Failed "'
+alias updateall='sudo pacman -Syu --noconfirm && paru -Syu --noconfirm && notify-send "System Updated ✅" || notify-send "Update Failed "'
 
+
+
+
+
+
+
+
+
+
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
 

@@ -3,6 +3,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+#docker
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh-cache"
+[[ -d "$ZSH_CACHE_DIR/completions" ]] || mkdir -p "$ZSH_CACHE_DIR/completions"
+
 # --- 2. Init Completion (REQUIRED for Sheldon to work with fzf/completions) ---
 autoload -Uz compinit
 compinit
@@ -22,10 +26,10 @@ bindkey -e
 # --- Autosuggestion Performance (The "Speed" Config) ---
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
-ZSH_AUTOSUGGEST_STRATEGY=(history)
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+rSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 
 
 
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
