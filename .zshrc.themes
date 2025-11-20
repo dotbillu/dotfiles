@@ -6,6 +6,7 @@ fi
 # --- 2. Init Completion (REQUIRED for Sheldon to work with fzf/completions) ---
 autoload -Uz compinit
 compinit
+setopt AUTO_CD
 
 # --- 3. Load Sheldon ---
 eval "$(sheldon source)"

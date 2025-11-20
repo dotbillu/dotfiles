@@ -48,7 +48,7 @@ install_item() {
 
 # --- Install Files ---
 # ZSH files to ~
-ZSH_FILES=(".zshrc" ".zshrc.alias" ".zshrc.theme")
+ZSH_FILES=(".zshrc" ".zshrc.alias" ".zshrc.themes")
 
 for file in "${ZSH_FILES[@]}"; do
     install_item "$SCRIPT_DIR/$file" "$HOME/$file"
