@@ -1,0 +1,28 @@
+shell = "zsh"
+
+# --- 1. Core Utilities ---
+[plugins.zsh-sudo]
+github = "hcgraf/zsh-sudo"
+
+[plugins.zsh-z]
+github = "agkozak/zsh-z"
+
+[plugins.fzf-arch]
+inline = 'source /usr/share/fzf/key-bindings.zsh && source /usr/share/fzf/completion.zsh'
+
+# --- 2. Visuals & Completion ---
+# Inline templates allow us to control load order precisely
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["source"]
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+apply = ["source"]
+
+# --- 3. Theme (Powerlevel10k) ---
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"

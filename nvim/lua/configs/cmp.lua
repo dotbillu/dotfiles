@@ -23,7 +23,7 @@ cmp.setup {
   },
 
   performance = {
-    max_view_entries = 1, -- 👈 limit dropdown to 1 item
+    max_view_entries = 10,
   },
 
   sources = cmp.config.sources {
