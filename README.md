@@ -1,6 +1,9 @@
-## install before running things
+for ![Arch Linux](https://upload.wikimedia.org/wikipedia/commons/a/a5/Archlinux-icon-crystal-64.svg)
+
 
 ```bash
-paru -S fuzzel neovim hyprshot ags-hyprpanel-git
+git clone "https://github.com/dotbillu/dotfiles" 
+cd dotfiles
+sudo ./install.sh
 ```
 
