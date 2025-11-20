@@ -1,4 +1,5 @@
-(https://skillicons.dev/icons?i=archlinux)
+[![Arch Linux](https://skillicons.dev/icons?i=archlinux)]()
+
 
 ```bash
 git clone "https://github.com/dotbillu/dotfiles" 
