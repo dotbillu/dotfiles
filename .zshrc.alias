@@ -1,0 +1,53 @@
+#zsh custom files
+alias zshalias="nvim ~/.zshrc.alias"
+alias zshtheme="nvim ~/.zshrc.themes"
+alias vzsh="nvim ~/.zshrc"
+#AUR
+alias yay=paru
+alias ps="paru -S"
+
+#Configs
+alias vkitty="cd ~/.config/kitty && nvim kitty.conf"
+alias vhyp="cd ~/.config/hypr && nvim hyprland.conf"
+alias vnvim="nvim ~/.config/nvim  "
+alias vgtk="nvim ~/.config/gtk-3.0/settings.ini"
+alias vapp="nvim /home/abhay/.local/share/applications"
+#daily use 
+alias ls="lsd"
+alias ping=gping
+alias df=duf
+alias du=dust
+alias diff=delta
+alias cpwd="pwd | wl-copy"
+alias nano=nvim
+#nvim
+nvim_cd()
+{
+    if [ -d "${1}" ]; then
+        local dir="${1}"
+        shift 1
+        ( cd "${dir}" && nvim "." "${@}" )
+    else
+        \nvim "${@}"
+    fi
+}
+alias nvim=nvim_cd
+alias vi=nvim
+
+
+#cpp
+run() {
+  local f="$1"
+  g++ -o "$f" "${f}.cpp" && "./$f"
+}
+
+
+#pnpm
+alias npm=pnpm
+alias pnd="pnpm run dev"
+alias pnb="pnpm run build"
+
+#pacman
+alias updateall='sudo pacman -Syu --noconfirm && paru -Syu --noconfirm && notify-send "System Updated " || notify-send "Update Failed "'
+
+
