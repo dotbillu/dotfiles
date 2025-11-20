@@ -23,6 +23,16 @@ apply = ["source"]
 github = "zsh-users/zsh-syntax-highlighting"
 apply = ["source"]
 
+[plugins.zsh-you-should-use]
+github="MichaelAquilina/zsh-you-should-use"
+
 # --- 3. Theme (Powerlevel10k) ---
 [plugins.powerlevel10k]
 github = "romkatv/powerlevel10k"
+
+[plugins.omz-git]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/git"
+# [plugins.zsh-autocomplete] 
+# github="marlonrichert/zsh-autocomplete"
+
