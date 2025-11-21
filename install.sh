@@ -26,6 +26,7 @@ brightnessctl \
 playerctl \
 qt6ct \
 gnome-keyring \
+nvimpager \
 gsettings
 
 
