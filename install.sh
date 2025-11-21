@@ -68,7 +68,7 @@ for dir in "${CONFIG_DIRS[@]}"; do
     install_item "$SCRIPT_DIR/$dir" "$HOME/.config/$dir"
 done
 
-if [ -d "$SCRIPT_DIR/aerial-sddm-theme" ]; then
+if [ -d "$SCRIPT_DIR/sddm/aerial-sddm-theme" ]; then
     sudo cp -rf "$SCRIPT_DIR/aerial-sddm-theme" /usr/share/sddm/themes/
 fi
 
