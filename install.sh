@@ -3,7 +3,6 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BACKUP_SUFFIX=".backup-$(date +%Y%m%d-%H%M%S)"
 
-# --- Install Paru ---
 if ! command -v paru &> /dev/null; then
     echo "Installing paru..."
     sudo pacman -S --needed --noconfirm base-devel git
@@ -12,9 +11,22 @@ if ! command -v paru &> /dev/null; then
     rm -rf /tmp/paru
 fi
 
-# --- Install Packages ---
-paru -S --needed --noconfirm fuzzel zsh kitty neovim hyprshot ags-hyprpanel-git
 
+paru -Syu --needed --noconfirm \
+kitty \
+dolphin \
+fuzzel \
+neovim \
+hyprshot \
+ags-hyprpanel-git \
+hyprlock \
+sddm \
+wpctl \
+brightnessctl \
+playerctl \
+qt6ct \
+gnome-keyring \
+gsettings
 
 
 if [ "$SHELL" != "$(which zsh)" ]; then
@@ -22,7 +34,6 @@ if [ "$SHELL" != "$(which zsh)" ]; then
     echo "Default shell changed to zsh."
 fi
 
-# --- Link Function ---
 install_item() {
     local src="$1"
     local dest="$2"
@@ -31,13 +42,11 @@ install_item() {
         return
     fi
 
-    # Backup existing if it's not already the correct link
     if [ -e "$dest" ] || [ -L "$dest" ]; then
         current_link=$(readlink -f "$dest")
         if [ "$current_link" == "$src" ]; then
             return
         fi
-
         mv "$dest" "${dest}${BACKUP_SUFFIX}"
         echo "Backed up $dest to ${dest}${BACKUP_SUFFIX}"
     fi
@@ -46,15 +55,12 @@ install_item() {
     echo "Linked $src -> $dest"
 }
 
-# --- Install Files ---
-# ZSH files to ~
 ZSH_FILES=(".zshrc" ".zshrc.alias" ".zshrc.themes")
 
 for file in "${ZSH_FILES[@]}"; do
     install_item "$SCRIPT_DIR/$file" "$HOME/$file"
 done
 
-# Config folders to ~/.config/
 mkdir -p "$HOME/.config"
 CONFIG_DIRS=("hypr" "nvim" "fuzzel" "kitty" "sheldon")
 
@@ -62,4 +68,20 @@ for dir in "${CONFIG_DIRS[@]}"; do
     install_item "$SCRIPT_DIR/$dir" "$HOME/.config/$dir"
 done
 
+if [ -d "$SCRIPT_DIR/aerial-sddm-theme" ]; then
+    sudo cp -rf "$SCRIPT_DIR/aerial-sddm-theme" /usr/share/sddm/themes/
+fi
+
+SDDM_CONF="/etc/sddm.conf"
+if [ ! -f "$SDDM_CONF" ]; then
+    sudo touch "$SDDM_CONF"
+fi
+
+if ! grep -q "^\[Theme\]" "$SDDM_CONF"; then
+    echo -e "[Theme]\nCurrent=aerial-sddm-theme" | sudo tee -a "$SDDM_CONF" > /dev/null
+else
+    sudo sed -i '/^\[Theme\]/,/^\[/ s/^Current=.*/Current=aerial-sddm-theme/' "$SDDM_CONF"
+fi
+
 echo "Installation complete."
+
