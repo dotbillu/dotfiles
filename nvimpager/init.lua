@@ -14,3 +14,18 @@ require("catppuccin").setup({
 vim.opt.termguicolors = true
 
 vim.cmd.colorscheme "catppuccin-mocha"
+
+vim.g.clipboard = {
+    name = 'wl-clipboard',
+    copy = {
+        ['+'] = 'wl-copy',
+        ['*'] = 'wl-copy',
+    },
+    paste = {
+        ['+'] = 'wl-paste',
+        ['*'] = 'wl-paste',
+    },
+    cache_enabled = 0,
+}
+
+vim.opt.clipboard = "unnamedplus"
