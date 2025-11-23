@@ -16,13 +16,17 @@ alias vapp="nvim /home/abhay/.local/share/applications"
 alias sddmgreet="sddm-greeter --test-mode --theme /usr/share/sddm/themes/aerial-sddm-theme"
 #daily use 
 alias ls="lsd"
-alias bat=less
+alias less=nvimpager
 alias ping=gping
 alias df=duf
 alias du=dust
 alias diff=delta
 alias cpwd="pwd | wl-copy"
 alias nano=nvim
+
+c() {
+    "$@" | wl-copy
+}
 #nvim
 nvim_cd()
 {

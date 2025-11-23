@@ -23,7 +23,7 @@ cmp.setup {
   },
 
   performance = {
-    max_view_entries = 0,
+    max_view_entries = 10,
   },
 
   sources = cmp.config.sources {
