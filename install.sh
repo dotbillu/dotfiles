@@ -14,6 +14,7 @@ fi
 
 paru -Syu --needed --noconfirm \
 kitty \
+dunst \
 dolphin \
 fuzzel \
 neovim \
