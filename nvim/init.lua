@@ -4,9 +4,9 @@ vim.g.mapleader = " "
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.fn.expand("~/.config/kitty/kitty.conf"),
+  pattern = vim.fn.expand "~/.config/kitty/kitty.conf",
   callback = function()
-    vim.fn.system("kill -SIGUSR1 $(pidof kitty)")
+    vim.fn.system "kill -SIGUSR1 $(pidof kitty)"
   end,
 })
 
@@ -18,6 +18,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require "configs.lazy"
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cpp",
+  callback = function()
+    vim.opt_local.foldmethod = "marker"
+    vim.opt_local.foldmarker = "{{{,}}}"
+  end,
+})
 
 -- load plugins
 require("lazy").setup({
