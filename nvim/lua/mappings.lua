@@ -3,7 +3,6 @@ require "nvchad.mappings"
 
 -- Create a shorter alias for setting keymaps
 local map = vim.keymap.set
-
 ------------------------------------------------------------------
 -- General Mappings
 ------------------------------------------------------------------
@@ -16,10 +15,8 @@ map("n", ";", ":", { desc = "CMD: Enter command mode" })
 -- A popular mapping to exit insert mode
 map("i", "jk", "<ESC>", { desc = "KEYS: Escape insert mode" })
 
--- Override the default cheatsheet with Telescope
-map("n", "<leader>ch", "<cmd>Telescope keymaps<cr>", { desc = "LIST: Keymaps (Telescope)" })
+map("n", "<leader>cl", "<cmd>Telescope keymaps<cr>", { desc = "LIST: Keymaps (Telescope)" })
 
--- A common save mapping (uncomment if you wish to use it)
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "FILE: Save" })
 
 ------------------------------------------------------------------
@@ -31,7 +28,6 @@ local dap = require "dap"
 
 -- This keymap starts a new debug session if none is active
 map("n", "<leader>ds", dap.continue, { desc = "DAP: Start/Continue" })
-
 map("n", "<leader>dc", dap.continue, { desc = "DAP: Continue" })
 map("n", "<leader>dj", dap.step_over, { desc = "DAP: Step Over" })
 map("n", "<leader>dk", dap.step_out, { desc = "DAP: Step Out" })
@@ -42,7 +38,6 @@ map("n", "<leader>de", dap.terminate, { desc = "DAP: Terminate Session" })
 map("n", "<leader>dd", function()
   dap.set_breakpoint(vim.fn.input "Breakpoint condition: ")
 end, { desc = "DAP: Set Conditional Breakpoint" })
-
 ------------------------------------------------------------------
 -- Rust (`rustaceanvim`) Mappings
 ------------------------------------------------------------------

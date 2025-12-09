@@ -18,13 +18,9 @@ cmp.setup {
   },
 
   window = {
-    completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
 
-  performance = {
-    max_view_entries = 10,
-  },
 
   sources = cmp.config.sources {
     { name = "nvim_lsp" },
