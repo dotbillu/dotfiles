@@ -1,7 +1,4 @@
--- Load NvChad's base mappings
 require "nvchad.mappings"
-
--- Create a shorter alias for setting keymaps
 local map = vim.keymap.set
 ------------------------------------------------------------------
 -- General Mappings

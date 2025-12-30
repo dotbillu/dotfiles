@@ -21,6 +21,11 @@ return {
         "json-lsp",
         "prettier",
         "js-debug-adapter",
+        "pyright",
+        "black",
+        "isort",
+        "debugpy",
+        "python",
       },
     },
   },
@@ -120,9 +125,9 @@ return {
       },
     },
   },
-{
-  "mg979/vim-visual-multi",
-  branch = "master",
-  event = "VeryLazy",
+  {
+    "mg979/vim-visual-multi",
+    branch = "master",
+    event = "VeryLazy",
+  },
 }
- }

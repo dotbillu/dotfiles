@@ -19,7 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require "configs.lazy"
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "cpp",
+  pattern = "*",
   callback = function()
     vim.opt_local.foldmethod = "marker"
     vim.opt_local.foldmarker = "{{{,}}}"

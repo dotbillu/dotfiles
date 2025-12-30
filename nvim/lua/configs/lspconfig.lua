@@ -18,6 +18,7 @@ local servers = {
   "html",
   "cssls",
   "jsonls",
+  "pyright",
 }
 
 -- 5. Loop through servers, register their configs and enable them

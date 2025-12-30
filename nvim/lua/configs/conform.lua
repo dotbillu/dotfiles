@@ -15,6 +15,8 @@ local options = {
     json = { "prettier" },
     yaml = { "prettier" },
     markdown = { "prettier" },
+    --python
+    python = { "isort", "black" },
   },
 }
 return options
