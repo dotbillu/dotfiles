@@ -1,4 +1,7 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+
 #zsh custom files
+
 alias zshalias="nvim ~/.zshrc.alias"
 alias zshtheme="nvim ~/.zshrc.themes"
 alias vzsh="nvim ~/.zshrc"
@@ -24,6 +27,8 @@ alias du=dust
 alias diff=delta
 alias cpwd="pwd | wl-copy"
 alias nano=nvim
+
+
 
 c() {
     "$@" | wl-copy
@@ -51,17 +56,10 @@ run() {
 
 
 #pnpm
-alias npm=pnpm
+# alias npm=pnpm
 
 #pacman
-alias updateall='sudo pacman -Syu --noconfirm && paru -Syu --noconfirm && notify-send "System Updated ✅" || notify-send "Update Failed "'
-
-
-
-
-
-
-
+alias updateall='sudo pacman -Syu --noconfirm && paru -Syu --noconfirm && notify-send "System Updated " || notify-send "Update Failed "'
 
 
 
@@ -69,4 +67,58 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
+alias webrecom="~/kittysessions/web-recommendation.kitty" 
 
+#cloudflare {{{
+cfport() {
+  if [ -z "$1" ]; then
+    echo "Usage: cfport <port>"
+    return 1
+  fi
+  local port="$1"
+  local logfile="/tmp/cfport.log"
+  _cf_copy() {
+    local link="$1"
+    if command -v wl-copy >/dev/null; then
+      echo -n "$link" | wl-copy
+    elif command -v xclip >/dev/null; then
+      echo -n "$link" | xclip -sel clip
+    elif command -v pbcopy >/dev/null; then
+      echo -n "$link" | pbcopy
+    elif command -v clip.exe >/dev/null; then
+      echo -n "$link" | clip.exe
+    fi
+    echo -ne "\r✅ Link copied: $link   "
+  }
+  rm -f "$logfile"
+  echo "Starting tunnel on port $port..."
+  cloudflared tunnel --url "http://localhost:$port" > "$logfile" 2>&1 &
+  local pid=$!
+  trap "kill $pid 2>/dev/null; rm -f $logfile; echo; return" SIGINT SIGTERM EXIT
+  local url=""
+  while [ -z "$url" ]; do
+    if ! kill -0 "$pid" 2>/dev/null; then
+      echo "Error: Cloudflared process died."
+      cat "$logfile"
+      return 1
+    fi
+    url=$(grep -o 'https://[-a-zA-Z0-9]*\.trycloudflare.com' "$logfile" | head -n 1)
+    sleep 0.5
+  done
+  _cf_copy "$url"
+  echo 
+  echo "Press 'y' to copy again. Press Ctrl+C to stop."
+  while kill -0 "$pid" 2>/dev/null; do
+    local key=""
+    if [ -n "$ZSH_VERSION" ]; then
+      read -s -k 1 -t 1 key < /dev/tty 2>/dev/null
+    else
+      read -s -n 1 -t 1 key < /dev/tty 2>/dev/null
+    fi
+    if [[ "$key" == "y" || "$key" == "Y" ]]; then
+      _cf_copy "$url"
+    fi
+  done
+}
+
+#}}}
