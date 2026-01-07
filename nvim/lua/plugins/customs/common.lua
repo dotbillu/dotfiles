@@ -130,4 +130,76 @@ return {
     branch = "master",
     event = "VeryLazy",
   },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    ft = { "markdown" },
+    keys = {
+      { "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle In-Buffer Markdown" },
+    },
+    opts = {
+      file_types = { "markdown", "Avante" },
+    },
+  },
+
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    keys = {
+      { "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", desc = "Toggle Browser Preview" },
+    },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  },
+  {
+    "barrett-ruth/live-server.nvim",
+    build = "npm install -g live-server",
+    cmd = { "LiveServerStart", "LiveServerStop" },
+    config = true,
+    keys = {
+      { "<leader>hl", "<cmd>LiveServerToggle<cr>", desc = "Toggle HTML Live Server" },
+    },
+  },
+  {
+    "3rd/image.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      {
+        "leafo/magick",
+        build = "luarocks install --server=https://luarocks.org/dev magick",
+      },
+    },
+    opts = {
+      backend = "kitty",
+
+      -- This is the list of files that will "hijack" the buffer to show the image
+      -- instead of the binary garbage text.
+      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" },
+
+      integrations = {
+        -- You requested these be disabled:
+        markdown = {
+          enabled = false,
+        },
+        neorg = {
+          enabled = false,
+        },
+        html = {
+          enabled = false,
+        },
+        css = {
+          enabled = false,
+        },
+      },
+
+      max_width = nil,
+      max_height = nil,
+      max_width_window_percentage = nil,
+      max_height_window_percentage = nil,
+      window_overlap_clear_enabled = true,
+      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+    },
+  },
 }
