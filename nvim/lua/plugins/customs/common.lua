@@ -141,7 +141,16 @@ return {
       file_types = { "markdown", "Avante" },
     },
   },
-
+  {
+    "akinsho/git-conflict.nvim",
+    version = "*",
+    config = true,
+    event = "BufRead",
+  },
+  {
+    "sindrets/diffview.nvim",
+    event = "BufRead",
+  },
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
