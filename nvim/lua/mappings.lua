@@ -14,6 +14,9 @@ map("i", "jk", "<ESC>", { desc = "KEYS: Escape insert mode" })
 
 map("n", "<leader>cl", "<cmd>Telescope keymaps<cr>", { desc = "LIST: Keymaps (Telescope)" })
 
+map("x", "p", [["_dP]], { desc = "paste without copy" })
+map("v", "x", [["_d]], { desc = "Delete selection without copying" })
+
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "FILE: Save" })
 
 ------------------------------------------------------------------
@@ -40,9 +43,15 @@ end, { desc = "DAP: Set Conditional Breakpoint" })
 ------------------------------------------------------------------
 
 -- The <leader>r prefix is used for Rust-specific actions
-map("n", "<leader>ra", function() vim.cmd.RustLsp 'hover actions' end, { desc = "RUST: Hover Actions" })
-map("n", "<leader>rr", function() vim.com.RustLsp 'runnables' end, { desc = "RUST: Runnables" })
-map("n", "<leader>rt", function() vim.cmd.RustLsp 'testables' end, { desc = "RUST: Testables" })
+map("n", "<leader>ra", function()
+  vim.cmd.RustLsp "hover actions"
+end, { desc = "RUST: Hover Actions" })
+map("n", "<leader>rr", function()
+  vim.com.RustLsp "runnables"
+end, { desc = "RUST: Runnables" })
+map("n", "<leader>rt", function()
+  vim.cmd.RustLsp "testables"
+end, { desc = "RUST: Testables" })
 
 ------------------------------------------------------------------
 -- C++ Mappings
@@ -50,5 +59,3 @@ map("n", "<leader>rt", function() vim.cmd.RustLsp 'testables' end, { desc = "RUS
 
 -- The <leader>c prefix is used for C/C++ specific actions
 map("n", "<leader>cs", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "C++: Switch Source/Header" })
-
-
