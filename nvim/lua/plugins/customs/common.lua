@@ -89,6 +89,38 @@ return {
     },
   },
 
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      renderer = {
+        icons = {
+          show = {
+            git = true,
+          },
+          glyphs = {
+            git = {
+              unstaged = "",
+              staged = "",
+              unmerged = "",
+              renamed = "➜",
+              untracked = "",
+              deleted = "",
+              ignored = "◌",
+            },
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      require("nvim-tree").setup(opts)
+      
+      -- FORCE STAGED FILES TO BE WHITE
+      vim.api.nvim_set_hl(0, "NvimTreeGitStaged", { fg = "#ffffff" }) 
+      
+      -- Optional: If you want the icon to be white but the text to remain standard
+      -- vim.api.nvim_set_hl(0, "NvimTreeGitStagedIcon", { fg = "#ffffff" })
+    end,
+  },
   ------------------------------------------------------------------
   -- COMPLETION & SNIPPETS
   ------------------------------------------------------------------
@@ -212,3 +244,4 @@ return {
     },
   },
 }
+
