@@ -113,10 +113,10 @@ return {
     },
     config = function(_, opts)
       require("nvim-tree").setup(opts)
-      
+
       -- FORCE STAGED FILES TO BE WHITE
-      vim.api.nvim_set_hl(0, "NvimTreeGitStaged", { fg = "#ffffff" }) 
-      
+      vim.api.nvim_set_hl(0, "NvimTreeGitStaged", { fg = "#ffffff" })
+
       -- Optional: If you want the icon to be white but the text to remain standard
       -- vim.api.nvim_set_hl(0, "NvimTreeGitStagedIcon", { fg = "#ffffff" })
     end,
@@ -217,8 +217,7 @@ return {
 
       -- This is the list of files that will "hijack" the buffer to show the image
       -- instead of the binary garbage text.
-      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" },
-
+      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif", "*.svg", "*.ico" },
       integrations = {
         -- You requested these be disabled:
         markdown = {
@@ -244,4 +243,3 @@ return {
     },
   },
 }
-
