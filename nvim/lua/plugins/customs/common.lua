@@ -122,6 +122,33 @@ return {
     end,
   },
   ------------------------------------------------------------------
+  -- FOLDING (nvim-ufo)
+  ------------------------------------------------------------------
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+    event = "BufReadPost",
+    keys = {
+      { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
+      { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
+    },
+    config = function()
+      -- Native Vim options needed for UFO
+      vim.o.foldcolumn = "0" -- Shows the fold column with symbols
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+
+      -- Setup UFO
+      require("ufo").setup {
+        provider_selector = function(bufnr, filetype, buftype)
+          -- Use Treesitter first, then Indent as fallback
+          return { "treesitter", "indent" }
+        end,
+      }
+    end,
+  },
+  ------------------------------------------------------------------
   -- COMPLETION & SNIPPETS
   ------------------------------------------------------------------
   {

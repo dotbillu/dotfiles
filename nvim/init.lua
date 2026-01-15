@@ -16,15 +16,15 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-
+vim.opt.lazyredraw = true
 local lazy_config = require "configs.lazy"
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.foldmethod = "marker"
-    vim.opt_local.foldmarker = "{{{,}}}"
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "*",
+--   callback = function()
+--     vim.opt_local.foldmethod = "marker"
+--     vim.opt_local.foldmarker = "{{{,}}}"
+--   end,
+-- })
 
 -- load plugins
 require("lazy").setup({
