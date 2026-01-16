@@ -190,17 +190,6 @@ return {
     event = "VeryLazy",
   },
   {
-    "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-    ft = { "markdown" },
-    keys = {
-      { "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle In-Buffer Markdown" },
-    },
-    opts = {
-      file_types = { "markdown", "Avante" },
-    },
-  },
-  {
     "akinsho/git-conflict.nvim",
     version = "*",
     config = true,

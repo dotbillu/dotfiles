@@ -8,6 +8,7 @@ alias vzsh="nvim ~/.zshrc"
 alias localapp="nvim ~/.local/share/applications/"
 alias vsheldon="nvim ~/.config/sheldon/plugins.toml"
 alias uconf="~/scripts/uconf.sh"
+alias vconfigs="nvim ~/.config/"
 #AUR
 alias yay=paru
 alias ps="paru -S"
