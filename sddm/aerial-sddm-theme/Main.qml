@@ -161,13 +161,13 @@ Rectangle {
         interval: 1000;
         running: true; repeat: true
         onTriggered: {
-            if (currentPlayer.duration != -1 && currentPlayer.position > currentPlayer.duration - 10000) { // pre load the 2nd player
+            if (currentPlayer.duration != -1 && currentPlayer.position > currentPlayer.duration - 100) { // pre load the 2nd player
                 if (video2.opacity == 0) { // toogle opacity
                     mediaplayer2.play()
                 } else
                     mediaplayer1.play()
             }
-            if (currentPlayer.duration != -1 && currentPlayer.position > currentPlayer.duration - 3000) { // initiate transition
+            if (currentPlayer.duration != -1 && currentPlayer.position > currentPlayer.duration - 100) { // initiate transition
                 if (video2.opacity == 0) { // toogle opacity
                     mouseArea1.enabled = false
                     currentPlayer = mediaplayer2
