@@ -7,14 +7,14 @@
 !/fuzzel/
 !/kitty/
 !/sheldon/
-!/install.sh
+!/start.sh
 !/dunst/
 !/sddm/
 !/.zshrc
 !/.zshrc.alias
 !/.zshrc.themes
 !/hyprpanel
-
+!/scripts
 
 
 !*/**
