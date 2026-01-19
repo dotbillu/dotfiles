@@ -16,7 +16,7 @@ map("n", "<leader>cl", "<cmd>Telescope keymaps<cr>", { desc = "LIST: Keymaps (Te
 
 map("x", "p", [["_dP]], { desc = "paste without copy" })
 map("v", "x", [["_d]], { desc = "Delete selection without copying" })
-
+map("n", "<leader>sr", "<cmd>GrugFar<CR>", { desc = "Search and Replace (Grug-far)" })
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "FILE: Save" })
 
 ------------------------------------------------------------------

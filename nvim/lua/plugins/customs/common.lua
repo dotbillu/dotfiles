@@ -129,8 +129,20 @@ return {
     dependencies = { "kevinhwang91/promise-async" },
     event = "BufReadPost",
     keys = {
-      { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
-      { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
+      {
+        "zR",
+        function()
+          require("ufo").openAllFolds()
+        end,
+        desc = "Open all folds",
+      },
+      {
+        "zM",
+        function()
+          require("ufo").closeAllFolds()
+        end,
+        desc = "Close all folds",
+      },
     },
     config = function()
       -- Native Vim options needed for UFO
@@ -169,6 +181,13 @@ return {
   ------------------------------------------------------------------
   -- EDITOR ENHANCEMENTS
   ------------------------------------------------------------------
+  {
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
+    config = function()
+      require("grug-far").setup {}
+    end,
+  },
   { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
   {
     "stevearc/dressing.nvim",
