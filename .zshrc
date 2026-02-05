@@ -8,3 +8,5 @@ export PATH="$HOME/.local/bin:$PATH"
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 . "/home/abhay/.deno/env"
+export EDITOR=nvim
+export VISUAL=nvim
