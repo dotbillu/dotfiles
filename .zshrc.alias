@@ -28,7 +28,7 @@ alias du=dust
 alias diff=delta
 alias cpwd="pwd | wl-copy"
 alias nano=nvim
-
+alias kro=kiro-cli
 
 
 c() {
