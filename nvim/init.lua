@@ -9,7 +9,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     vim.fn.system "kill -SIGUSR1 $(pidof kitty)"
   end,
 })
-
 if not vim.uv.fs_stat(lazypath) then
   local repo = "https://github.com/folke/lazy.nvim.git"
   vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }

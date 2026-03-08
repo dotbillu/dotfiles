@@ -438,7 +438,7 @@
   "menus.dashboard.shortcuts.left.shortcut1.icon": "󰇩",
   "menus.dashboard.shortcuts.left.shortcut1.command": "microsoft-edge-stable",
   "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Microsoft Edge",
-  "menus.dashboard.shortcuts.left.shortcut2.command": "spotify-launcher",
+  "menus.dashboard.shortcuts.left.shortcut2.command": "spotify",
   "menus.dashboard.shortcuts.left.shortcut3.command": "discord",
   "scalingPriority": "gdk",
   "menus.dashboard.shortcuts.left.shortcut4.icon": "",

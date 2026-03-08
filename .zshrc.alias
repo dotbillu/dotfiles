@@ -13,7 +13,7 @@ alias vconfigs="nvim ~/.config/"
 alias yay=paru
 #Configs
 alias vkitty="cd ~/.config/kitty && nvim kitty.conf"
-alias vhyp="cd ~/.config/hypr && nvim hyprland.conf"
+alias vhyp="nvim ~/.config/hypr/hyprland.conf"
 alias vnvim="nvim ~/.config/nvim  "
 alias vgtk="nvim ~/.config/gtk-3.0/settings.ini"
 alias vapp="nvim /home/abhay/.local/share/applications"

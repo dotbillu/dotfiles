@@ -7,9 +7,3 @@ class = "scratchterm"
 size = "75% 60%"
 animation = "fromTop"
 
-
-[scratchpads.browser]
-command = "firefox-developer-edition --name scratchbrowser --new-instance"
-class = "scratchbrowser"
-size = "85% 75%"
-animation = "fromTop"
