@@ -58,9 +58,6 @@ run() {
 #pnpm
 # alias npm=pnpm
 
-#pacman
-alias updateall='sudo pacman -Syu --noconfirm && paru -Syu --noconfirm && notify-send "System Updated " || notify-send "Update Failed "'
-
 
 
 alias -g ...='../..'
@@ -121,4 +118,18 @@ cfport() {
   done
 }
 
-#}}}
+updateall() {
+  sudo -v
+
+  # keep sudo alive for this shell session
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
+
+  sudo pacman -Syu --noconfirm &&
+  paru -Syu --noconfirm &&
+  notify-send "System Updated" ||
+  notify-send "Update Failed"
+}

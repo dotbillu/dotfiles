@@ -75,3 +75,9 @@ dir = "plugins/web-search"
 github = "ohmyzsh/ohmyzsh"
 dir = "plugins/docker"
 
+[plugins.gh]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/gh" 
+
+
+
