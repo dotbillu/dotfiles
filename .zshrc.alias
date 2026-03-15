@@ -29,7 +29,7 @@ alias cpwd="pwd | wl-copy"
 alias nano=nvim
 alias kro=kiro-cli
 alias kirop="HOME=$HOME/.kiro-personal-home kiro --new-window"
-
+alias chrome="prime-run google-chrome-stable --ozone-platform=x11"
 c() {
     "$@" | wl-copy
 }

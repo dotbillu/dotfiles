@@ -6,4 +6,5 @@ command = "kitty --class scratchterm"
 class = "scratchterm"
 size = "75% 60%"
 animation = "fromTop"
+lazy = true
 

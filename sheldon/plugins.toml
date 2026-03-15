@@ -51,6 +51,10 @@ dir = "plugins/rust"
 github = "ohmyzsh/ohmyzsh"
 dir = "plugins/npm"
 
+[plugins.omz-yarn]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/yarn"
+
 [plugins.omz-extract]
 github = "ohmyzsh/ohmyzsh"
 dir = "plugins/extract"
