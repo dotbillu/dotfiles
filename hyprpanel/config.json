@@ -450,5 +450,6 @@
   "theme.bar.buttons.enableBorders": false,
   "theme.bar.border.width": "0.15em",
   "theme.bar.location": "top",
-  "theme.bar.border.location": "none"
+  "theme.bar.border.location": "none",
+  "theme.bar.menus.monochrome": false
 }
