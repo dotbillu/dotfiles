@@ -62,8 +62,15 @@ end, { desc = "DAP: Conditional Breakpoint" })
 ------------------------------------------------------------------
 -- LazyGit
 map("n", "ggl", function()
-  vim.cmd "terminal lazygit"
-  vim.cmd "startinsert"
+  vim.cmd("terminal lazygit")
+  vim.cmd("startinsert")
+  vim.api.nvim_create_autocmd("TermClose", {
+    pattern = "term://*lazygit",
+    once = true,
+    callback = function()
+      vim.cmd("bd!")
+    end,
+  })
 end, { desc = "Git: LazyGit" })
 
 -- gitsigns
@@ -123,3 +130,4 @@ end, { desc = "Rust: Testables" })
 
 -- C++
 map("n", "<leader>cs", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "C++: Switch source/header" })
+
