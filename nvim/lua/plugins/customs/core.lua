@@ -1,10 +1,4 @@
--- lua/plugins/customs/common.lua
--- Core tooling, editor enhancements (mason, lspconfig, conform, treesitter, cmp, autopairs, dressing, colorizer)
-
 return {
-  ------------------------------------------------------------------
-  -- CORE TOOLING (Mason, LSP, Formatting)
-  ------------------------------------------------------------------
   {
     "williamboman/mason.nvim",
     opts = {
@@ -88,73 +82,18 @@ return {
       indent = { enable = true },
     },
   },
-
-  {
-    "nvim-tree/nvim-tree.lua",
-    opts = {
-      renderer = {
-        icons = {
-          show = {
-            git = true,
-          },
-          glyphs = {
-            git = {
-              unstaged = "",
-              staged = "",
-              unmerged = "",
-              renamed = "➜",
-              untracked = "",
-              deleted = "",
-              ignored = "◌",
-            },
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      require("nvim-tree").setup(opts)
-
-      -- FORCE STAGED FILES TO BE WHITE
-      vim.api.nvim_set_hl(0, "NvimTreeGitStaged", { fg = "#ffffff" })
-
-      -- Optional: If you want the icon to be white but the text to remain standard
-      -- vim.api.nvim_set_hl(0, "NvimTreeGitStagedIcon", { fg = "#ffffff" })
-    end,
-  },
-  ------------------------------------------------------------------
-  -- FOLDING (nvim-ufo)
-  ------------------------------------------------------------------
   {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
     event = "BufReadPost",
-    keys = {
-      {
-        "zR",
-        function()
-          require("ufo").openAllFolds()
-        end,
-        desc = "Open all folds",
-      },
-      {
-        "zM",
-        function()
-          require("ufo").closeAllFolds()
-        end,
-        desc = "Close all folds",
-      },
-    },
     config = function()
-      -- Native Vim options needed for UFO
-      vim.o.foldcolumn = "0" -- Shows the fold column with symbols
+      vim.o.foldcolumn = "0"
       vim.o.foldlevel = 99
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
 
-      -- Setup UFO
       require("ufo").setup {
         provider_selector = function(bufnr, filetype, buftype)
-          -- Use Treesitter first, then Indent as fallback
           return { "treesitter", "indent" }
         end,
       }
@@ -177,10 +116,6 @@ return {
       require "configs.cmp"
     end,
   },
-
-  ------------------------------------------------------------------
-  -- EDITOR ENHANCEMENTS
-  ------------------------------------------------------------------
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
@@ -207,36 +142,6 @@ return {
     "mg979/vim-visual-multi",
     branch = "master",
     event = "VeryLazy",
-  },
-  {
-    "akinsho/git-conflict.nvim",
-    version = "*",
-    config = true,
-    event = "BufRead",
-  },
-  {
-    "sindrets/diffview.nvim",
-    event = "BufRead",
-  },
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    keys = {
-      { "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", desc = "Toggle Browser Preview" },
-    },
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
-  },
-  {
-    "barrett-ruth/live-server.nvim",
-    build = "npm install -g live-server",
-    cmd = { "LiveServerStart", "LiveServerStop" },
-    config = true,
-    keys = {
-      { "<leader>hl", "<cmd>LiveServerToggle<cr>", desc = "Toggle HTML Live Server" },
-    },
   },
   {
     "3rd/image.nvim",
