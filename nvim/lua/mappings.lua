@@ -60,57 +60,61 @@ end, { desc = "DAP: Conditional Breakpoint" })
 ------------------------------------------------------------------
 -- Git
 ------------------------------------------------------------------
+local map = vim.keymap.set
 -- LazyGit
-map("n", "ggl", function()
-  vim.cmd("terminal lazygit")
-  vim.cmd("startinsert")
+map("n", "<leader>gl", function()
+  vim.cmd "terminal lazygit"
+  vim.cmd "startinsert"
   vim.api.nvim_create_autocmd("TermClose", {
     pattern = "term://*lazygit",
     once = true,
     callback = function()
-      vim.cmd("bd!")
+      vim.cmd "bd!"
     end,
   })
 end, { desc = "Git: LazyGit" })
 
--- gitsigns
-map("n", "ggt", function()
+-- Hunks
+map("n", "<leader>gs", function()
+  require("gitsigns").stage_hunk()
+end, { desc = "Git: Stage hunk" })
+map("n", "<leader>gr", function()
+  require("gitsigns").reset_hunk()
+end, { desc = "Git: Reset hunk" })
+map("n", "<leader>gp", function()
+  require("gitsigns").preview_hunk()
+end, { desc = "Git: Preview hunk" })
+map("n", "<leader>gt", function()
   require("gitsigns").toggle_current_line_blame()
 end, { desc = "Git: Toggle blame" })
 
-map("n", "ggs", function()
-  require("gitsigns").stage_hunk()
-end, { desc = "Git: Stage hunk" })
-
-map("n", "ggr", function()
-  require("gitsigns").reset_hunk()
-end, { desc = "Git: Reset hunk" })
-
-map("n", "ggp", function()
-  require("gitsigns").preview_hunk()
-end, { desc = "Git: Preview hunk" })
-
--- navigation stays same (these are standard and good)
-map("n", "]h", function()
+-- Navigation
+map("n", "<leader>gn", function()
   require("gitsigns").next_hunk()
 end, { desc = "Git: Next hunk" })
-
-map("n", "[h", function()
+map("n", "<leader>gN", function()
   require("gitsigns").prev_hunk()
 end, { desc = "Git: Prev hunk" })
 
--- fugitive
-map("n", "ggb", ":G blame<CR>", { desc = "Git: Blame" })
+-- Views
+map("n", "<leader>gb", ":G blame<CR>", { desc = "Git: Blame" })
+map("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git: Diffview open" })
+map("n", "<leader>gq", ":DiffviewClose<CR>", { desc = "Git: Diffview close" })
 
--- diffview
-map("n", "ggd", ":DiffviewOpen<CR>", { desc = "Git: Diffview open" })
-map("n", "ggq", ":DiffviewClose<CR>", { desc = "Git: Diffview close" })
+-- Conflicts
+map("n", "<leader>go", ":GitConflictChooseOurs<CR>", { desc = "Git: Conflict ours" })
+map("n", "<leader>gT", ":GitConflictChooseTheirs<CR>", { desc = "Git: Conflict theirs" })
+map("n", "<leader>gB", ":GitConflictChooseBoth<CR>", { desc = "Git: Conflict both" })
+map("n", "<leader>g0", ":GitConflictChooseNone<CR>", { desc = "Git: Conflict none" })
 
--- conflicts
-map("n", "ggo", ":GitConflictChooseOurs<CR>", { desc = "Git: Conflict ours" })
-map("n", "ggt", ":GitConflictChooseTheirs<CR>", { desc = "Git: Conflict theirs" })
-map("n", "ggB", ":GitConflictChooseBoth<CR>", { desc = "Git: Conflict both" })
-map("n", "gg0", ":GitConflictChooseNone<CR>", { desc = "Git: Conflict none" })
+-- Telescope Git
+map("n", "<leader>gf", "<cmd>Telescope git_files<CR>", { desc = "Git: Files" })
+map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "Git: Commits" })
+map("n", "<leader>gC", "<cmd>Telescope git_bcommits<CR>", { desc = "Git: Buffer commits" })
+map("n", "<leader>gS", "<cmd>Telescope git_status<CR>", { desc = "Git: Status" })
+map("n", "<leader>gR", "<cmd>Telescope git_branches<CR>", { desc = "Git: Branches" })
+
+pcall(vim.keymap.del, "n", "<leader>cm")
 ------------------------------------------------------------------
 -- Language Specific
 ------------------------------------------------------------------
@@ -130,4 +134,3 @@ end, { desc = "Rust: Testables" })
 
 -- C++
 map("n", "<leader>cs", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "C++: Switch source/header" })
-
