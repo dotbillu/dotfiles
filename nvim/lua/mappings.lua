@@ -55,9 +55,9 @@ end, { desc = "DAP: Conditional Breakpoint" })
 ------------------------------------------------------------------
 -- Git
 ------------------------------------------------------------------
-require("which-key").add({
+require("which-key").add {
   { "ga", group = "Git" },
-})
+}
 
 -- LazyGit
 map("n", "gal", function()
@@ -138,9 +138,7 @@ end, { desc = "Rust: Testables" })
 map("n", "<leader>cs", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "C++: Switch source/header" })
 
 --Web
-map("n", "<leader>tl", "<cmd>LiveServerToggle<CR>", { desc = "HTML: Live Server" })
 require "nvchad.mappings"
-local map = vim.keymap.set
 
 ------------------------------------------------------------------
 -- UI / General
@@ -171,9 +169,6 @@ end, { desc = "Fold: Open all" })
 map("n", "zM", function()
   ufo.closeAllFolds()
 end, { desc = "Fold: Close all" })
-
-map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Markdown: Preview" })
-map("n", "<leader>hl", "<cmd>LiveServerToggle<CR>", { desc = "HTML: Live Server" })
 
 ------------------------------------------------------------------
 -- Debugger (DAP)
@@ -271,3 +266,41 @@ end, { desc = "Rust: Testables" })
 
 -- C++
 map("n", "<leader>cs", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "C++: Switch source/header" })
+
+--core
+map("n", "<leader>i", function()
+  local image = require "image"
+  image.toggle()
+end, { desc = "Toggle image preview" })
+
+map("n", "<leader>ca", function()
+  require("nvchad.tabufline").closeAllBufs()
+end, { desc = "Close all buffers" })
+
+map("n", "<leader>cq", "<cmd>qa!<CR>", { desc = "Force quit everything" })
+
+map("n", "<C-S-P>", function()
+  local ext = vim.fn.expand("%:e")
+  
+  local tmp_file = "/tmp/nvim_clipboard." .. (ext ~= "" and ext or "txt")
+  
+  -- 3. Dump the Wayland clipboard directly to the temp file
+  os.execute("wl-paste > " .. tmp_file)
+  
+  -- 4. Format the file silently in the background
+  if ext == "json" then
+    -- Format with jq, hide errors, and overwrite
+    os.execute("jq . " .. tmp_file .. " > " .. tmp_file .. "_fmt 2>/dev/null && mv " .. tmp_file .. "_fmt " .. tmp_file)
+  elseif ext ~= "" then
+    -- Format with Prettier in-place, discarding all error messages to the void
+    os.execute("prettier --write " .. tmp_file .. " > /dev/null 2>&1")
+  end
+  
+  -- 5. Read the clean file into Neovim instantly
+  vim.cmd("r " .. tmp_file)
+  
+  -- 6. Clean up the evidence
+  os.execute("rm -f " .. tmp_file)
+  
+  vim.notify("Smart Paste Complete!", vim.log.levels.INFO)
+end, { desc = "Bulletproof Smart Paste" })

@@ -380,7 +380,7 @@
   "theme.matugen": false,
   "theme.bar.menus.enableShadow": false,
   "menus.transition": "crossfade",
-  "menus.volume.raiseMaximumVolume": false,
+  "menus.volume.raiseMaximumVolume": true,
   "menus.dashboard.shortcuts.enabled": true,
   "theme.bar.buttons.separator.color": "#585b70",
   "menus.power.showLabel": true,
@@ -429,7 +429,7 @@
   "bar.windowtitle.class_name": true,
   "menus.media.displayTimeTooltip": false,
   "theme.bar.buttons.modules.microphone.enableBorder": false,
-  "bar.customModules.scrollSpeed": 5,
+  "bar.customModules.scrollSpeed": 8,
   "theme.bar.buttons.modules.ram.enableBorder": false,
   "menus.dashboard.controls.enabled": false,
   "menus.dashboard.stats.enable_gpu": true,
@@ -451,5 +451,9 @@
   "theme.bar.border.width": "0.15em",
   "theme.bar.location": "top",
   "theme.bar.border.location": "none",
-  "theme.bar.menus.monochrome": false
+  "theme.bar.menus.monochrome": false,
+  "bar.customModules.storage.round": false,
+  "bar.customModules.storage.label": true,
+  "theme.bar.buttons.modules.storage.enableBorder": false,
+  "menus.power.lowBatteryNotification": true
 }

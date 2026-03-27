@@ -143,43 +143,43 @@ return {
     branch = "master",
     event = "VeryLazy",
   },
-  {
-    "3rd/image.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      {
-        "leafo/magick",
-        build = "luarocks install --server=https://luarocks.org/dev magick",
-      },
-    },
-    opts = {
-      backend = "kitty",
-
-      -- This is the list of files that will "hijack" the buffer to show the image
-      -- instead of the binary garbage text.
-      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif", "*.svg", "*.ico" },
-      integrations = {
-        -- You requested these be disabled:
-        markdown = {
-          enabled = false,
-        },
-        neorg = {
-          enabled = false,
-        },
-        html = {
-          enabled = false,
-        },
-        css = {
-          enabled = false,
-        },
-      },
-
-      max_width = nil,
-      max_height = nil,
-      max_width_window_percentage = nil,
-      max_height_window_percentage = nil,
-      window_overlap_clear_enabled = true,
-      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-    },
-  },
+  -- {
+  --   "3rd/image.nvim",
+  --   event = "VeryLazy",
+  --   dependencies = {
+  --     {
+  --       "leafo/magick",
+  --       build = "luarocks install --server=https://luarocks.org/dev magick",
+  --     },
+  --   },
+  --   opts = {
+  --     backend = "kitty",
+  --
+  --     -- This is the list of files that will "hijack" the buffer to show the image
+  --     -- instead of the binary garbage text.
+  --     hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif", "*.svg", "*.ico" },
+  --     integrations = {
+  --       -- You requested these be disabled:
+  --       markdown = {
+  --         enabled = false,
+  --       },
+  --       neorg = {
+  --         enabled = false,
+  --       },
+  --       html = {
+  --         enabled = false,
+  --       },
+  --       css = {
+  --         enabled = false,
+  --       },
+  --     },
+  --
+  --     max_width = nil,
+  --     max_height = nil,
+  --     max_width_window_percentage = nil,
+  --     max_height_window_percentage = nil,
+  --     window_overlap_clear_enabled = true,
+  --     window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+  --   },
+  -- },
 }
