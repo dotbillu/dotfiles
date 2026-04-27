@@ -76,6 +76,8 @@ return {
         "vim",
         "vimdoc",
         "yaml",
+        "hyprlang",
+        "toml",
       },
       auto_install = true,
       highlight = { enable = true },

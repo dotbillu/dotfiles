@@ -1,6 +1,3 @@
-# vim:fileencoding=utf-8:foldmethod=marker
-
-#zsh custom files
 
 alias zshalias="nvim ~/.zshrc.alias"
 alias zshtheme="nvim ~/.zshrc.themes"
@@ -28,8 +25,10 @@ alias diff=delta
 alias cpwd="pwd | wl-copy"
 alias nano=nvim
 alias kro=kiro-cli
+alias kiro="kiro --disable-gpu ."
 alias kirop="HOME=$HOME/.kiro-personal-home kiro --new-window"
 alias chrome="prime-run google-chrome-stable --ozone-platform=x11"
+alias snapshot="sudo snapper -c root create --description "$(date +'%Y-%m-%d')""
 c() {
     "$@" | wl-copy
 }
@@ -133,3 +132,12 @@ updateall() {
   notify-send "System Updated" ||
   notify-send "Update Failed"
 }
+
+function sudo() {
+  command sudo -n true 2>/dev/null
+  if [ $? -ne 0 ]; then
+    notify-send " Sudo Password Needed"
+  fi
+  command sudo "$@"
+}
+

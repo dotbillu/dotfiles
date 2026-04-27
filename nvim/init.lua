@@ -17,6 +17,7 @@ end
 vim.opt.clipboard = "unnamedplus"
 vim.opt.rtp:prepend(lazypath)
 vim.opt.lazyredraw = true
+vim.opt.swapfile = false
 local lazy_config = require "configs.lazy"
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "*",
@@ -48,3 +49,6 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+vim.treesitter.language.register("bash", "zsh")
+vim.treesitter.language.register("bash", "env")
+

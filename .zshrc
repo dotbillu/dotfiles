@@ -11,7 +11,7 @@ fi
 source ~/.zshrc.themes
 source ~/.zshrc.alias 
 source /usr/share/nvm/init-nvm.sh
-export NODE_OPTIONS='--max-old-space-size=2024'
+# export NODE_OPTIONS='--max-old-space-size=2024'
 
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -20,3 +20,5 @@ export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=nvim
 export VISUAL=nvim
 
+export PATH="$HOME/go/bin:$PATH"
+setopt interactive_comments
