@@ -1,6 +1,5 @@
-
-alias zshalias="nvim ~/.zshrc.alias"
-alias zshtheme="nvim ~/.zshrc.themes"
+alias zshalias="nvim ~/.config/.zshrc.alias"
+alias zshtheme="nvim ~/.config/.zshrc.themes"
 alias vzsh="nvim ~/.zshrc"
 alias localapp="nvim ~/.local/share/applications/"
 alias vsheldon="nvim ~/.config/sheldon/plugins.toml"
@@ -32,21 +31,7 @@ alias snapshot="sudo snapper -c root create --description "$(date +'%Y-%m-%d')""
 c() {
     "$@" | wl-copy
 }
-#nvim
-nvim_cd()
-{
-    if [ -d "${1}" ]; then
-        local dir="${1}"
-        shift 1
-        ( cd "${dir}" && nvim "." "${@}" )
-    else
-        \nvim "${@}"
-    fi
-}
-alias nvim=nvim_cd
 alias vi=nvim
-
-
 #cpp
 run() {
   local f="$1"

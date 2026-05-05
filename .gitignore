@@ -10,9 +10,7 @@
 !/start.sh
 !/dunst/
 !/sddm/
-!/.zshrc
-!/.zshrc.alias
-!/.zshrc.themes
+!/zshrc/
 !/hyprpanel
 !/scripts
 !/pypr
