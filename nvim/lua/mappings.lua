@@ -280,13 +280,13 @@ end, { desc = "Close all buffers" })
 map("n", "<leader>cq", "<cmd>qa!<CR>", { desc = "Force quit everything" })
 
 map("n", "<C-S-P>", function()
-  local ext = vim.fn.expand("%:e")
-  
+  local ext = vim.fn.expand "%:e"
+
   local tmp_file = "/tmp/nvim_clipboard." .. (ext ~= "" and ext or "txt")
-  
+
   -- 3. Dump the Wayland clipboard directly to the temp file
   os.execute("wl-paste > " .. tmp_file)
-  
+
   -- 4. Format the file silently in the background
   if ext == "json" then
     -- Format with jq, hide errors, and overwrite
@@ -295,12 +295,20 @@ map("n", "<C-S-P>", function()
     -- Format with Prettier in-place, discarding all error messages to the void
     os.execute("prettier --write " .. tmp_file .. " > /dev/null 2>&1")
   end
-  
+
   -- 5. Read the clean file into Neovim instantly
   vim.cmd("r " .. tmp_file)
-  
+
   -- 6. Clean up the evidence
   os.execute("rm -f " .. tmp_file)
-  
+
   vim.notify("Smart Paste Complete!", vim.log.levels.INFO)
 end, { desc = "Bulletproof Smart Paste" })
+
+map("n", "<leader>ti", function()
+  local ft = vim.bo.filetype
+  if ft == "" then
+    return
+  end
+  vim.cmd("TSInstall " .. ft)
+end, { desc = "Install Treesitter parser for current filetype" })

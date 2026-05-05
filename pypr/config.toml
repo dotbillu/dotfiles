@@ -1,10 +1,14 @@
 [pyprland]
-plugins = ["scratchpads"]
+plugins = [
+    "scratchpads",
+    "gamemode",
+    "magnify",
+]
 
 [scratchpads.term]
-command = "kitty --class scratchterm"
-class = "scratchterm"
-size = "75% 60%"
 animation = "fromTop"
-lazy = true
-
+command = "kitty --class kitty-dropterm"
+class = "kitty-dropterm"
+size = "75% 60%"
+max_size = "1920px 100%"
+margin = 50

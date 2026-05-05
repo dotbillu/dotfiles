@@ -77,6 +77,8 @@ return {
         "vimdoc",
         "yaml",
         "hyprlang",
+        "dockerfile",
+        "gitignore",
         "toml",
       },
       auto_install = true,

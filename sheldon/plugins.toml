@@ -83,5 +83,8 @@ dir = "plugins/docker"
 github = "ohmyzsh/ohmyzsh"
 dir = "plugins/gh" 
 
+[plugins.sudo]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/sudo" 
 
 
