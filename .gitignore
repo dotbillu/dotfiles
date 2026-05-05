@@ -11,9 +11,11 @@
 !/dunst/
 !/sddm/
 !/zshrc/
-!/hyprpanel
-!/scripts
-!/pypr
-!/wayscriber
+!/hyprpanel/
+!/scripts/
+!/pypr/
+!/wayscriber/
+!/ags/
+
 !*/**
 
