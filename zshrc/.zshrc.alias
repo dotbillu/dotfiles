@@ -1,5 +1,5 @@
-alias zshalias="nvim ~/.config/.zshrc.alias"
-alias zshtheme="nvim ~/.config/.zshrc.themes"
+alias zshalias="nvim ~/.config/zshrc/.zshrc.alias"
+alias zshtheme="nvim ~/.config/zshrc/.zshrc.themes"
 alias vzsh="nvim ~/.zshrc"
 alias localapp="nvim ~/.local/share/applications/"
 alias vsheldon="nvim ~/.config/sheldon/plugins.toml"
