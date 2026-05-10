@@ -1,0 +1,39 @@
+function sudo() {
+  command sudo -n true 2>/dev/null
+  if [ $? -ne 0 ]; then
+    notify-send " Sudo Password Needed"
+  fi
+  command sudo "$@"
+}
+
+updateall() {
+  sudo -v
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
+
+  sudo pacman -Syu --noconfirm &&
+  paru -Syu --noconfirm &&
+  notify-send "System Updated" ||
+  notify-send "Update Failed"
+}
+
+run() {
+  local f="$1"
+  g++ -o "$f" "${f}.cpp" && "./$f"
+}
+
+c() {
+    "$@" | wl-copy
+}
+
+
+gen_dots_aliases() {
+  local max=${1:-6}
+  for i in $(seq 2 $max); do
+    alias -g $(printf '%*s' $i | tr ' ' '.')=$(printf '../%.0s' $(seq 1 $((i-1))))
+  done
+}
+gen_dots_aliases 10

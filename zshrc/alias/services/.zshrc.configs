@@ -1,0 +1,9 @@
+open_dotfiles_of() {
+  local f="$1"
+  vi ~/.config/$f/ 
+}
+
+go_to_dotfiles_of() {
+  local f="$1"
+  cd ~/.config/$f/ 
+}

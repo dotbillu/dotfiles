@@ -52,6 +52,10 @@ end)
 vim.treesitter.language.register("bash", "zsh")
 vim.treesitter.language.register("bash", "conf")
 vim.treesitter.language.register("bash", "env")
+vim.treesitter.language.register("bash", "dosini")
+vim.treesitter.language.register("bash", "ini")
+
+
 
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
