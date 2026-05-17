@@ -611,5 +611,7 @@
   "wallpaper.image": "/home/abhay/.config/hypr/wallpaper/dexter.jpg",
   "menus.dashboard.shortcuts.left.shortcut2.command": "spotify",
   "theme.bar.buttons.volume.enableBorder": false,
-  "theme.bar.transparent": true
+  "theme.bar.transparent": true,
+  "wallpaper.enable": false,
+  "wallpaper.pywal": false
 }
