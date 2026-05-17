@@ -1,0 +1,71 @@
+require("configs.binds")
+require("configs.env(s)")
+require("configs.autostarts")
+require("configs.decor")
+------------------
+---- MONITORS ----
+------------------
+hl.monitor({
+	output = "eDP-1",
+	mode = "1920x1080@144",
+	position = "0x0",
+	scale = 1,
+})
+
+hl.monitor({
+	output = "HDMI-A-1",
+	mode = "1920x1080@100",
+	position = "-1920x0",
+	scale = 1,
+})
+
+-- hl.monitor({ output = "eDP-1", mode = "2112x1188@144", position = "0x0", scale = 1 })
+-- hl.monitor({ output = "eDP-1", mode = "1984x1116@144", position = "0x0", scale = 1 })
+
+-------------------------
+---- GLOBAL CONFIGS -----
+-------------------------
+hl.config({
+	dwindle = {
+		preserve_split = true,
+	},
+	master = {
+		new_status = "master",
+	},
+	misc = {
+		force_default_wallpaper = 0,
+		disable_hyprland_logo = false,
+	},
+	input = {
+		kb_layout = "us",
+		repeat_rate = 80,
+		repeat_delay = 190,
+		follow_mouse = 1,
+		sensitivity = 1,
+		touchpad = {
+			natural_scroll = false,
+		},
+	},
+})
+
+------------------
+---- GESTURES ----
+------------------
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
+------------------
+---- DEVICES -----
+------------------
+hl.device({
+	name = "epic-mouse-v1",
+	sensitivity = 0,
+})
+
+----------------------
+---- WINDOW RULES ----
+----------------------
+hl.window_rule({
+	match = { class = "org.gnome.eog" },
+	float = true,
+	size = { 1200, 700 },
+})
