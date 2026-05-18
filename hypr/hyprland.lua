@@ -2,6 +2,7 @@ require("configs.binds")
 require("configs.env(s)")
 require("configs.autostarts")
 require("configs.decor")
+require("configs.rules")
 ------------------
 ---- MONITORS ----
 ------------------
@@ -55,13 +56,4 @@ hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 hl.device({
 	name = "epic-mouse-v1",
 	sensitivity = 0,
-})
-
-----------------------
----- WINDOW RULES ----
-----------------------
-hl.window_rule({
-	match = { class = "org.gnome.eog" },
-	float = true,
-	size = { 1200, 700 },
 })

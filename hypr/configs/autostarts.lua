@@ -22,3 +22,7 @@ hl.on("hyprland.start", function()
 		workspace = "20 silent" 
 	})
 end)
+
+hl.exec_cmd("swww img ~/.config/hypr/wallpapers/dexter.jpg --outputs eDP-1")
+hl.exec_cmd("swww img ~/.config/hypr/wallpapers/oversized-cat.jpg --outputs HDMI-A-1")
+
