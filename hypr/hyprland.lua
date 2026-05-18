@@ -18,10 +18,6 @@ hl.monitor({
 	position = "-1920x0",
 	scale = 1,
 })
-
--- hl.monitor({ output = "eDP-1", mode = "2112x1188@144", position = "0x0", scale = 1 })
--- hl.monitor({ output = "eDP-1", mode = "1984x1116@144", position = "0x0", scale = 1 })
-
 -------------------------
 ---- GLOBAL CONFIGS -----
 -------------------------
