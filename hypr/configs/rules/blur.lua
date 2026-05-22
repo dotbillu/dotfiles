@@ -16,6 +16,7 @@ disable_blur({
 	"kiro",
 	"org.kde.dolphin",
 	"Spotify",
+  "kitty",
   "Xdg-desktop-portal-gtk",
 })
 

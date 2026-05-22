@@ -48,12 +48,12 @@ hl.config({
 			enabled = true,
 			range = 100,
 			render_power = 4,
-			color = 0xee1a1a1a, -- Converted from rgba(1a1a1aee)
+			color = 0xee1a1a1a,
 		},
 		blur = {
-			enabled = true,
+			enabled = false,
 			size = 3,
-			passes = 5,
+			passes = 2,
 			new_optimizations = true,
 			ignore_opacity = false,
 		},

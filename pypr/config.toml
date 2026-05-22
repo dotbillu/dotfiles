@@ -9,6 +9,15 @@ plugins = [
 animation = "fromTop"
 command = "kitty --class kitty-dropterm"
 class = "kitty-dropterm"
-size = "75% 60%"
+size = "85% 70%"
 max_size = "1920px 100%"
 margin = 50
+
+
+[scratchpads.zen]
+command = "zen-browser"
+class = "zen"
+animation = "fromBottom"
+size = "75% 70%"
+margin = 250
+lazy = true
