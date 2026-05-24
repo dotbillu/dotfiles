@@ -19,5 +19,4 @@ command = "zen-browser"
 class = "zen"
 animation = "fromBottom"
 size = "75% 70%"
-margin = 250
 lazy = true

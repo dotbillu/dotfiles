@@ -1,6 +1,6 @@
 hl.on("hyprland.start", function()
 	-- Core components & panels
-	hl.exec_cmd("hyprpanel")
+	-- hl.exec_cmd("hyprpanel")
 	hl.exec_cmd("/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg")
 	hl.exec_cmd("wayscriber --daemon")
 	hl.exec_cmd("pypr")
@@ -26,3 +26,4 @@ end)
 hl.exec_cmd("swww img ~/.config/hypr/wallpapers/dexter.jpg --outputs eDP-1")
 hl.exec_cmd("swww img ~/.config/hypr/wallpapers/oversized-cat.jpg --outputs HDMI-A-1")
 
+hl.exec_cmd("swaync")

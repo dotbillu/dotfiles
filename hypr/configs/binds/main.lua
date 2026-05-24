@@ -63,16 +63,20 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("ALT + SHIFT + P", hl.dsp.exec_cmd("playerctl play-pause"))
 
--- Screen Capture Keybinds (Hyprshot)
-hl.bind("CTRL + ALT + O", hl.dsp.exec_cmd("hyprshot -m output -m eDP-1 -c -o " .. HYPRSHOT_DIR))
-hl.bind("Print", hl.dsp.exec_cmd("hyprshot -zm output -m eDP-1 -c -o " .. HYPRSHOT_DIR))
-hl.bind("CTRL + ALT + P", hl.dsp.exec_cmd("hyprshot -zm window -c -o " .. HYPRSHOT_DIR))
-hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd("hyprshot -zm region -c -o " .. HYPRSHOT_DIR))
-
 -- Custom Optimization/Maintenance Utilities
-hl.bind("CTRL + ALT + K", hl.dsp.exec_cmd("~/.config/hypr/scripts/lastScreenShot.sh"))
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd("~/.config/hypr/scripts/sunsetToggle.sh"))
 hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("pkill -SIGUSR1 wayscriber"))
 hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprpaneltoggle.sh"))
 hl.bind("CTRL + SUPER + backspace", hl.dsp.exec_cmd("systemctl poweroff"))
+
+-- Screen Capture Keybinds (Hyprshot)
+
+hl.bind("CTRL + ALT + SHIFT + P", hl.dsp.submap("enter_screenShot"))
+
+hl.define_submap("enter_screenShot", "reset", function()
+	hl.bind("1", hl.dsp.exec_cmd("hyprshot -m output -m eDP-1 -c -o" .. HYPRSHOT_DIR))
+	hl.bind("2", hl.dsp.exec_cmd("hyprshot -m output -m HDMI-A-1 -c -o" .. HYPRSHOT_DIR))
+	hl.bind("3", hl.dsp.exec_cmd("hyprshot -zm window -c -o " .. HYPRSHOT_DIR))
+	hl.bind("4", hl.dsp.exec_cmd("hyprshot -zm region -c -o " .. HYPRSHOT_DIR))
+end)
