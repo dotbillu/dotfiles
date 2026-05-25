@@ -1,8 +1,11 @@
+require("configs.constants")
+
 require("configs.binds.main")
 require("configs.env(s)")
 require("configs.autostarts")
 require("configs.decor")
 require("configs.rules.main")
+
 hl.monitor({
 	output = "eDP-1",
 	mode = "1920x1080@144",

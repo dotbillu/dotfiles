@@ -44,14 +44,14 @@ Row {
                     width: oneWorkSpaceRec.width 
                     height: oneWorkSpaceRec.height
                     radius: 20
-                    color: !isActive ? "#BF191920" : "gray"
+                    color: !isActive ? "#BF191920" : "ffffff"
 
                     Rectangle {
                         id: oneWorkSpaceRec
                         anchors.centerIn: parent
                         color: "transparent"
-                        width: appRow.width + 15
-                        height: appRow.height < 1 ? 0 : appRow.height + 10
+                        width: appRow.width + 10
+                        height: appRow.height < 1 ? 0 : appRow.height + 8
                         radius: 30
                         Row {
                             id: appRow
@@ -66,8 +66,8 @@ Row {
 
                                     property var ipc: modelData.lastIpcObject
 
-                                    width: 25
-                                    height: 25
+                                    width: 18
+                                    height: 18
 
                                     Rectangle {
                                         id: imageMask

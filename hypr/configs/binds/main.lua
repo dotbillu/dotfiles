@@ -1,16 +1,13 @@
 require("configs.binds.workspace")
-require("configs.binds.scratchpad")
+require("configs.binds.submaps.screenshot")
+require("configs.binds.submaps.scratchpad")
+
 hl.config({
 	binds = {
 		drag_threshold = 10,
 	},
 })
 
-local terminal = "kitty"
-local fileManager = "nemo"
-local mainMod = "SUPER"
-local HYPRSHOT_DIR = "~/Pictures/Screenshots"
-local menu = "tofi-drun --drun-launch=true"
 
 hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("prime-run kitty"))
@@ -65,18 +62,8 @@ hl.bind("ALT + SHIFT + P", hl.dsp.exec_cmd("playerctl play-pause"))
 
 -- Custom Optimization/Maintenance Utilities
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd("~/.config/hypr/scripts/sunsetToggle.sh"))
-hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
+-- hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("pkill -SIGUSR1 wayscriber"))
-hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprpaneltoggle.sh"))
 hl.bind("CTRL + SUPER + backspace", hl.dsp.exec_cmd("systemctl poweroff"))
 
 -- Screen Capture Keybinds (Hyprshot)
-
-hl.bind("CTRL + ALT + SHIFT + P", hl.dsp.submap("enter_screenShot"))
-
-hl.define_submap("enter_screenShot", "reset", function()
-	hl.bind("1", hl.dsp.exec_cmd("hyprshot -m output -m eDP-1 -c -o" .. HYPRSHOT_DIR))
-	hl.bind("2", hl.dsp.exec_cmd("hyprshot -m output -m HDMI-A-1 -c -o" .. HYPRSHOT_DIR))
-	hl.bind("3", hl.dsp.exec_cmd("hyprshot -zm window -c -o " .. HYPRSHOT_DIR))
-	hl.bind("4", hl.dsp.exec_cmd("hyprshot -zm region -c -o " .. HYPRSHOT_DIR))
-end)

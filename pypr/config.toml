@@ -3,6 +3,9 @@ plugins = [
     "scratchpads",
     "gamemode",
     "magnify",
+    "expose",
+    "fetch_client_menu",
+    "menu",
 ]
 
 [scratchpads.term]
@@ -20,3 +23,14 @@ class = "zen"
 animation = "fromBottom"
 size = "75% 70%"
 lazy = true
+
+[scratchpads.spotify]
+command = "spotify"
+class = "Spotify"
+animation = "fromRight"
+size = "75% 70%"
+lazy = true
+unfocus = "hide"
+
+
+[menu]
