@@ -9,3 +9,5 @@ hl.bind(mainMod .. " + L", function()
 end)
 
 hl.bind(mainMod .. "+SHIFT +L ", hl.dsp.exec_cmd("pypr hide '*'"))
+hl.bind(mainMod .. "+ O ", hl.dsp.exec_cmd("pypr fetch_client_menu"))
+

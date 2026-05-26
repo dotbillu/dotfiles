@@ -49,5 +49,4 @@ ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-
+# [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
