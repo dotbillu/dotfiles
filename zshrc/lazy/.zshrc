@@ -1,4 +1,9 @@
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+# --- Terminal SSH Agent Integration ---
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
+  export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$UID}/ssh-agent.socket"
+fi
+alias git="ssh-add -l &>/dev/null || ssh-add; git"
+alias lazygit="ssh-add -l &>/dev/null || ssh-add; lazygit"
 
 load_nvm() {
   unset -f nvm node npm npx
