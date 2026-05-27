@@ -1,8 +1,4 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-
+# --- 1. Modular Configuration Sources ---
 source ~/.config/zshrc/theme/.zshrc
 source ~/.config/zshrc/alias/.zshrc
 source ~/.config/zshrc/alias/.zshrc.common
@@ -10,7 +6,7 @@ source ~/.config/zshrc/alias/services/.zshrc.cloudfare
 source ~/.config/zshrc/alias/services/.zshrc.configs
 source ~/.config/zshrc/lazy/.zshrc
 
-
+# --- 2. Environment Variables & Global Settings ---
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=nvim
 export VISUAL=nvim
@@ -19,3 +15,28 @@ export PAGER=nvimpager
 export PATH="$HOME/go/bin:$PATH"
 setopt interactive_comments
 
+# --- 3. Automated Background Bytecode Compilation Engine ---
+function check_zcompile() {
+  local target="$1"
+  if [[ -f "$target" ]]; then
+    # Compile if the binary (.zwc) doesn't exist, or if the text file is newer than the binary
+    if [[ ! -f "${target}.zwc" || "$target" -nt "${target}.zwc" ]]; then
+      zcompile "$target"
+    fi
+  fi
+}
+
+# Compile the entry points
+check_zcompile "$HOME/.zshrc"
+check_zcompile "$HOME/.config/zshrc/.zshrc.main"
+
+# Compile all modular configuration files
+check_zcompile "$HOME/.config/zshrc/theme/.zshrc"
+check_zcompile "$HOME/.config/zshrc/alias/.zshrc"
+check_zcompile "$HOME/.config/zshrc/alias/.zshrc.common"
+check_zcompile "$HOME/.config/zshrc/alias/services/.zshrc.cloudfare"
+check_zcompile "$HOME/.config/zshrc/alias/services/.zshrc.configs"
+check_zcompile "$HOME/.config/zshrc/lazy/.zshrc"
+
+# Compile shell completions cache
+[[ -f "$HOME/.zcompdump" ]] && check_zcompile "$HOME/.zcompdump"

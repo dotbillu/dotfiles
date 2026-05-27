@@ -1,11 +1,4 @@
-_load_keychain() {
-  unset -f ssh git
-  eval $(keychain --eval --quiet)
-}
-
-ssh() { _load_keychain; command ssh "$@"; }
-git() { _load_keychain; command git "$@"; }
-
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 
 load_nvm() {
   unset -f nvm node npm npx
@@ -15,6 +8,5 @@ nvm()  { load_nvm; nvm "$@"; }
 node() { load_nvm; node "$@"; }
 npm()  { load_nvm; npm "$@"; }
 npx()  { load_nvm; npx "$@"; }
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-. "/home/abhay/.deno/env"
+# . "/home/abhay/.deno/env"
 
