@@ -19,6 +19,5 @@ alias vi=nvim
 alias vdt=open_dotfiles_of
 alias cdt=go_to_dotfiles_of
 
-
-
-alias zreload="rm -f ~/*.zwc ~/.config/zshrc/**/*.zwc ~/.zcompdump*.zwc && zcompile ~/.zshrc ~/.config/zshrc/.zshrc.main ~/.config/zshrc/theme/.zshrc ~/.config/zshrc/alias/.zshrc ~/.config/zshrc/alias/.zshrc.common ~/.config/zshrc/alias/services/.zshrc.cloudfare ~/.config/zshrc/alias/services/.zshrc.configs ~/.config/zshrc/lazy/.zshrc && exec zsh"
+# Clean, safe reload that lets the background engine handle binaries
+alias zreload="find ~ -maxdepth 1 -name '*.zwc' -delete && find ~/.config/zshrc/ -name '*.zwc' -delete && exec zsh"
