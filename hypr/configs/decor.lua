@@ -2,65 +2,60 @@ require("configs.animations.spring")
 require("configs.animations.default")
 
 -----------------------------
----- CATPPUCCIN MOCHA COLS --
+---- MONOCHROME SLATE ------
 -----------------------------
-local rosewater = 0xfff5e0dc
-local flamingo = 0xfff2cdcd
-local pink = 0xfff5c2e7
-local mauve = 0xffcba6f7
-local red = 0xfff38ba8
-local maroon = 0xffeba0ac
-local peach = 0xfffab387
-local yellow = 0xfff9e2af
-local green = 0xffa6e3a1
-local teal = 0xff94e2d5
-local sky = 0xff89dceb
-local sapphire = 0xff74c7ec
-local blue = 0xff89b4fa
-local lavender = 0xffb4bfe2
-local text = 0xffcdd6f4
-local surface0 = 0xff313244
-local base = 0xff1e1e2e
-local mantle = 0xff181825
-local crust = 0xff11111b
+local white = 0xfff2f2f2
+local light_gray = 0xffd1d1d1
+local soft_gray = 0xffa6a6a6
+local gray = 0xff7a7a7a
+local dark_gray = 0xff4d4d4d
+local darker = 0xff2b2b2b
+local black = 0xff121212
 
 -------------------------
 ---- VISUAL DESIGN ------
 -------------------------
 hl.config({
 	general = {
-		gaps_in = 0,
-		gaps_out = 0,
+		gaps_in = 3,
+		gaps_out = 8,
 		border_size = 1,
-		float_gaps = 0,
+		float_gaps = 4,
+
 		col = {
-			active_border = 0xffb4bfe2,
-			inactive_border = surface0,
-			nogroup_border = surface0,
-			nogroup_border_active = 0xffb4bfe2,
+			active_border = light_gray,
+			inactive_border = dark_gray,
+			nogroup_border = darker,
+			nogroup_border_active = soft_gray,
 		},
+
 		resize_on_border = false,
 		layout = "dwindle",
 	},
+
 	decoration = {
-		rounding = 10,
-		rounding_power = 2,
+		rounding = 14,
+		rounding_power = 3,
+
 		active_opacity = 1.0,
-		inactive_opacity = 1.0,
+		inactive_opacity = 0.96,
+
 		shadow = {
 			enabled = true,
-			range = 100,
-			render_power = 4,
-			color = 0xee1a1a1a,
+			range = 30,
+			render_power = 3,
+			color = 0xaa000000,
 		},
+
 		blur = {
-			enabled = false,
-			size = 3,
+			enabled = true,
+			size = 5,
 			passes = 2,
 			new_optimizations = true,
 			ignore_opacity = false,
 		},
 	},
+
 	animations = {
 		enabled = true,
 	},

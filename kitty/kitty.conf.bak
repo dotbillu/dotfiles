@@ -1,5 +1,4 @@
 # vim:fileencoding=utf-8:foldmethod=marker
-
 # BEGIN_KITTY_THEME
 # Catppuccin-Mocha
 include current-theme.conf
@@ -25,7 +24,7 @@ bold_italic_font auto
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 18.1
+font_size 15
 
 #: Font size (in pts).
 
@@ -292,7 +291,7 @@ font_size 18.1
 #: so if you want to override it, place your value after the lines
 #: where the theme file is included.
 
-# cursor_shape beam
+cursor_shape beam
 
 #: The cursor shape can be one of block, beam, underline. Note that
 #: when reloading the config this will be changed only if the cursor
@@ -370,7 +369,7 @@ cursor_trail_decay 0.1 0.3
 #: trail. Adjust these values to control how quickly the cursor trail
 #: fades away.
 
-cursor_trail_start_threshold 20
+cursor_trail_start_threshold 30
 
 #: Set the distance threshold for starting the cursor trail. This
 #: option accepts a positive integer value that represents the minimum
@@ -1450,7 +1449,7 @@ tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{tab.l
 # background #000000
 
 #: The foreground and background colors.
- background_opacity 0.7
+background_opacity 0.85
 
 #: The opacity of the background. A number between zero and one, where
 #: one is opaque and zero is fully transparent. This will only work if
@@ -1477,7 +1476,7 @@ tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{tab.l
 #: original config.
 
 
-background_blur 40
+background_blur 1
 
 #: Set to a positive value to enable background blur (blurring of the
 #: visuals behind a transparent window) on platforms that support it.
@@ -1726,7 +1725,7 @@ background_blur 40
 #: See rc_custom_auth <https://sw.kovidgoyal.net/kitty/remote-
 #: control/#rc-custom-auth> for details.
 
-# allow_remote_control no
+allow_remote_control yes
 
 #: Allow other programs to control kitty. If you turn this on, other
 #: programs can control all aspects of kitty, including sending text

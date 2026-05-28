@@ -1,9 +1,14 @@
-# --- Terminal SSH Agent Integration ---
 if [[ -z "$SSH_AUTH_SOCK" ]]; then
   export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$UID}/ssh-agent.socket"
 fi
-alias git="ssh-add -l &>/dev/null || ssh-add; git"
-alias lazygit="ssh-add -l &>/dev/null || ssh-add; lazygit"
+_lazy_ssh_unlock() {
+  unset -f git lazygit ssh
+  ssh-add -l &>/dev/null || ssh-add
+}
+
+git()     { _lazy_ssh_unlock; command git "$@"; }
+lazygit() { _lazy_ssh_unlock; command lazygit "$@"; }
+ssh()     { _lazy_ssh_unlock; command ssh "$@"; }
 
 load_nvm() {
   unset -f nvm node npm npx

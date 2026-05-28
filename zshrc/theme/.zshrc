@@ -19,7 +19,8 @@ plugins=(
   you-should-use
   zsh-autopair
 )
-
+# ZSH_HIGHLIGHT_MAXLENGTH=512
+# ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=1
 source $ZSH/oh-my-zsh.sh
 
 autoload -Uz compinit

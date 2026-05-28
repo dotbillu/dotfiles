@@ -13,17 +13,10 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("swww-daemon")
 	hl.exec_cmd("sleep 2 && hyprctl reload")
 
-	-- Theme setups (Catppuccin)
 	hl.exec_cmd('gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-macchiato-flamingo-standard+default"')
 	hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
-
-	-- Web apps / Specific workspace setups
-	hl.exec_cmd("google-chrome --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm", { 
-		workspace = "20 silent" 
-	})
+	hl.exec_cmd("hyprpaper")
+	hl.exec_cmd("swaync")
+	hl.exec_cmd("qs")
+	hl.exec_cmd("sleep 2 && swww img ~/.config/hypr/wallpapers/gray.jpg")
 end)
-
-hl.exec_cmd("swww img ~/.config/hypr/wallpapers/dexter.jpg --outputs eDP-1")
-hl.exec_cmd("swww img ~/.config/hypr/wallpapers/oversized-cat.jpg --outputs HDMI-A-1")
-
-hl.exec_cmd("swaync")

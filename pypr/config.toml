@@ -10,7 +10,7 @@ plugins = [
 
 [scratchpads.term]
 animation = "fromTop"
-command = "kitty --class kitty-dropterm"
+command = "kitty  --app-id kitty-dropterm"
 class = "kitty-dropterm"
 size = "85% 70%"
 max_size = "1920px 100%"
