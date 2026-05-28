@@ -26,11 +26,12 @@ run() {
 }
 
 c() {
-    "$@" | wl-copy
+    "$@" | wl-copy --trim-newline
 }
 
 
 
+# Static dot aliases (Zero startup overhead)
 alias -g ..='../'
 alias -g ...='../../'
 alias -g ....='../../../'

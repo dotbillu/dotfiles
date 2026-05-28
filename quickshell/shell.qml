@@ -19,7 +19,7 @@ ShellRoot {
 
             color: "transparent"
             Rectangle {
-                color: "#575757"
+                color: "transparent"
                 anchors.fill: parent
                 topLeftRadius: 20
                 topRightRadius: 2

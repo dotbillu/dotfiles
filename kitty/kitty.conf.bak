@@ -1,6 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # BEGIN_KITTY_THEME
-# Catppuccin-Mocha
+# Wombat
 include current-theme.conf
 # END_KITTY_THEME
 
@@ -1449,7 +1449,7 @@ tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{tab.l
 # background #000000
 
 #: The foreground and background colors.
-background_opacity 0.85
+background_opacity 0.9
 
 #: The opacity of the background. A number between zero and one, where
 #: one is opaque and zero is fully transparent. This will only work if
