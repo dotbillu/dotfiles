@@ -2,8 +2,8 @@ import QtQuick
 import Quickshell.Hyprland
 import Quickshell.Io
 import Qt5Compat.GraphicalEffects
-
 import "../../theme"
+import "../../services"
 
 Row {
     Timer {
@@ -14,15 +14,13 @@ Row {
     }
 
     Rectangle {
-        width: innerRow.width + 12
+        width: innerRow.width > 10 ? innerRow.width + 12 : 40
         height: 40
 
         radius: 20
 
         color: Theme.colors.surface
         // border.color: Theme.colors.border
-
-        anchors.centerIn: parent
 
         Row {
             id: innerRow
@@ -114,14 +112,13 @@ Row {
                                             radius: 20
                                             visible: false
                                         }
-
                                         Image {
                                             id: myIcon
 
                                             source: {
-                                                const app = ipc?.class?.toLowerCase();
-
-                                                return app ? `../../icons/${app}.png` : "";
+                                                let app = ipc?.class?.toLowerCase();
+                                                if (!app) return "";
+                                                return AppIcons.iconSource(app);
                                             }
 
                                             anchors.fill: parent

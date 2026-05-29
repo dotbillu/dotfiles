@@ -1,7 +1,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "catppuccin",
+  theme = "default-dark",
   hl_override = {
     NvimTreeFileDirty = { link = "NvimTreeNormal" },
     NvimTreeFileNew = { link = "NvimTreeNormal" },
