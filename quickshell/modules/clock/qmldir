@@ -1,3 +1,0 @@
-module clock
-Clock 1.0 Clock.qml
-CalendarWidget 1.0 CalendarWidget.qml

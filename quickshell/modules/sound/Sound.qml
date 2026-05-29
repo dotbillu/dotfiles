@@ -16,6 +16,10 @@ Rectangle {
     property real volume: sink?.audio?.volume ?? 0
     property bool muted:  sink?.audio?.muted  ?? false
 
+    PwObjectTracker {
+        objects: root.sink ? [root.sink] : []
+    }
+
     implicitWidth:  40
     implicitHeight: 40
     radius: 20

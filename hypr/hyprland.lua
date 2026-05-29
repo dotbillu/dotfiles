@@ -1,11 +1,12 @@
-require("configs.constants")
+hl.plugin.load("/var/cache/hyprpm/abhay/hyprexpo/hyprexpo.so")
+-- hl.plugin.load("/var/cache/hyprpm/abhay/hyprland-plugins/hyprfocus.so")
 
+require("configs.constants")
 require("configs.binds.main")
 require("configs.env(s)")
 require("configs.autostarts")
 require("configs.decor")
 require("configs.rules.main")
-
 hl.monitor({
 	output = "eDP-1",
 	mode = "1920x1080@144",
@@ -44,6 +45,23 @@ hl.config({
 	cursor = {
 		no_hardware_cursors = true,
 		-- no_warps = true,
+	},
+	plugin = {
+		hyprexpo = {
+			columns = 3,
+			gaps_in = 5,
+			gaps_out = 0,
+			bg_col = "rgb(111111)",
+			gesture_distance = 200,
+			cancel_key = "escape",
+			show_cursor = 1,
+		},
+		-- hyprfocus = {
+		-- 	mode = "bounce",
+		-- 	bounce_strength = 20,
+		-- 	fade_opacity = 0.5,
+		-- 	only_on_monitor_change = false,
+		-- },
 	},
 })
 

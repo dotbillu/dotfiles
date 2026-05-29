@@ -2,6 +2,8 @@ hl.on("hyprland.start", function()
 	-- Core components & panels
 	-- hl.exec_cmd("hyprpanel")
 	hl.exec_cmd("/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg")
+	hl.exec_cmd("wl-paste --type text --watch cliphist store")
+	hl.exec_cmd("wl-paste --type image --watch cliphist store")
 	hl.exec_cmd("wayscriber --daemon")
 	hl.exec_cmd("pypr")
 	hl.exec_cmd("~/.local/bin/headset-media")

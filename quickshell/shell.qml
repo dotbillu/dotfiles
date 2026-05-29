@@ -7,6 +7,9 @@ import "modules/media"
 import "modules/systemcontrols"
 import "modules/notifications"
 import "modules/battery"
+import "modules/clipboard"
+import "modules/expose"
+import "theme"
 
 ShellRoot {
     Variants {
@@ -43,6 +46,29 @@ ShellRoot {
 
                     ArchLauncher {
                         panelWindow: bar
+                    }
+
+                    Rectangle {
+                        height: 40
+                        width: toolsRow.implicitWidth + 12
+                        radius: 20
+                        color: Theme.colors.surface
+
+                        Row {
+                            id: toolsRow
+                            anchors.centerIn: parent
+                            spacing: 0
+
+                            ClipboardModule {
+                                panelWindow: bar
+                                barScreenX: leftControls.x + 48 // Approximate absolute offset
+                            }
+
+                            ExposeModule {
+                                panelWindow: bar
+                                barScreenX: leftControls.x + 88 // Approximate absolute offset
+                            }
+                        }
                     }
                 }
 
