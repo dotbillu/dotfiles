@@ -4,6 +4,8 @@ import Quickshell
 import "modules/workspace"
 import "modules/clock"
 import "modules/media"
+import "modules/systemcontrols"
+import "modules/notifications"
 
 ShellRoot {
     Variants {
@@ -30,6 +32,7 @@ ShellRoot {
                 anchors.fill: parent
                 color: "transparent"
 
+                // Center modules
                 Row {
                     id: barRow
                     anchors.centerIn: parent
@@ -38,14 +41,28 @@ ShellRoot {
                     Media {
                         id: mediaBar
                         panelWindow: bar
-                        // x of Media within the PanelWindow = left edge of the centred Row
-                        // Row.x is set by anchors.centerIn, so it's (bar.width - barRow.width) / 2
                         barScreenX: barRow.x
                     }
 
                     Workspace {}
 
                     Clock {}
+                }
+
+                // Right-side island + notifications
+                Row {
+                    id: rightControls
+                    anchors.right: parent.right
+                    anchors.rightMargin: 16
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 8
+
+                    SystemControls {
+                        panelWindow: bar
+                        barScreenX:  rightControls.x
+                    }
+
+                    Notifications {}
                 }
             }
         }
