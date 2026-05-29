@@ -13,6 +13,15 @@ Rectangle {
     property var panelWindow: null
     property int barScreenX:  0    // set from shell.qml: bar's x in window coords
 
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+            if (widget.visible) widget.hide()
+            else { widget.show(); closeDelay.stop() }
+        }
+    }
+
     // widget matches bar width exactly
     readonly property int barWidth: contentRow.implicitWidth + 28
 
@@ -125,12 +134,7 @@ Rectangle {
         }
     }
 
-    TapHandler {
-        onTapped: {
-            if (widget.visible) widget.hide()
-            else { widget.show(); closeDelay.stop() }
-        }
-    }
+    // Removed MouseArea from here
 
     HoverHandler {
         id: barHover

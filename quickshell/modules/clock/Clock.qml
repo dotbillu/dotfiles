@@ -29,7 +29,7 @@ Rectangle {
             font.bold: true
 
             text: Qt.formatTime(
-                clock.date,
+                root.date,
                 "hh:mm AP"
             )
         }
@@ -49,26 +49,69 @@ Rectangle {
             font.pixelSize: 13
 
             text: Qt.formatDate(
-                clock.date,
+                root.date,
                 "ddd dd MMM"
             )
         }
     }
 
+    property var panelWindow: null
+    property int barScreenX: 0
+    property bool widgetOpen: false
+
     property date date: new Date()
 
     Timer {
         id: clock
-
         interval: 1000
-
         running: true
         repeat: true
-
-        property date date: new Date()
-
         onTriggered: {
-            date = new Date()
+            root.date = new Date()
+        }
+    }
+
+    HoverHandler {
+        id: rootHover
+        onHoveredChanged: {
+            if (hovered) closeDelay.stop()
+            else if (root.widgetOpen && !calendarWidget.popupHovered) closeDelay.restart()
+        }
+    }
+
+    Timer {
+        id: closeDelay
+        interval: 400
+        onTriggered: {
+            if (!rootHover.hovered && !calendarWidget.popupHovered) {
+                root.widgetOpen = false
+                calendarWidget.hide()
+            }
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+            if (root.widgetOpen) {
+                root.widgetOpen = false
+                calendarWidget.hide()
+            } else {
+                root.widgetOpen = true
+                calendarWidget.show()
+            }
+        }
+    }
+
+    CalendarWidget {
+        id: calendarWidget
+        anchor.window: root.panelWindow
+        anchor.rect.x: root.barScreenX
+        anchor.rect.y: 40
+        onPopupHoveredChanged: {
+            if (popupHovered) closeDelay.stop()
+            else if (!rootHover.hovered) closeDelay.restart()
         }
     }
 }

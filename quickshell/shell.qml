@@ -6,6 +6,7 @@ import "modules/clock"
 import "modules/media"
 import "modules/systemcontrols"
 import "modules/notifications"
+import "modules/battery"
 
 ShellRoot {
     Variants {
@@ -32,6 +33,19 @@ ShellRoot {
                 anchors.fill: parent
                 color: "transparent"
 
+                // Far left: Arch Launcher
+                Row {
+                    id: leftControls
+                    anchors.left: parent.left
+                    anchors.leftMargin: 16
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 8
+
+                    ArchLauncher {
+                        panelWindow: bar
+                    }
+                }
+
                 // Center modules
                 Row {
                     id: barRow
@@ -46,7 +60,11 @@ ShellRoot {
 
                     Workspace {}
 
-                    Clock {}
+                    Clock {
+                        id: clockItem
+                        panelWindow: bar
+                        barScreenX: barRow.x + clockItem.x
+                    }
                 }
 
                 // Right-side island + notifications
@@ -60,6 +78,11 @@ ShellRoot {
                     SystemControls {
                         panelWindow: bar
                         barScreenX:  rightControls.x
+                    }
+
+                    Battery {
+                        panelWindow: bar
+                        barScreenX: rightControls.x
                     }
 
                     Notifications {}

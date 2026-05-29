@@ -32,5 +32,12 @@ size = "75% 70%"
 lazy = true
 unfocus = "hide"
 
+[scratchpads.discord]
+command = "discord"
+class = "discord"
+animation = "fromLeft"
+size = "75% 70%"
+lazy = true
+unfocus = "hide"
 
 [menu]

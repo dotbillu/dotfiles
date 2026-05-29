@@ -189,6 +189,7 @@ Row {
 
                     MouseArea {
                         anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
 
                         onClicked: {
                             dotItem.modelData.activate();

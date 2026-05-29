@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io 1.0
 
+
 ShellRoot {
     Process {
         id: proc
