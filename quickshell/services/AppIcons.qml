@@ -51,6 +51,12 @@ QtObject {
         if (!appName)
             return "";
         let key = appName.toLowerCase();
+        
+        if (key.includes("brave")) key = "brave";
+        else if (key.includes("chromium")) key = "chromium";
+        else if (key.includes("chrome")) key = "chrome";
+        else if (key.includes("firefox")) key = "firefox";
+        
         let mapped = iconMap[key] || key;
         return "image://icon/" + mapped;
     }
