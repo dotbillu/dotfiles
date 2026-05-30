@@ -5,6 +5,7 @@ import Quickshell.Io
 
 import "../../theme"
 import "../../widgets"
+import "../../services"
 
 PopupWindow {
     id: popup
@@ -19,9 +20,8 @@ PopupWindow {
 
     function show() {
         visible = true; card.opacity = 0; card.scale = 0.97; entryAnim.start()
-        updateTimer.restart()
     }
-    function hide() { exitAnim.start(); updateTimer.stop() }
+    function hide() { exitAnim.start() }
 
     ParallelAnimation {
         id: entryAnim
@@ -39,83 +39,6 @@ PopupWindow {
 
     HoverHandler { onHoveredChanged: popup.popupHovered = hovered }
 
-    // Properties for UI
-    property real intBright: 1.0
-    property real extBright: 0.5
-    property bool extSupported: true
-
-    property bool sunsetEnabled: false
-    property real sunsetTemp: 4500 // Min 2000, Max 8000
-
-    // Fetch initial brightness values
-    Process {
-        id: fetchProc
-        command: ["bash", "-c", "echo $(brightnessctl -m | awk -F, '{print $4}' | sed 's/%//'); ddcutil --display 1 getvcp 10 --terse 2>/dev/null | awk '{print $4}' || echo 'none'; pgrep hyprsunset > /dev/null && echo 'yes' || echo 'no'"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                let lines = this.text.trim().split("\n")
-                if (lines[0]) popup.intBright = parseInt(lines[0]) / 100.0
-                if (lines[1]) {
-                    let v = lines[1].trim()
-                    if (v === "none" || v === "") {
-                        popup.extSupported = false
-                    } else {
-                        popup.extSupported = true
-                        popup.extBright = parseInt(v) / 100.0
-                    }
-                }
-                if (lines[2]) popup.sunsetEnabled = (lines[2].trim() === "yes")
-            }
-        }
-    }
-
-    Timer {
-        id: updateTimer
-        interval: 10000; repeat: true; running: false
-        onTriggered: if (!fetchProc.running) fetchProc.running = true
-    }
-
-    Component.onCompleted: fetchProc.running = true
-
-    // Executors
-    Process { id: intExec }
-    Process { id: extExec }
-    Process { id: sunsetExec }
-
-    function setIntBright(pct) {
-        popup.intBright = pct
-        let val = Math.round(pct * 100)
-        intExec.command = ["bash", "-c", "brightnessctl s " + val + "%"]
-        if (!intExec.running) intExec.running = true
-    }
-
-    function setExtBright(pct) {
-        popup.extBright = pct
-        let val = Math.round(pct * 100)
-        extExec.command = ["bash", "-c", "ddcutil --display 1 setvcp 10 " + val]
-        if (!extExec.running) extExec.running = true
-    }
-
-    function toggleSunset() {
-        popup.sunsetEnabled = !popup.sunsetEnabled
-        applySunset()
-    }
-
-    function setSunsetTemp(t) {
-        popup.sunsetTemp = t
-        if (popup.sunsetEnabled) applySunset()
-    }
-
-    function applySunset() {
-        if (popup.sunsetEnabled) {
-            let t = Math.round(popup.sunsetTemp)
-            sunsetExec.command = ["bash", "-c", "killall hyprsunset; hyprsunset -t " + t + " &"]
-        } else {
-            sunsetExec.command = ["bash", "-c", "killall hyprsunset"]
-        }
-        if (!sunsetExec.running) sunsetExec.running = true
-    }
-
     Rectangle {
         id: card
         width: parent.width; implicitHeight: col.implicitHeight + 28
@@ -129,7 +52,18 @@ PopupWindow {
             anchors.margins: 14
             spacing: 14
 
-            Text { text: "Display & Color"; color: Theme.colors.textPrimary; font.pixelSize: 13; font.bold: true }
+            RowLayout {
+                Layout.fillWidth: true
+                Text { text: "Display & Color"; color: Theme.colors.textPrimary; font.pixelSize: 13; font.bold: true; Layout.fillWidth: true }
+                
+                // Read from SystemControls parent battery capacity
+                Text { 
+                    text: BatteryMonitor.capacity + "%" 
+                    color: Theme.colors.textMuted
+                    font.pixelSize: 12
+                    font.bold: true
+                }
+            }
 
             Rectangle { Layout.fillWidth: true; height: 1; color: Theme.colors.border }
 
@@ -145,11 +79,11 @@ PopupWindow {
                     Text { text: "󰃠"; font.pixelSize: 16; color: Theme.colors.accent }
                     SliderControl {
                         Layout.fillWidth: true
-                        value: popup.intBright
+                        value: DisplaySettings.intBright
                         accentColor: Theme.colors.accent
-                        onValueSet: (v) => popup.setIntBright(v)
+                        onValueSet: (v) => DisplaySettings.setIntBright(v)
                     }
-                    Text { text: Math.round(popup.intBright * 100) + "%"; color: Theme.colors.textMuted; font.pixelSize: 11; Layout.preferredWidth: 32; horizontalAlignment: Text.AlignRight }
+                    Text { text: Math.round(DisplaySettings.intBright * 100) + "%"; color: Theme.colors.textMuted; font.pixelSize: 11; Layout.preferredWidth: 32; horizontalAlignment: Text.AlignRight }
                 }
             }
 
@@ -157,7 +91,7 @@ PopupWindow {
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 8
-                visible: popup.extSupported
+                visible: DisplaySettings.extSupported
                 Text { text: "External Display"; color: Theme.colors.textMuted; font.pixelSize: 10; font.bold: true }
                 
                 RowLayout {
@@ -166,11 +100,11 @@ PopupWindow {
                     Text { text: "󰍹"; font.pixelSize: 16; color: "#B4BEFE" }
                     SliderControl {
                         Layout.fillWidth: true
-                        value: popup.extBright
+                        value: DisplaySettings.extBright
                         accentColor: "#B4BEFE"
-                        onValueSet: (v) => popup.setExtBright(v)
+                        onValueSet: (v) => DisplaySettings.setExtBright(v)
                     }
-                    Text { text: Math.round(popup.extBright * 100) + "%"; color: Theme.colors.textMuted; font.pixelSize: 11; Layout.preferredWidth: 32; horizontalAlignment: Text.AlignRight }
+                    Text { text: Math.round(DisplaySettings.extBright * 100) + "%"; color: Theme.colors.textMuted; font.pixelSize: 11; Layout.preferredWidth: 32; horizontalAlignment: Text.AlignRight }
                 }
             }
 
@@ -187,21 +121,21 @@ PopupWindow {
                     Item { Layout.fillWidth: true }
                     Rectangle {
                         width: 32; height: 18; radius: 9
-                        color: popup.sunsetEnabled ? Theme.colors.accentStrong : Theme.colors.surface
-                        border.color: popup.sunsetEnabled ? "transparent" : Theme.colors.border; border.width: 1
+                        color: DisplaySettings.sunsetEnabled ? Theme.colors.accentStrong : Theme.colors.surface
+                        border.color: DisplaySettings.sunsetEnabled ? "transparent" : Theme.colors.border; border.width: 1
                         Behavior on color { ColorAnimation { duration: 150 } }
                         
                         Rectangle {
                             width: 14; height: 14; radius: 7
                             anchors.verticalCenter: parent.verticalCenter
-                            x: popup.sunsetEnabled ? parent.width - width - 2 : 2
-                            color: popup.sunsetEnabled ? Theme.colors.surfaceContainer : Theme.colors.textSecondary
+                            x: DisplaySettings.sunsetEnabled ? parent.width - width - 2 : 2
+                            color: DisplaySettings.sunsetEnabled ? Theme.colors.surfaceContainer : Theme.colors.textSecondary
                             Behavior on x { SmoothedAnimation { velocity: 150 } }
                         }
                         
                         MouseArea {
                             anchors.fill: parent; cursorShape: Qt.PointingHandCursor
-                            onClicked: popup.toggleSunset()
+                            onClicked: DisplaySettings.toggleSunset()
                         }
                     }
                 }
@@ -209,21 +143,21 @@ PopupWindow {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    opacity: popup.sunsetEnabled ? 1.0 : 0.4
+                    opacity: DisplaySettings.sunsetEnabled ? 1.0 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
                     Text { text: "󰃠"; font.pixelSize: 16; color: "#F9E2AF" }
                     SliderControl {
                         Layout.fillWidth: true
                         // Map temp 2000-8000 to 0.0-1.0
-                        value: (popup.sunsetTemp - 2000) / 6000
+                        value: (DisplaySettings.sunsetTemp - 2000) / 6000
                         accentColor: "#F9E2AF"
                         onValueSet: (v) => {
                             let temp = 2000 + v * 6000
-                            popup.setSunsetTemp(temp)
+                            DisplaySettings.setSunsetTemp(temp)
                         }
                     }
-                    Text { text: Math.round(popup.sunsetTemp) + "K"; color: Theme.colors.textMuted; font.pixelSize: 11; Layout.preferredWidth: 36; horizontalAlignment: Text.AlignRight }
+                    Text { text: Math.round(DisplaySettings.sunsetTemp) + "K"; color: Theme.colors.textMuted; font.pixelSize: 11; Layout.preferredWidth: 36; horizontalAlignment: Text.AlignRight }
                 }
             }
         }

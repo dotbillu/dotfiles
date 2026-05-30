@@ -6,9 +6,9 @@ import "modules/clock"
 import "modules/media"
 import "modules/systemcontrols"
 import "modules/notifications"
-import "modules/battery"
 import "modules/clipboard"
 import "modules/expose"
+import "modules/battery"
 import "theme"
 
 ShellRoot {
@@ -106,14 +106,17 @@ ShellRoot {
                         barScreenX:  rightControls.x
                     }
 
-                    Battery {
-                        panelWindow: bar
-                        barScreenX: rightControls.x
-                    }
-
                     Notifications {}
                 }
             }
+        }
+    }
+
+    Variants {
+        model: Quickshell.screens
+        BatteryWarning {
+            required property var modelData
+            screen: modelData
         }
     }
 }

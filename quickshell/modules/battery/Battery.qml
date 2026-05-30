@@ -18,17 +18,21 @@ Rectangle {
 
     property int capacity: 100
     property string status: "Full"
+    property bool isPluggedIn: false
     property bool widgetOpen: false
 
     Process {
         id: batProc
-        command: ["bash", "-c", "cat /sys/class/power_supply/BAT0/capacity 2>/dev/null || echo 100; cat /sys/class/power_supply/BAT0/status 2>/dev/null || echo Full"]
+        command: ["bash", "-c", "cat /sys/class/power_supply/BAT0/capacity 2>/dev/null || echo 100; cat /sys/class/power_supply/BAT0/status 2>/dev/null || echo Full; cat /sys/class/power_supply/AC*/online 2>/dev/null | head -n1 || echo 0"]
         stdout: StdioCollector {
             onStreamFinished: {
                 let lines = this.text.trim().split("\n")
                 if (lines.length >= 2) {
                     root.capacity = parseInt(lines[0].trim()) || 0
                     root.status = lines[1].trim()
+                }
+                if (lines.length >= 3) {
+                    root.isPluggedIn = (lines[2].trim() === "1")
                 }
             }
         }
@@ -52,9 +56,9 @@ Rectangle {
 
         Text {
             font.pixelSize: 15
-            color: root.status.toLowerCase().includes("charg") ? Theme.colors.accentStrong : (root.capacity <= 20 ? Theme.colors.error : Theme.colors.textPrimary)
+            color: (root.isPluggedIn || root.status.toLowerCase().includes("charg")) ? Theme.colors.accentStrong : (root.capacity <= 20 ? Theme.colors.error : Theme.colors.textPrimary)
             text: {
-                if (root.status.toLowerCase().includes("charg")) return "󰂄"
+                if (root.isPluggedIn || root.status.toLowerCase().includes("charg")) return "󰂄"
                 if (root.capacity > 90) return "󰁹"
                 if (root.capacity > 80) return "󰂂"
                 if (root.capacity > 70) return "󰂁"
@@ -66,13 +70,6 @@ Rectangle {
                 if (root.capacity > 10) return "󰁻"
                 return "󰂎"
             }
-        }
-
-        Text {
-            text: root.capacity + "%"
-            font.pixelSize: 13
-            font.bold: true
-            color: Theme.colors.textPrimary
         }
     }
 
