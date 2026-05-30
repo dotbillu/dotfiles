@@ -266,7 +266,7 @@ PopupWindow {
     // System utility tools model
     property var quickTools: [
         { icon: "󰈊", color: "#B4BEFE", label: "Picker", action: "hyprpicker | wl-copy --trim-newline" },
-        { icon: "󰗚", color: "#A6E3A1", label: "Record", action: "toggleRecording" }
+        { icon: "󰑊", color: "#A6E3A1", label: "Record", action: "toggleRecording" }
     ]
 
     // Apps & Scratchpads model

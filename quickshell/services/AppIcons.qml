@@ -22,6 +22,7 @@ QtObject {
             "firefox": "firefox",
             "chromium": "chromium",
             "google-chrome": "google-chrome",
+            "chrome": "google-chrome",
 
             "spotify": "spotify",
             "vlc": "vlc",

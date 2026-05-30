@@ -5,69 +5,155 @@ import Quickshell.Services.Mpris
 
 import "../../theme"
 import "../../services"
-import "../../widgets"
 
 Rectangle {
     id: root
+    visible: activePlayer != null
 
     property var panelWindow: null
-    property int barScreenX:  0    // set from shell.qml: bar's x in window coords
+    property int barScreenX:  0
 
-    MouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
-        onClicked: {
-            if (widget.visible) widget.hide()
-            else { widget.show(); closeDelay.stop() }
-        }
-    }
-
-    // widget matches bar width exactly
-    readonly property int barWidth: contentRow.implicitWidth + 28
-
-    implicitWidth:  barWidth
+    implicitWidth:  contentRow.implicitWidth + 32
     implicitHeight: 40
     radius: 20
     color:  Theme.colors.surface
 
-    property int activePlayerIndex: 0
-    property var players: Mpris.players.values
+    property var activePlayer: null
+    property string targetPid: ""
+    property var playingStates: ({})
+    property int validPlayerCount: 0
 
-    property var activePlayer: {
-        if (!players || players.length === 0) return null
-        return players[Math.min(activePlayerIndex, players.length - 1)]
+    function getPid(p) {
+        if (!p) return "";
+        return (p.desktopEntry || "") + "|" + (p.identity || "");
     }
 
-    function prevPlayer() {
-        if (players.length < 2) return
-        activePlayerIndex = (activePlayerIndex - 1 + players.length) % players.length
-    }
-    function nextPlayer() {
-        if (players.length < 2) return
-        activePlayerIndex = (activePlayerIndex + 1) % players.length
+    function getTitle(p) {
+        if (!p) return "";
+        let t = String(p.trackTitle || "").trim();
+        if (t === "null" || t === "undefined" || t === "") {
+            t = String(p.identity || "").trim();
+        }
+        if (t === "null" || t === "undefined" || t === "") {
+            t = "Unknown Media";
+        }
+        return t;
     }
 
-    // ── bar content ───────────────────────────────────────────────────────────
+    function isValidPlayer(p) {
+        if (!p) return false;
+        return root.getTitle(p) !== "Unknown Media";
+    }
+
+    Timer {
+        interval: 250
+        running: true
+        repeat: true
+        onTriggered: {
+            let pVals = Mpris.players.values;
+            let pList = [];
+            if (pVals) {
+                for (let i = 0; i < pVals.length; i++) {
+                    if (root.isValidPlayer(pVals[i])) {
+                        pList.push(pVals[i]);
+                    }
+                }
+            }
+
+            root.validPlayerCount = pList.length;
+
+            if (pList.length === 0) {
+                root.activePlayer = null;
+                return;
+            }
+
+            let justStarted = "";
+            let newStates = {};
+            for (let i = 0; i < pList.length; i++) {
+                let p = pList[i];
+                let pid = root.getPid(p);
+                if (pid === "|") continue;
+
+                let isPlaying = p.isPlaying === true;
+                let wasPlaying = root.playingStates[pid] === true;
+                
+                if (isPlaying && !wasPlaying) {
+                    justStarted = pid;
+                }
+                newStates[pid] = isPlaying;
+            }
+            root.playingStates = newStates;
+
+            if (justStarted !== "") {
+                root.targetPid = justStarted;
+            }
+
+            let found = null;
+            for (let i = 0; i < pList.length; i++) {
+                let p = pList[i];
+                if (root.getPid(p) === root.targetPid) {
+                    found = p;
+                    break;
+                }
+            }
+
+            if (found) {
+                root.activePlayer = found;
+            } else if (pList.length > 0) {
+                root.activePlayer = pList[0];
+                root.targetPid = root.getPid(pList[0]);
+            } else {
+                root.activePlayer = null;
+            }
+        }
+    }
+
+    function changePlayer() {
+        let pVals = Mpris.players.values;
+        let pList = [];
+        if (pVals) {
+            for (let i = 0; i < pVals.length; i++) {
+                if (root.isValidPlayer(pVals[i])) {
+                    pList.push(pVals[i]);
+                }
+            }
+        }
+        
+        if (pList.length < 2) return;
+
+        pList.sort(function(a, b) {
+            return root.getPid(a).localeCompare(root.getPid(b));
+        });
+
+        let currentIdx = 0;
+        for (let i = 0; i < pList.length; i++) {
+            if (root.getPid(pList[i]) === root.targetPid) {
+                currentIdx = i;
+                break;
+            }
+        }
+
+        let nextIdx = (currentIdx + 1) % pList.length;
+        root.targetPid = root.getPid(pList[nextIdx]);
+        root.activePlayer = pList[nextIdx];
+    }
+
     RowLayout {
         id: contentRow
         anchors.centerIn: parent
-        spacing: 8
+        spacing: 16
 
+        RowLayout {
+            spacing: 8
 
+            // Fixed-size container for icons to prevent width shifting
+            Item {
+                Layout.preferredWidth: 14
+                Layout.preferredHeight: 14
 
-        Item {
-            Layout.preferredWidth: 200
-            Layout.preferredHeight: 20
-
-            RowLayout {
-                anchors.centerIn: parent
-                spacing: 8
-
-                // app icon — small, 14×14, right next to text
                 Image {
                     id: barIcon
-                    Layout.preferredWidth:  14
-                    Layout.preferredHeight: 14
+                    anchors.fill: parent
                     source: {
                         let p = root.activePlayer
                         if (!p) return ""
@@ -79,8 +165,8 @@ Rectangle {
                     visible: status === Image.Ready
                 }
 
-                // fallback glyph
                 Text {
+                    anchors.centerIn: parent
                     text: {
                         let p = root.activePlayer; if (!p) return "󰎆"
                         let n = (p.identity || "").toLowerCase()
@@ -101,81 +187,76 @@ Rectangle {
                         NumberAnimation { to: 1.0; duration: 900; easing.type: Easing.InOutSine }
                     }
                 }
+            }
 
-                // title
-                Text {
-                    Layout.maximumWidth:   178
-                    text:                  root.activePlayer?.trackTitle || "No media"
-                    color:                 Theme.colors.textPrimary
-                    font.pixelSize:        13
-                    font.bold:             true
-                    elide:                 Text.ElideRight
-                    maximumLineCount:      1
-                    horizontalAlignment:   Text.AlignLeft
+            Text {
+                Layout.preferredWidth: 70
+                Layout.maximumWidth:   70
+                text:                  root.getTitle(root.activePlayer)
+                color:                 Theme.colors.textPrimary
+                font.pixelSize:        13
+                font.bold:             true
+                elide:                 Text.ElideRight
+                maximumLineCount:      1
+                horizontalAlignment:   Text.AlignLeft
+            }
+        }
+
+        RowLayout {
+            spacing: 10
+
+            Text {
+                text: "󰒯"
+                color: Theme.colors.textMuted
+                font.pixelSize: 15
+                visible: root.validPlayerCount > 1
+                
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -4
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.changePlayer()
                 }
             }
-        }
-
-        // play/pause button
-        Text {
-            text: root.activePlayer?.isPlaying ? "󰏤" : "󰐊"
-            color: Theme.colors.textMuted
-            font.pixelSize: 14
-            visible: root.activePlayer != null
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            Layout.preferredWidth: 24
-            Layout.fillHeight: true
-            MouseArea {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onClicked: root.activePlayer?.togglePlaying()
+            
+            Text {
+                text: "󰒮"
+                color: root.activePlayer?.canGoPrevious ? Theme.colors.textSecondary : Theme.colors.textMuted
+                font.pixelSize: 15
+                
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -4
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.activePlayer?.previous()
+                }
             }
-        }
-    }
-
-    // Removed MouseArea from here
-
-    HoverHandler {
-        id: barHover
-        onHoveredChanged: {
-            if (hovered) closeDelay.stop()
-            else if (widget.visible && !widget.popupHovered) closeDelay.restart()
-        }
-    }
-
-    Timer {
-        id: closeDelay
-        interval: 400
-        onTriggered: {
-            if (!widget.popupHovered && !barHover.hovered) widget.hide()
-        }
-    }
-
-    MediaWidget {
-        id: widget
-
-        anchor.window: root.panelWindow
-
-        // Use barScreenX passed from shell.qml — reliable window-relative x
-        anchor.rect.x: root.barScreenX
-
-        // Widget top flush with bar bottom — grows downward
-        anchor.rect.y: 40
-
-        // match bar width exactly
-        barWidth: root.barWidth
-
-        players:           root.players
-        activePlayerIndex: root.activePlayerIndex
-        activePlayer:      root.activePlayer
-
-        onPrevPlayerRequested: root.prevPlayer()
-        onNextPlayerRequested: root.nextPlayer()
-
-        onPopupHoveredChanged: {
-            if (popupHovered) closeDelay.stop()
-            else if (widget.visible && !barHover.hovered) closeDelay.restart()
+            
+            Text {
+                text: root.activePlayer?.isPlaying ? "󰏤" : "󰐊"
+                color: Theme.colors.textSecondary
+                font.pixelSize: 17
+                
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -4
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.activePlayer?.togglePlaying()
+                }
+            }
+            
+            Text {
+                text: "󰒭"
+                color: root.activePlayer?.canGoNext ? Theme.colors.textSecondary : Theme.colors.textMuted
+                font.pixelSize: 15
+                
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -4
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.activePlayer?.next()
+                }
+            }
         }
     }
 }

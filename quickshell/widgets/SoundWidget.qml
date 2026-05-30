@@ -2,8 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
+import Quickshell.Services.Mpris
 
 import "../theme"
+import "../services"
 
 PopupWindow {
     id: popup
@@ -66,27 +68,48 @@ PopupWindow {
     property bool sourceMuted: sourceAudio ? sourceAudio.muted : false
 
     // All audio sinks (hardware output devices)
-    property var allSinks: {
-        let nodes = Pipewire.nodes.values
-        return nodes.filter(n => n.isSink && n.audio !== null && !n.isStream)
-    }
+    property var allSinks: []
     // All audio sources (hardware input devices)
-    property var allSources: {
-        let nodes = Pipewire.nodes.values
-        return nodes.filter(n => !n.isSink && n.audio !== null && !n.isStream)
-    }
+    property var allSources: []
     // Application output streams
-    property var appStreams: {
-        let nodes = Pipewire.nodes.values
-        return nodes.filter(n => n.isStream && n.isSink && n.audio !== null)
+    property var appStreams: []
+
+    Timer {
+        interval: 250
+        running: true
+        repeat: true
+        onTriggered: {
+            let nodes = Pipewire.nodes.values || [];
+            let sinks = [];
+            let sources = [];
+            let apps = [];
+            
+            for (let i = 0; i < nodes.length; i++) {
+                let n = nodes[i];
+                if (!n || n.audio === null) continue;
+                
+                let nName = (n.nickname || n.description || n.name || "").toLowerCase();
+                if (nName === "speech-dispatcher" || nName === "xdg-desktop-portal") continue;
+                
+                if (n.isStream && n.isSink) {
+                    apps.push(n);
+                } else if (!n.isStream) {
+                    if (n.isSink) sinks.push(n);
+                    else sources.push(n);
+                }
+            }
+            
+            popup.allSinks = sinks;
+            popup.allSources = sources;
+            popup.appStreams = apps;
+        }
     }
 
     // ── card ──────────────────────────────────────────────────────────────────
     Rectangle {
         id: card
         width:          popup.width
-        implicitHeight: mainView.visible ? mainView.implicitHeight + 20
-                                        : appsView.implicitHeight + 20
+        implicitHeight: mainView.implicitHeight + 20
         transformOrigin: Item.Top
         opacity: 0
         radius:  16
@@ -99,7 +122,6 @@ PopupWindow {
         // ── MAIN VIEW ─────────────────────────────────────────────────────────
         ColumnLayout {
             id: mainView
-            visible: popup.view === "main"
             anchors { top: parent.top; left: parent.left; right: parent.right }
             anchors.topMargin: 14; anchors.leftMargin: 14; anchors.rightMargin: 14
             spacing: 10
@@ -108,19 +130,6 @@ PopupWindow {
             RowLayout {
                 Layout.fillWidth: true
                 Text { text: "󰕾  Sound"; color: Theme.colors.textPrimary; font.pixelSize: 13; font.bold: true }
-                Item { Layout.fillWidth: true }
-                // Go to app view
-                Rectangle {
-                    width: 26; height: 26; radius: 13
-                    color: appArrowHover.containsMouse ? Theme.colors.overlayLight : "transparent"
-                    Behavior on color { ColorAnimation { duration: 100 } }
-                    Text { anchors.centerIn: parent; text: "󰒺"; font.pixelSize: 14; color: Theme.colors.textSecondary }
-                    MouseArea {
-                        id: appArrowHover; anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor; hoverEnabled: true
-                        onClicked: popup.view = "apps"
-                    }
-                }
             }
 
             // ── Output slider ──────────────────────────────────────────
@@ -151,10 +160,88 @@ PopupWindow {
             }
 
             // ── Divider ────────────────────────────────────────────────
+            Rectangle { 
+                Layout.fillWidth: true; height: 1; color: Theme.colors.border 
+                visible: popup.appStreams.length > 0
+            }
+
+            // ── App stream list ────────────────────────────────────────
+            Text { 
+                text: "Applications"; color: Theme.colors.textPrimary; font.pixelSize: 10; font.bold: true; topPadding: 2
+                visible: popup.appStreams.length > 0
+            }
+
+            Repeater {
+                model: popup.appStreams
+                delegate: VolumeRow {
+                    required property var modelData
+                    Layout.fillWidth: true
+                    
+                    property string appName: {
+                        if (modelData.client && modelData.client.properties) {
+                            if (modelData.client.properties["application.process.binary"]) return modelData.client.properties["application.process.binary"];
+                            if (modelData.client.properties["application.name"]) return modelData.client.properties["application.name"];
+                        }
+                        if (modelData.properties && modelData.properties["application.name"]) return modelData.properties["application.name"];
+                        let name = modelData.nickname || modelData.description || modelData.name || "";
+                        
+                        // Heuristic fallback: audio-src on Linux is overwhelmingly Spotify's CEF wrapper
+                        if (name.toLowerCase() === "audio-src") {
+                            if (typeof Mpris !== "undefined" && Mpris.players && Mpris.players.values) {
+                                let mprisPlayers = Mpris.players.values;
+                                for (let i = 0; i < mprisPlayers.length; i++) {
+                                    if (mprisPlayers[i] && mprisPlayers[i].identity && mprisPlayers[i].identity.toLowerCase().includes("spotify")) {
+                                        return "spotify";
+                                    }
+                                }
+                            }
+                        }
+                        return name;
+                    }
+                    property string mediaName: modelData.properties ? (modelData.properties["media.name"] || "") : ""
+                    
+                    icon:      "󰓃"
+                    imageIcon: AppIcons.iconSource(appName)
+                    iconColor: Theme.colors.textSecondary
+                    label: {
+                        // 1. Check MPRIS first for rich track titles (e.g. Spotify)
+                        if (typeof Mpris !== "undefined" && Mpris.players && Mpris.players.values) {
+                            let mprisPlayers = Mpris.players.values;
+                            for (let i = 0; i < mprisPlayers.length; i++) {
+                                let mp = mprisPlayers[i];
+                                if (mp && mp.identity && mp.trackTitle) {
+                                    let mIdent = mp.identity.toLowerCase();
+                                    let aIdent = appName.toLowerCase();
+                                    if (mIdent === aIdent || mIdent.includes(aIdent) || aIdent.includes(mIdent)) {
+                                        let t = String(mp.trackTitle).trim();
+                                        if (t !== "" && t !== "null" && t !== "undefined") {
+                                            return t;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // 2. Fallback to Pipewire native properties (e.g. Brave)
+                        let m = mediaName.trim();
+                        let a = appName.trim();
+                        if (m !== "" && m !== a && m !== "AudioStream") {
+                            return m;
+                        }
+                        return a || "Unknown App";
+                    }
+                    volume:    modelData.audio?.volume ?? 0
+                    muted:     modelData.audio?.muted  ?? false
+                    onMuteToggled: if (modelData.audio) modelData.audio.muted = !modelData.audio.muted
+                    onVolumeSet: (v) => { if (modelData.audio) modelData.audio.volume = v }
+                }
+            }
+
+            // ── Divider ────────────────────────────────────────────────
             Rectangle { Layout.fillWidth: true; height: 1; color: Theme.colors.border }
 
             // ── Output device picker ───────────────────────────────────
-            Text { text: "Output Device"; color: Theme.colors.textMuted; font.pixelSize: 10; font.bold: true }
+            Text { text: "Output Device"; color: Theme.colors.textPrimary; font.pixelSize: 10; font.bold: true }
 
             Repeater {
                 model: popup.allSinks
@@ -168,7 +255,7 @@ PopupWindow {
             }
 
             // ── Input device picker ────────────────────────────────────
-            Text { text: "Input Device"; color: Theme.colors.textMuted; font.pixelSize: 10; font.bold: true; topPadding: 2 }
+            Text { text: "Input Device"; color: Theme.colors.textPrimary; font.pixelSize: 10; font.bold: true; topPadding: 2 }
 
             Repeater {
                 model: popup.allSources
@@ -179,63 +266,6 @@ PopupWindow {
                     selected: popup.source?.id === modelData.id
                     onPickDevice: Pipewire.preferredDefaultAudioSource = modelData
                 }
-            }
-
-            Item { height: 2 }
-        }
-
-        // ── APP VIEW ──────────────────────────────────────────────────────────
-        ColumnLayout {
-            id: appsView
-            visible: popup.view === "apps"
-            anchors { top: parent.top; left: parent.left; right: parent.right }
-            anchors.topMargin: 14; anchors.leftMargin: 14; anchors.rightMargin: 14
-            spacing: 10
-
-            // Header with back button
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: 6
-
-                Rectangle {
-                    width: 26; height: 26; radius: 13
-                    color: backHover.containsMouse ? Theme.colors.overlayLight : "transparent"
-                    Behavior on color { ColorAnimation { duration: 100 } }
-                    Text { anchors.centerIn: parent; text: "󰁍"; font.pixelSize: 14; color: Theme.colors.textSecondary }
-                    MouseArea {
-                        id: backHover; anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor; hoverEnabled: true
-                        onClicked: popup.view = "main"
-                    }
-                }
-
-                Text { text: "App Volume"; color: Theme.colors.textPrimary; font.pixelSize: 13; font.bold: true }
-                Item { Layout.fillWidth: true }
-            }
-
-            // ── App stream list ────────────────────────────────────────
-            Repeater {
-                model: popup.appStreams
-                delegate: VolumeRow {
-                    required property var modelData
-                    Layout.fillWidth: true
-                    icon:      "󰓃"
-                    iconColor: Theme.colors.textSecondary
-                    label:     modelData.nickname || modelData.description || modelData.name
-                    volume:    modelData.audio?.volume ?? 0
-                    muted:     modelData.audio?.muted  ?? false
-                    onMuteToggled: if (modelData.audio) modelData.audio.muted = !modelData.audio.muted
-                    onVolumeSet: (v) => { if (modelData.audio) modelData.audio.volume = v }
-                }
-            }
-
-            Text {
-                Layout.fillWidth: true
-                text: "No apps playing audio"
-                color: Theme.colors.textMuted; font.pixelSize: 12
-                horizontalAlignment: Text.AlignHCenter
-                visible: popup.appStreams.length === 0
-                topPadding: 4; bottomPadding: 4
             }
 
             Item { height: 2 }
@@ -251,6 +281,7 @@ PopupWindow {
         property real   volume:      0
         property bool   muted:       false
         property color  accentColor: Theme.colors.accent
+        property string imageIcon:   ""
 
         signal muteToggled()
         signal volumeSet(real v)
@@ -265,7 +296,24 @@ PopupWindow {
                 width: 28; height: 28; radius: 14
                 color: iconBtn.containsMouse ? Theme.colors.overlayLight : "transparent"
                 Behavior on color { ColorAnimation { duration: 100 } }
-                Text { anchors.centerIn: parent; text: vrow.icon; font.pixelSize: 14; color: vrow.iconColor }
+                
+                Image {
+                    id: imgIcon
+                    anchors.centerIn: parent
+                    width: 14; height: 14
+                    source: vrow.imageIcon
+                    visible: status === Image.Ready && vrow.imageIcon !== ""
+                    smooth: true; mipmap: true
+                }
+                
+                Text {
+                    anchors.centerIn: parent
+                    text: vrow.icon
+                    font.pixelSize: 14
+                    color: vrow.iconColor
+                    visible: imgIcon.status !== Image.Ready || vrow.imageIcon === ""
+                }
+                
                 MouseArea {
                     id: iconBtn; anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor; hoverEnabled: true
