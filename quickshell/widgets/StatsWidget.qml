@@ -269,13 +269,6 @@ PopupWindow {
         { icon: "󰑊", color: "#A6E3A1", label: "Record", action: "toggleRecording" }
     ]
 
-    // Apps & Scratchpads model
-    property var appsList: [
-        { icon: "󰓇", label: "Spotify", accentColor: "#1DB954", action: "pypr toggle spotify" },
-        { icon: "󰖟", label: "Zen", accentColor: "#33CCFF", action: "pypr toggle zen" },
-        { icon: "󰙯", label: "Discord", accentColor: "#5865F2", action: "pypr toggle discord" },
-        { icon: "󰑋", label: "OBS Studio", accentColor: "#F38BA8", action: "obs &" }
-    ]
 
     Rectangle {
         id: card
@@ -485,35 +478,6 @@ PopupWindow {
                 }
             }
 
-            // ── APPS & SCRATCHPADS SECTION ──────────────────────────────────
-            ColumnLayout {
-                spacing: 12
-                Layout.fillWidth: true
-
-                Text {
-                    text: "APPS & SCRATCHPADS"
-                    color: Theme.colors.textMuted
-                    font.pixelSize: 10; font.bold: true
-                }
-
-                GridLayout {
-                    columns: 2
-                    rowSpacing: 10
-                    columnSpacing: 10
-                    Layout.fillWidth: true
-
-                    Repeater {
-                        model: popup.appsList
-                        delegate: AppShortcutBtn {
-                            Layout.fillWidth: true
-                            icon: modelData.icon
-                            label: modelData.label
-                            accentColor: modelData.accentColor
-                            action: modelData.action
-                        }
-                    }
-                }
-            }
 
             // ── LARGE MODERN PROGRESS STATS ────────────────────────────
             ColumnLayout {

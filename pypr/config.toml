@@ -40,4 +40,12 @@ size = "75% 70%"
 lazy = true
 unfocus = "hide"
 
+[scratchpads.obs]
+command = "obs"
+class = "com.obsproject.Studio"
+animation = "fromLeft"
+size = "75% 70%"
+lazy = true
+unfocus = "hide"
+
 [menu]

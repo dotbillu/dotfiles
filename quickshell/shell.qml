@@ -9,6 +9,7 @@ import "modules/notifications"
 import "modules/clipboard"
 import "modules/expose"
 import "modules/battery"
+import "modules/scratchpad"
 import "theme"
 
 ShellRoot {
@@ -64,10 +65,20 @@ ShellRoot {
                                 barScreenX: leftControls.x + 48 // Approximate absolute offset
                             }
 
+                            Item { width: 6 }
+                            Rectangle { width: 1; height: 14; color: Theme.colors.border; anchors.verticalCenter: parent.verticalCenter }
+                            Item { width: 6 }
+
                             ExposeModule {
                                 panelWindow: bar
                                 barScreenX: leftControls.x + 88 // Approximate absolute offset
                             }
+
+                            Item { width: 6 }
+                            Rectangle { width: 1; height: 14; color: Theme.colors.border; anchors.verticalCenter: parent.verticalCenter }
+                            Item { width: 6 }
+
+                            ScratchpadModule {}
                         }
                     }
                 }

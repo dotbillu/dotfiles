@@ -21,3 +21,5 @@ alias cdt=go_to_dotfiles_of
 
 # Clean, safe reload that lets the background engine handle binaries
 alias zreload="find ~ -maxdepth 1 -name '*.zwc' -delete && find ~/.config/zshrc/ -name '*.zwc' -delete && exec zsh"
+
+alias gdel='gf --prune ;g branch -vv G ': gone]' | awk '{print $1}' | xargs -r git branch -D'

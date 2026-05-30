@@ -29,6 +29,8 @@ QtObject {
             "mpv": "mpv",
             "rhythmbox": "rhythmbox",
             "elisa": "elisa",
+            "obs": "com.obsproject.Studio",
+            "obs-studio": "com.obsproject.Studio",
 
             "mongodb compass": "mongodb-compass",
             "mongodb-compass": "mongodb-compass",
