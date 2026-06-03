@@ -19,7 +19,7 @@ QtObject {
             "brave": "brave-desktop",
             "zen": "zen-browser",
             "zen-browser": "zen-browser",
-            "firefox": "firefox",
+            "firefox": "firefox-developer-edition",
             "chromium": "chromium",
             "google-chrome": "google-chrome",
             "chrome": "google-chrome",

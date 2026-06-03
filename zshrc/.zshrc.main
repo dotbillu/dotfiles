@@ -5,7 +5,7 @@ source ~/.config/zshrc/alias/.zshrc.common
 source ~/.config/zshrc/alias/services/.zshrc.cloudfare
 source ~/.config/zshrc/alias/services/.zshrc.configs
 source ~/.config/zshrc/lazy/.zshrc
-
+source ~/.config/zshrc/alias/.zshrc.apps
 # --- 2. Environment Variables & Global Settings ---
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=nvim
@@ -37,6 +37,7 @@ check_zcompile "$HOME/.config/zshrc/alias/.zshrc.common"
 check_zcompile "$HOME/.config/zshrc/alias/services/.zshrc.cloudfare"
 check_zcompile "$HOME/.config/zshrc/alias/services/.zshrc.configs"
 check_zcompile "$HOME/.config/zshrc/lazy/.zshrc"
+check_zcompile "$HOME/.config/zshrc/alias/.zshrc.apps"
 
 # Compile shell completions cache
 [[ -f "$HOME/.zcompdump" ]] && check_zcompile "$HOME/.zcompdump"

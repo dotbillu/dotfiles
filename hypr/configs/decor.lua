@@ -46,3 +46,10 @@ hl.config({
 		enabled = true,
 	},
 })
+
+hl.window_rule({
+	match = {
+		class = "^zen$",
+	},
+	float = true,
+})

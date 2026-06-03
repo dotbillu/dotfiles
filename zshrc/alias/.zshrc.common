@@ -16,6 +16,7 @@ updateall() {
 
   sudo pacman -Syu --noconfirm &&
   paru -Syu --noconfirm &&
+  hyprpm update &&
   notify-send "System Updated" ||
   notify-send "Update Failed"
 }

@@ -14,18 +14,20 @@ Row {
     }
 
     Rectangle {
-        width: innerRow.width > 10 ? innerRow.width + 12 : 40
-        height: 40
+        anchors.verticalCenter: parent.verticalCenter
+        width: innerRow.width > 10 ? innerRow.width + 10 : 35
+        height: 32
 
-        radius: 20
+        radius: 18
 
         color: Theme.colors.surface
-        // border.color: Theme.colors.border
+        border.color: Theme.colors.border
+        border.width: 1
 
         Row {
             id: innerRow
 
-            spacing: 10
+            spacing: 8
             anchors.centerIn: parent
 
             Repeater {
@@ -42,7 +44,7 @@ Row {
                     width: oneWorkSpaceRec.width
                     height: oneWorkSpaceRec.height
 
-                    radius: 20
+                    radius: 18
 
                     color: isActive ? Theme.colors.accentStrong : Theme.colors.accentMuted
 
@@ -55,8 +57,8 @@ Row {
 
                         color: Theme.colors.transparent
 
-                        width: appRow.width + 10
-                        height: appRow.height < 1 ? 0 : appRow.height + 10
+                        width: appRow.width + 8
+                        height: appRow.height < 1 ? 0 : appRow.height + 8
 
                         radius: 30
 
@@ -101,8 +103,8 @@ Row {
 
                                         visible: !isFloating && tilingIndex < 3
 
-                                        width: visible ? 20 : 0
-                                        height: visible ? 20 : 0
+                                        width: visible ? 16 : 0
+                                        height: visible ? 16 : 0
 
                                         Rectangle {
                                             id: imageMask
@@ -117,14 +119,15 @@ Row {
 
                                             source: {
                                                 let app = ipc?.class?.toLowerCase();
-                                                if (!app) return "";
+                                                if (!app)
+                                                    return "";
                                                 return AppIcons.iconSource(app);
                                             }
 
                                             anchors.fill: parent
 
-                                            sourceSize.width: 20
-                                            sourceSize.height: 20
+                                            sourceSize.width: 16
+                                            sourceSize.height: 16
 
                                             fillMode: Image.PreserveAspectFit
 
@@ -163,10 +166,10 @@ Row {
 
                                     visible: extraCount > 0
 
-                                    width: visible ? 24 : 0
-                                    height: visible ? 20 : 0
+                                    width: visible ? 20 : 0
+                                    height: visible ? 16 : 0
 
-                                    radius: 10
+                                    radius: 8
 
                                     color: Theme.colors.surfaceAlt
 
@@ -177,7 +180,7 @@ Row {
 
                                         color: Theme.colors.textPrimary
 
-                                        font.pixelSize: 12
+                                        font.pixelSize: 10
                                         font.bold: true
 
                                         visible: overflowBadge.visible
