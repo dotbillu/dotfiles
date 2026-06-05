@@ -81,7 +81,7 @@ Rectangle {
 
     Timer {
         id: closeDelay
-        interval: 400
+        interval: 100
         onTriggered: {
             if (!rootHover.hovered && !calendarWidget.popupHovered) {
                 root.widgetOpen = false

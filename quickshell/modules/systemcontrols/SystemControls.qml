@@ -325,7 +325,7 @@ Rectangle {
 
     Timer {
         id: closeDelay
-        interval: 400
+        interval: 100
         onTriggered: {
             if (!islandHover.hovered && !root.anyWidgetHovered()) {
                 root.openWidget = "";

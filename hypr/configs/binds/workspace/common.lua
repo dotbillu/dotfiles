@@ -1,0 +1,11 @@
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("prime-run kitty"))
+hl.bind(mainMod .. " + C", hl.dsp.window.close())
+hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+hl.bind("F11", hl.dsp.window.fullscreen())
+
+hl.bind(mainMod .. " + a", hl.dsp.focus({ direction = "l" }))
+hl.bind(mainMod .. " + d", hl.dsp.focus({ direction = "r" }))
+hl.bind(mainMod .. " + w", hl.dsp.focus({ direction = "u" }))
+hl.bind(mainMod .. " + s", hl.dsp.focus({ direction = "d" }))

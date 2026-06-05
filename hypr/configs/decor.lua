@@ -3,9 +3,9 @@ require("configs.animations.default")
 
 hl.config({
 	general = {
-		gaps_in = 3,
-		gaps_out = 8,
-		border_size = 2,
+		gaps_in = 2,
+		gaps_out = 3,
+		border_size = 1,
 		float_gaps = 4,
 
 		col = {

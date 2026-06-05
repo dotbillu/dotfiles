@@ -32,6 +32,12 @@ ShellRoot {
             exclusionMode: ExclusionMode.Ignore
 
             property bool barVisible: false
+            property bool anyWidgetOpen: systemControls.openWidget !== "" || clockModule.widgetOpen || clipboardModule.widgetOpen || archLauncher.statsOpen
+            onAnyWidgetOpenChanged: {
+                if (!anyWidgetOpen && !barHover.hovered) {
+                    barHideDelay.restart();
+                }
+            }
 
             implicitHeight: barVisible ? 38 : 1
 
@@ -51,9 +57,9 @@ ShellRoot {
 
             Timer {
                 id: barHideDelay
-                interval: 400
+                interval: 100
                 onTriggered: {
-                    if (!barHover.hovered)
+                    if (!barHover.hovered && !bar.anyWidgetOpen)
                         bar.barVisible = false;
                 }
             }
@@ -75,6 +81,7 @@ ShellRoot {
                     spacing: 8
 
                     ArchLauncher {
+                        id: archLauncher
                         panelWindow: bar
                     }
 
@@ -91,6 +98,7 @@ ShellRoot {
                             spacing: 0
 
                             ClipboardModule {
+                                id: clipboardModule
                                 panelWindow: bar
                                 barScreenX: leftControls.x + 48 // Approximate absolute offset
                             }
@@ -150,10 +158,10 @@ ShellRoot {
                     }
 
                     Clock {
-                        id: clockItem
+                        id: clockModule
                         anchors.verticalCenter: parent.verticalCenter
                         panelWindow: bar
-                        barScreenX: barRow.x + clockItem.x
+                        barScreenX: barRow.x + clockModule.x
                     }
                 }
 
@@ -166,6 +174,7 @@ ShellRoot {
                     spacing: 8
 
                     SystemControls {
+                        id: systemControls
                         panelWindow: bar
                         barScreenX: rightControls.x
                     }

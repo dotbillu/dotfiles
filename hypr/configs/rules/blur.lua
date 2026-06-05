@@ -18,7 +18,16 @@ disable_blur({
 	"Spotify",
   "kitty",
   "Xdg-desktop-portal-gtk",
+  ""
 })
 
+local function disable_blur(classes)
+	for _, class in ipairs(classes) do
+		hl.window_rule({
+			match = { class = class },
+			active_opacity=1
+		})
+	end
+end
 
 

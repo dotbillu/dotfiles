@@ -46,9 +46,9 @@ Row {
 
                     radius: 18
 
-                    color: isActive ? Theme.colors.accentStrong : Theme.colors.accentMuted
+                    color: isActive ? Theme.colors.accentStrong : "transparent"
 
-                    border.color: isActive ? Theme.colors.borderActive : Theme.colors.transparent
+                    border.color: isActive ? Theme.colors.borderActive : "transparent" 
 
                     Rectangle {
                         id: oneWorkSpaceRec

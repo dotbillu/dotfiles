@@ -1,4 +1,3 @@
-require("configs.rules.blur")
 
 hl.window_rule({
 	match = { class = "org.gnome.eog" },

@@ -23,7 +23,6 @@ hl.bind(mainMod .. " + 7", hl.dsp.focus({ workspace = 7 }))
 hl.bind(mainMod .. " + 8", hl.dsp.focus({ workspace = 8 }))
 hl.bind(mainMod .. " + 9", hl.dsp.focus({ workspace = 9 }))
 hl.bind(mainMod .. " + 0", hl.dsp.focus({ workspace = 10 }))
-hl.bind(mainMod .. " + w", hl.dsp.focus({ workspace = 20 }))
 
 -- Move Active Window to Workspace
 hl.bind(mainMod .. " + SHIFT + 1", hl.dsp.window.move({ workspace = 1, follow = true }))
@@ -36,4 +35,3 @@ hl.bind(mainMod .. " + SHIFT + 7", hl.dsp.window.move({ workspace = 7, follow = 
 hl.bind(mainMod .. " + SHIFT + 8", hl.dsp.window.move({ workspace = 8, follow = true }))
 hl.bind(mainMod .. " + SHIFT + 9", hl.dsp.window.move({ workspace = 9, follow = true }))
 hl.bind(mainMod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = 10, follow = true }))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.window.move({ workspace = 20, follow = true }))
