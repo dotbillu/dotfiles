@@ -1,5 +1,5 @@
 --main
-require("configs.constants")
+require("constants")
 require("configs.binds.main")
 require("configs.env(s)")
 require("configs.autostarts")
