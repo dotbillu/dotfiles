@@ -43,12 +43,31 @@ ShellRoot {
 
             color: "transparent"
 
+            // Invisible trigger zone – top-right corner only
+            Item {
+                id: triggerZone
+                anchors.top: parent.top
+                anchors.left: parent.left
+                width: 200
+                height: Math.max(parent.height, 1)  // 1px when bar hidden, full bar when visible
+
+                HoverHandler {
+                    id: triggerHover
+                    onHoveredChanged: {
+                        if (hovered) {
+                            barHideDelay.stop();
+                            bar.barVisible = true;
+                        }
+                    }
+                }
+            }
+
+            // Full-bar hover handler – keeps bar open while cursor is anywhere inside
             HoverHandler {
                 id: barHover
                 onHoveredChanged: {
                     if (hovered) {
                         barHideDelay.stop();
-                        bar.barVisible = true;
                     } else {
                         barHideDelay.restart();
                     }
@@ -59,7 +78,7 @@ ShellRoot {
                 id: barHideDelay
                 interval: 100
                 onTriggered: {
-                    if (!barHover.hovered && !bar.anyWidgetOpen)
+                    if (!barHover.hovered && !triggerHover.hovered && !bar.anyWidgetOpen)
                         bar.barVisible = false;
                 }
             }
@@ -121,20 +140,11 @@ ShellRoot {
                                 barScreenX: leftControls.x + 88 // Approximate absolute offset
                             }
 
-                            Item {
-                                width: 6
-                            }
-                            Rectangle {
-                                width: 1
-                                height: 14
-                                color: Theme.colors.border
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            Item {
-                                width: 6
-                            }
 
-                            ScratchpadModule {}
+                            ScratchpadModule {
+                                panelWindow: bar
+                                visible: false
+                            }
                         }
                     }
                 }

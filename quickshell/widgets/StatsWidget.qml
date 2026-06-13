@@ -233,24 +233,61 @@ PopupWindow {
     }
 
     // Screen Recording Activation Function
+    // Records screen + mic audio + desktop audio (Google Meet, browser, etc)
     function startRecording(monitorName) {
-        let filename = "$HOME/recording_" + Math.floor(Date.now() / 1000) + ".mp4"
-        recordStartProc.command = ["bash", "-c", "notify-send -a \"System Control\" \"Recording Started\" \"Capturing display " + monitorName + "...\" -i video-single-exporter && wf-recorder -o " + monitorName + " -f " + filename]
+        let now = new Date()
+        let ts = now.getFullYear() + "-"
+            + String(now.getMonth() + 1).padStart(2, '0') + "-"
+            + String(now.getDate()).padStart(2, '0') + "_"
+            + String(now.getHours()).padStart(2, '0') + "-"
+            + String(now.getMinutes()).padStart(2, '0') + "-"
+            + String(now.getSeconds()).padStart(2, '0')
+        let filename = "$HOME/Videos/Screencasts/recording_" + ts + ".mp4"
+
+        // Create a combined virtual sink that mixes mic + desktop audio,
+        // then record from its monitor source so wf-recorder gets everything.
+        let setupAudio = [
+            // Create virtual combined sink
+            'pactl load-module module-null-sink sink_name=recording_combined sink_properties=device.description=RecordingCombined',
+            // Loopback desktop audio (default sink monitor) into the combined sink
+            'pactl load-module module-loopback source=$(pactl get-default-sink).monitor sink=recording_combined latency_msec=30',
+            // Loopback mic input into the combined sink
+            'pactl load-module module-loopback source=$(pactl get-default-source) sink=recording_combined latency_msec=30',
+            // Small delay to let PipeWire settle
+            'sleep 0.3'
+        ].join(' && ')
+
+        let recCmd = 'wf-recorder -o ' + monitorName + ' -a=recording_combined.monitor -f ' + filename
+
+        let fullCmd = setupAudio + ' && notify-send -a "System Control" "Recording Started" "Capturing ' + monitorName + ' with mic + desktop audio..." -i video-single-exporter && ' + recCmd
+
+        recordStartProc.command = ["bash", "-c", fullCmd]
         recordStartProc.startDetached() // Keep it alive in the background detached!
-        
+
         popup.isRecording = true
         popup.showMonitorMenu = false
-        
+
         // Immediate status recheck in 200ms
         statusCheckDelay.restart()
     }
 
     function stopRecording() {
-        recordStopProc.command = ["bash", "-c", "killall -INT wf-recorder && notify-send -a \"System Control\" \"Recording Saved\" \"Screen capture has been stored in your home directory.\" -i video-x-generic"]
+        // Stop wf-recorder gracefully, then tear down the virtual audio modules
+        let stopCmd = [
+            'killall -INT wf-recorder',
+            'sleep 0.5',
+            // Unload all loopback modules feeding into our combined sink
+            'for m in $(pactl list short modules | grep module-loopback | grep recording_combined | awk \'{print $1}\'); do pactl unload-module $m 2>/dev/null; done',
+            // Unload the combined null sink itself
+            'for m in $(pactl list short modules | grep module-null-sink | grep recording_combined | awk \'{print $1}\'); do pactl unload-module $m 2>/dev/null; done',
+            'notify-send -a "System Control" "Recording Saved" "Saved to ~/Videos/Screencasts/" -i video-x-generic'
+        ].join(' && ')
+
+        recordStopProc.command = ["bash", "-c", stopCmd]
         recordStopProc.running = true
-        
+
         popup.isRecording = false
-        
+
         // Immediate status recheck in 300ms
         statusCheckDelay.restart()
     }

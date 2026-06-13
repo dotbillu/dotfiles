@@ -22,6 +22,7 @@ hl.config({
 		new_status = "master",
 	},
 	misc = {
+		animate_manual_resizes = true,
 		force_default_wallpaper = 0,
 		disable_hyprland_logo = false,
 		-- focus_on_activate = false,

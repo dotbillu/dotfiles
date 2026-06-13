@@ -40,11 +40,11 @@ return {
           },
           glyphs = {
             git = {
-              unstaged = "",
-              staged = "",
+              unstaged = "",
+              staged = "",
               unmerged = "",
               renamed = "➜",
-              untracked = "",
+              untracked = "",
               deleted = "",
               ignored = "◌",
             },

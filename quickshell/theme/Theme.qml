@@ -3,5 +3,5 @@ import QtQuick
 import "./palettes"
 
 QtObject {
-    readonly property var colors: Midnight
+    readonly property var colors: Night
 }

@@ -1,6 +1,4 @@
-hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + M", hl.dsp.window.move({ workspace = "special:magic" }))
-hl.bind(mainMod .. " + SHIFT + M", hl.dsp.window.move({ workspace = "e-0" }))
+-- Super+S and Super+M (magic workspace) removed — handled by scratchpad picker now
 
 -- Mouse Scroll Wheel Workspace Toggling
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))

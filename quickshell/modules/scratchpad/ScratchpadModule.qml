@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 
 import "../../theme"
@@ -10,30 +11,9 @@ Row {
     id: root
     spacing: 0
 
-    property var scratchpads: []
+    readonly property var scratchpads: ["term", "zen", "spotify"]
 
-    Process {
-        id: loadScratchpads
-        running: true
-        command: ["bash", "-c", "for f in ~/.config/pypr/config.toml ~/.config/hypr/pyprland.toml ~/.pyprland.toml ~/.config/pypr/pyprland.json; do if [ -f \"$f\" ]; then grep '^\\[scratchpads\\.' \"$f\"; exit 0; fi; done"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                let lines = this.text.trim().split("\n");
-                let list = [];
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i].trim();
-                    // line should look like: [scratchpads.term]
-                    if (line.startsWith("[scratchpads.")) {
-                        let name = line.substring(13, line.indexOf("]"));
-                        if (name) {
-                            list.push(name);
-                        }
-                    }
-                }
-                root.scratchpads = list;
-            }
-        }
-    }
+    property var panelWindow: null
 
     function getAppClass(name) {
         let n = name.toLowerCase();
@@ -42,6 +22,21 @@ Row {
         return n;
     }
 
+    // ── Global shortcut: Super+L toggles scratchpad picker ──
+    GlobalShortcut {
+        name: "scratchpadPicker"
+        description: "Toggle scratchpad picker overlay"
+        onPressed: scratchpadPopup.toggleWith("toggle")
+    }
+
+    // ── Global shortcut: Super+Shift+M toggles move-to picker ──
+    GlobalShortcut {
+        name: "scratchpadMover"
+        description: "Toggle move-to-scratchpad picker overlay"
+        onPressed: scratchpadPopup.toggleWith("move")
+    }
+
+    // ── Bar icons ──
     Repeater {
         model: root.scratchpads
         delegate: Rectangle {
@@ -74,16 +69,24 @@ Row {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    toggleProcess.scratchpadName = modelData;
-                    toggleProcess.running = true;
+                    barToggleProcess.scratchpadName = modelData;
+                    barToggleProcess.running = true;
                 }
             }
         }
     }
 
     Process {
-        id: toggleProcess
+        id: barToggleProcess
         property string scratchpadName: ""
-        command: ["pypr", "toggle", scratchpadName]
+        command: ["bash", "-c", "hyprctl eval 'hl.dispatch(hl.dsp.workspace.toggle_special(\"" + scratchpadName + "\"))'"]
+    }
+
+    // ── Popup ──
+    ScratchpadPopup {
+        id: scratchpadPopup
+        anchor.window: root.panelWindow
+        anchor.rect.x: root.panelWindow ? (root.panelWindow.width / 2 - scratchpadPopup.width / 2) : 0
+        anchor.rect.y: 44
     }
 }

@@ -5,5 +5,5 @@ hl.define_submap("enter_screenShot_mode", "reset", function()
 	hl.bind("2", hl.dsp.exec_cmd("hyprshot -m output -m eDP-1 -c -o" .. HYPRSHOT_DIR))
 
 	hl.bind("3", hl.dsp.exec_cmd("hyprshot -zm window -c -o " .. HYPRSHOT_DIR))
-	hl.bind("4", hl.dsp.exec_cmd("hyprshot -zm region -c -o " .. HYPRSHOT_DIR))
+	hl.bind("4", hl.dsp.exec_cmd("hyprshot -m region -c -o " .. HYPRSHOT_DIR))
 end)

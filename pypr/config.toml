@@ -17,15 +17,8 @@ max_size = "1920px 100%"
 margin = 50
 
 
-[scratchpads.zen]
-command = "zen-browser"
-class = "zen"
-animation = "fromBottom"
-size = "75% 70%"
-lazy = true
-
 [scratchpads.spotify]
-command = "spotify"
+command = "spotify --disable-gpu"
 class = "Spotify"
 animation = "fromRight"
 size = "75% 70%"
@@ -48,4 +41,3 @@ size = "75% 70%"
 lazy = true
 unfocus = "hide"
 
-[menu]
