@@ -19,4 +19,4 @@ node() { load_nvm; node "$@"; }
 npm()  { load_nvm; npm "$@"; }
 npx()  { load_nvm; npx "$@"; }
 # . "/home/abhay/.deno/env"
-
+eval $(thefuck --alias)

@@ -11,39 +11,29 @@ import "../../services"
 PopupWindow {
     id: popup
 
-    // ── Manually defined scratchpads ──
+    // 10 special workspaces
     readonly property var scratchpads: [
-        { name: "term" },
-        { name: "zen" },
-        { name: "spotify" }
+        { name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" },
+        { name: "6" }, { name: "7" }, { name: "8" }, { name: "9" }, { name: "10" }
     ]
 
     property bool popupHovered: false
-    property string mode: "toggle"  // "toggle" or "move"
+    property string mode: "toggle"
 
-    // ── Client data polled from hyprctl ──
     property var clientMap: ({})
 
-    readonly property int cols: scratchpads.length
-    readonly property int cellSize: 88
-    readonly property int cellGap: 8
-    readonly property int pad: 16
+    readonly property int cols: 10
+    readonly property int cellSize: 72
+    readonly property int cellGap: 6
+    readonly property int pad: 14
     readonly property int popupWidth: cols * cellSize + (cols - 1) * cellGap + pad * 2
-    readonly property int popupHeight: cellSize + pad * 2 + 28
+    readonly property int gridRows: Math.ceil(scratchpads.length / cols)
+    readonly property int popupHeight: gridRows * cellSize + (gridRows - 1) * cellGap + pad * 2 + 24
 
     width: popupWidth
     height: popupHeight
     visible: false
     color: "transparent"
-
-    function toggleWith(m) {
-        if (visible && mode === m) {
-            hide();
-        } else {
-            mode = m;
-            show();
-        }
-    }
 
     function show() {
         visible = true;
@@ -74,7 +64,6 @@ PopupWindow {
 
     HoverHandler { onHoveredChanged: popup.popupHovered = hovered }
 
-    // ── Fetch clients in special workspaces ──
     Process {
         id: refreshClients
         command: ["bash", "-c", "hyprctl clients -j | jq -r '.[] | select(.workspace.name | startswith(\"special:\")) | \"\\(.workspace.name | sub(\"special:\";\"\"))\\t\\(.class)\"'"]
@@ -100,47 +89,26 @@ PopupWindow {
         }
     }
 
-    // ── Toggle process ──
-    Process {
-        id: toggleProcess
-        property string scratchpadName: ""
-        command: ["bash", "-c", "hyprctl eval 'hl.dispatch(hl.dsp.workspace.toggle_special(\"" + scratchpadName + "\"))'"]
-    }
-
-    // ── Move process ──
-    Process {
-        id: moveProcess
-        property string scratchpadName: ""
-        command: ["bash", "-c", "hyprctl eval 'hl.dispatch(hl.dsp.window.move({ workspace = \"special:" + scratchpadName + "\" }))'"]
-    }
-
-    // ── Card ──
     Rectangle {
         id: card
         width: parent.width
         height: parent.height
         radius: 14
-        color: Theme.colors.surface
+        color: "transparent"
         transformOrigin: Item.Center
 
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: popup.pad
-            spacing: 10
+            spacing: 8
 
-            // ── Header ──
-            Text {
-                text: popup.mode === "move" ? "MOVE TO" : "SCRATCHPADS"
-                color: Theme.colors.textMuted
-                font.pixelSize: 9
-                font.bold: true
-                font.letterSpacing: 1.5
-            }
 
-            // ── Row of scratchpad cells ──
-            Row {
+            GridLayout {
                 Layout.fillWidth: true
-                spacing: popup.cellGap
+                Layout.fillHeight: true
+                columns: popup.cols
+                columnSpacing: popup.cellGap
+                rowSpacing: popup.cellGap
 
                 Repeater {
                     model: popup.scratchpads
@@ -153,28 +121,23 @@ PopupWindow {
                         property var apps: popup.clientMap[modelData.name] || []
                         property bool hasApps: apps.length > 0
 
-                        width: popup.cellSize
-                        height: popup.cellSize
+                        Layout.preferredWidth: popup.cellSize
+                        Layout.preferredHeight: popup.cellSize
                         radius: 10
-                        color: cellMouse.containsMouse ? Theme.colors.glassMedium : Theme.colors.surfaceAlt
-
-                        Behavior on color { ColorAnimation { duration: 120 } }
+                        color: Theme.colors.surfaceAlt
 
                         ColumnLayout {
                             anchors.centerIn: parent
-                            spacing: 8
+                            spacing: 6
 
-                            // Number
                             Text {
-                                text: (cell.index + 1).toString()
-                                font.pixelSize: 20
+                                text: modelData.name === "10" ? "0" : modelData.name
+                                font.pixelSize: 18
                                 font.bold: true
-                                color: cellMouse.containsMouse ? Theme.colors.accent : Theme.colors.textSecondary
+                                color: cell.hasApps ? Theme.colors.textPrimary : Theme.colors.textMuted
                                 Layout.alignment: Qt.AlignHCenter
-                                Behavior on color { ColorAnimation { duration: 120 } }
                             }
 
-                            // ── Active app icons ──
                             Row {
                                 Layout.alignment: Qt.AlignHCenter
                                 spacing: 3
@@ -185,8 +148,8 @@ PopupWindow {
 
                                     Item {
                                         required property string modelData
-                                        width: 20
-                                        height: 20
+                                        width: 18
+                                        height: 18
 
                                         Rectangle {
                                             id: iconMask
@@ -199,8 +162,8 @@ PopupWindow {
                                             id: appIcon
                                             anchors.fill: parent
                                             source: AppIcons.iconSource(modelData)
-                                            sourceSize.width: 20
-                                            sourceSize.height: 20
+                                            sourceSize.width: 18
+                                            sourceSize.height: 18
                                             fillMode: Image.PreserveAspectFit
                                             mipmap: true
                                             smooth: true
@@ -216,7 +179,6 @@ PopupWindow {
                                 }
                             }
 
-                            // Empty state
                             Rectangle {
                                 Layout.alignment: Qt.AlignHCenter
                                 width: 5
@@ -224,23 +186,6 @@ PopupWindow {
                                 radius: 3
                                 color: Theme.colors.gray400
                                 visible: !cell.hasApps
-                            }
-                        }
-
-                        MouseArea {
-                            id: cellMouse
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            hoverEnabled: true
-                            onClicked: {
-                                if (popup.mode === "move") {
-                                    moveProcess.scratchpadName = modelData.name;
-                                    moveProcess.running = true;
-                                } else {
-                                    toggleProcess.scratchpadName = modelData.name;
-                                    toggleProcess.running = true;
-                                }
-                                popup.hide();
                             }
                         }
                     }

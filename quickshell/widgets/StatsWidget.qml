@@ -25,14 +25,10 @@ PopupWindow {
         card.scale = 0.98
         entryAnim.start()
         updateStatsTimer.restart()
-        recordingCheckTimer.start()
-        detectMonitors()
     }
     function hide() {
         exitAnim.start()
         updateStatsTimer.stop()
-        recordingCheckTimer.stop()
-        showMonitorMenu = false
     }
 
     ParallelAnimation {
@@ -69,36 +65,7 @@ PopupWindow {
     property real batLevel: 1.0
     property string batStatus: "Full"
 
-    // Recording State Tracker
-    property bool isRecording: false
-    property bool showMonitorMenu: false
-    property var monitorsList: []
-
-    // Monitor detection process
-    Process {
-        id: monitorDetectProc
-        command: ["bash", "-c", "hyprctl monitors -j | jq -r '.[].name' 2>/dev/null || hyprctl monitors | grep 'Monitor' | awk '{print $2}'"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                let textLines = this.text.trim().split("\n")
-                let validMonitors = []
-                for (let i = 0; i < textLines.length; i++) {
-                    let mName = textLines[i].trim()
-                    if (mName !== "") validMonitors.push(mName)
-                }
-                if (validMonitors.length === 0) {
-                    validMonitors = ["eDP-1"]
-                }
-                popup.monitorsList = validMonitors
-            }
-        }
-    }
-
-    function detectMonitors() {
-        if (!monitorDetectProc.running) {
-            monitorDetectProc.running = true
-        }
-    }
+    // Recording functionality removed
 
     // Stats updating process
     Process {
@@ -192,35 +159,6 @@ PopupWindow {
         onTriggered: if (!statsProc.running) statsProc.running = true
     }
 
-    // Checking recording status (wf-recorder)
-    Process {
-        id: checkRecProc
-        command: ["pgrep", "wf-recorder"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                popup.isRecording = this.text.trim().length > 0
-            }
-        }
-    }
-
-    Timer {
-        id: recordingCheckTimer
-        interval: 1000
-        repeat: true
-        running: false
-        onTriggered: if (!checkRecProc.running) checkRecProc.running = true
-    }
-
-    // Process executor for starting recording (independent of quickshell lifecycle)
-    Process {
-        id: recordStartProc
-    }
-
-    // Process executor for stopping recording
-    Process {
-        id: recordStopProc
-    }
-
     // Process executor for other general tools
     Process {
         id: toolRunner
@@ -232,78 +170,10 @@ PopupWindow {
         toolRunner.startDetached()
     }
 
-    // Screen Recording Activation Function
-    // Records screen + mic audio + desktop audio (Google Meet, browser, etc)
-    function startRecording(monitorName) {
-        let now = new Date()
-        let ts = now.getFullYear() + "-"
-            + String(now.getMonth() + 1).padStart(2, '0') + "-"
-            + String(now.getDate()).padStart(2, '0') + "_"
-            + String(now.getHours()).padStart(2, '0') + "-"
-            + String(now.getMinutes()).padStart(2, '0') + "-"
-            + String(now.getSeconds()).padStart(2, '0')
-        let filename = "$HOME/Videos/Screencasts/recording_" + ts + ".mp4"
-
-        // Create a combined virtual sink that mixes mic + desktop audio,
-        // then record from its monitor source so wf-recorder gets everything.
-        let setupAudio = [
-            // Create virtual combined sink
-            'pactl load-module module-null-sink sink_name=recording_combined sink_properties=device.description=RecordingCombined',
-            // Loopback desktop audio (default sink monitor) into the combined sink
-            'pactl load-module module-loopback source=$(pactl get-default-sink).monitor sink=recording_combined latency_msec=30',
-            // Loopback mic input into the combined sink
-            'pactl load-module module-loopback source=$(pactl get-default-source) sink=recording_combined latency_msec=30',
-            // Small delay to let PipeWire settle
-            'sleep 0.3'
-        ].join(' && ')
-
-        let recCmd = 'wf-recorder -o ' + monitorName + ' -a=recording_combined.monitor -f ' + filename
-
-        let fullCmd = setupAudio + ' && notify-send -a "System Control" "Recording Started" "Capturing ' + monitorName + ' with mic + desktop audio..." -i video-single-exporter && ' + recCmd
-
-        recordStartProc.command = ["bash", "-c", fullCmd]
-        recordStartProc.startDetached() // Keep it alive in the background detached!
-
-        popup.isRecording = true
-        popup.showMonitorMenu = false
-
-        // Immediate status recheck in 200ms
-        statusCheckDelay.restart()
-    }
-
-    function stopRecording() {
-        // Stop wf-recorder gracefully, then tear down the virtual audio modules
-        let stopCmd = [
-            'killall -INT wf-recorder',
-            'sleep 0.5',
-            // Unload all loopback modules feeding into our combined sink
-            'for m in $(pactl list short modules | grep module-loopback | grep recording_combined | awk \'{print $1}\'); do pactl unload-module $m 2>/dev/null; done',
-            // Unload the combined null sink itself
-            'for m in $(pactl list short modules | grep module-null-sink | grep recording_combined | awk \'{print $1}\'); do pactl unload-module $m 2>/dev/null; done',
-            'notify-send -a "System Control" "Recording Saved" "Saved to ~/Videos/Screencasts/" -i video-x-generic'
-        ].join(' && ')
-
-        recordStopProc.command = ["bash", "-c", stopCmd]
-        recordStopProc.running = true
-
-        popup.isRecording = false
-
-        // Immediate status recheck in 300ms
-        statusCheckDelay.restart()
-    }
-
-    Timer {
-        id: statusCheckDelay
-        interval: 300
-        repeat: false
-        running: false
-        onTriggered: if (!checkRecProc.running) checkRecProc.running = true
-    }
-
     // System utility tools model
     property var quickTools: [
         { icon: "󰈊", color: "#B4BEFE", label: "Picker", action: "hyprpicker | wl-copy --trim-newline" },
-        { icon: "󰑊", color: "#A6E3A1", label: "Record", action: "toggleRecording" }
+        { icon: "󰏞", color: "#A6E3A1", label: "Annotate", action: "wayscriber --daemon-toggle" }
     ]
 
 
@@ -420,9 +290,9 @@ PopupWindow {
 
                             Text {
                                 anchors.centerIn: parent
-                                text: modelData.action === "toggleRecording" && popup.isRecording ? "󰑋" : modelData.icon
+                                text: modelData.icon
                                 font.pixelSize: 20
-                                color: modelData.action === "toggleRecording" && popup.isRecording ? Theme.colors.error : (btnMouse.containsMouse ? modelData.color : Theme.colors.textSecondary)
+                                color: btnMouse.containsMouse ? modelData.color : Theme.colors.textSecondary
                                 Behavior on color { ColorAnimation { duration: 150 } }
                             }
 
@@ -430,67 +300,14 @@ PopupWindow {
                                 id: btnMouse
                                 anchors.fill: parent; cursorShape: Qt.PointingHandCursor; hoverEnabled: true
                                 onClicked: {
-                                    if (modelData.action === "toggleRecording") {
-                                        if (popup.isRecording) {
-                                            popup.stopRecording()
-                                        } else {
-                                            popup.showMonitorMenu = !popup.showMonitorMenu
-                                        }
-                                    } else {
-                                        popup.showMonitorMenu = false
-                                        popup.runToolAndCopy(modelData.action)
-                                    }
+                                    popup.runToolAndCopy(modelData.action)
                                 }
                             }
                         }
                     }
                 }
 
-                // ── Monitor Selection popup ─────────────────────────
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    visible: popup.showMonitorMenu && !popup.isRecording
-                    spacing: 8
 
-                    Text {
-                        text: "SELECT MONITOR TO RECORD"
-                        color: Theme.colors.accent
-                        font.pixelSize: 9; font.bold: true
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 8
-
-                        Repeater {
-                            model: popup.monitorsList
-                            delegate: Rectangle {
-                                required property var modelData
-                                implicitWidth: textMonitor.implicitWidth + 24
-                                implicitHeight: 28
-                                radius: 8
-                                color: monMouse.containsMouse ? Theme.colors.overlayLight : Theme.colors.surface
-
-                                Text {
-                                    id: textMonitor
-                                    anchors.centerIn: parent
-                                    text: modelData
-                                    color: monMouse.containsMouse ? Theme.colors.accent : Theme.colors.textSecondary
-                                    font.pixelSize: 11
-                                    font.bold: true
-                                }
-
-                                MouseArea {
-                                    id: monMouse
-                                    anchors.fill: parent; cursorShape: Qt.PointingHandCursor; hoverEnabled: true
-                                    onClicked: {
-                                        popup.startRecording(modelData)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
 
             // ── QUICK DIRECTORIES SECTION ────────────────────────────

@@ -22,18 +22,30 @@ Row {
         return n;
     }
 
-    // ── Global shortcut: Super+L toggles scratchpad picker ──
-    GlobalShortcut {
-        name: "scratchpadPicker"
-        description: "Toggle scratchpad picker overlay"
-        onPressed: scratchpadPopup.toggleWith("toggle")
-    }
+    // ── Watch Hyprland submap events to show/hide popup ──
+    Connections {
+        target: Hyprland
 
-    // ── Global shortcut: Super+Shift+M toggles move-to picker ──
-    GlobalShortcut {
-        name: "scratchpadMover"
-        description: "Toggle move-to-scratchpad picker overlay"
-        onPressed: scratchpadPopup.toggleWith("move")
+        function onRawEvent(event) {
+            if (event.name === "submap") {
+                let name = event.data;
+                // Only show on the focused monitor
+                let isFocused = root.panelWindow
+                    && Hyprland.focusedMonitor
+                    && Hyprland.monitorFor(root.panelWindow.screen) === Hyprland.focusedMonitor;
+                if (name === "scratchpad_pick" && isFocused) {
+                    scratchpadPopup.mode = "toggle";
+                    scratchpadPopup.show();
+                } else if (name === "scratchpad_move" && isFocused) {
+                    scratchpadPopup.mode = "move";
+                    scratchpadPopup.show();
+                } else {
+                    // submap reset (empty string) or any other submap
+                    if (scratchpadPopup.visible)
+                        scratchpadPopup.hide();
+                }
+            }
+        }
     }
 
     // ── Bar icons ──

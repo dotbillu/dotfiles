@@ -5,22 +5,6 @@ function sudo() {
   fi
   command sudo "$@"
 }
-
-updateall() {
-  sudo -v
-  while true; do
-    sudo -n true
-    sleep 60
-    kill -0 "$$" || exit
-  done 2>/dev/null &
-
-  sudo pacman -Syu --noconfirm &&
-  paru -Syu --noconfirm &&
-  hyprpm update &&
-  notify-send "System Updated" ||
-  notify-send "Update Failed"
-}
-
 run() {
   local f="$1"
   g++ -o "$f" "${f}.cpp" && "./$f"

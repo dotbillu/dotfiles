@@ -9,7 +9,7 @@ padding-bottom = 0
 result-spacing = 18
 num-results = 6
 
-font = JetBrainsMono Nerd Font
+font = MesloLGL Nerd Font
 font-size = 18
 
 prompt-text = "  "

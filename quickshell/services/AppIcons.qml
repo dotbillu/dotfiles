@@ -5,8 +5,8 @@ QtObject {
     id: root
     readonly property var iconMap: ({
             "foot": "org.codeberg.dnkl.foot",
-            "kitty": "kitty",
-            "kitty-dropterm": "kitty",
+            "kitty": "/usr/share/icons/hicolor/scalable/apps/kitty.svg",
+            "kitty-dropterm": "/usr/share/icons/hicolor/scalable/apps/kitty.svg",
             "alacritty": "Alacritty",
             "wezterm": "org.wezfurlong.wezterm",
 
@@ -58,8 +58,14 @@ QtObject {
         else if (key.includes("chromium")) key = "chromium";
         else if (key.includes("chrome")) key = "chrome";
         else if (key.includes("firefox")) key = "firefox";
+        else if (key.includes("kitty")) key = "kitty";
         
         let mapped = iconMap[key] || key;
+        
+        if (mapped.startsWith("/")) {
+            return "file://" + mapped;
+        }
+        
         return "image://icon/" + mapped;
     }
 }

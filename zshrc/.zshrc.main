@@ -10,7 +10,7 @@ source ~/.config/zshrc/alias/.zshrc.apps
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=nvim
 export VISUAL=nvim
-export PAGER=nvimpager
+export PAGER=less
 
 export PATH="$HOME/go/bin:$PATH"
 setopt interactive_comments

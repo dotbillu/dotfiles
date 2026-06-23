@@ -38,6 +38,7 @@ bell_on_tab "🔔"
 notify_on_cmd_finish invisible 10
 
 # Window layout
+# confirm_os_window_close 0
 single_window_margin_width 0
 window_padding_width 0
 single_window_padding_width 0
@@ -70,3 +71,5 @@ map alt+7 goto_tab 7
 map alt+8 goto_tab 8
 map alt+9 goto_tab 9
 map alt+0 goto_tab 10
+
+
