@@ -7,7 +7,7 @@ plugins=(
   sudo
   docker
   npm
-  yarn
+  # yarn
   rust
   extract
   colored-man-pages

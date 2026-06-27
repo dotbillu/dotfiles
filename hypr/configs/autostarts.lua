@@ -14,6 +14,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user restart xdg-desktop-portal")
 	hl.exec_cmd("swww-daemon")
 	hl.exec_cmd("sleep 2 && hyprctl reload")
+	hl.exec_cmd("hyprpm reload -n")
 
 	hl.exec_cmd('gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-macchiato-flamingo-standard+default"')
 	hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')

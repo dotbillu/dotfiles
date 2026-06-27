@@ -1,5 +1,5 @@
--- hl.plugin.load("/var/cache/hyprpm/abhay/hyprexpo/hyprexpo.so")
--- hl.plugin.load("/var/cache/hyprpm/abhay/hyprland-plugins/hyprfocus.so")
+hl.plugin.load("/var/cache/hyprpm/abhay/hyprexpo/hyprexpo.so")
+
 require("configs.import")
 hl.monitor({
 	output = "eDP-1",
@@ -37,26 +37,15 @@ hl.config({
 			natural_scroll = false,
 		},
 	},
+	plugin = {
+		hyprexpo = {
+			workspace_method = "HDMI-A-1 first 1, eDP-1 first 6",
+		},
+	},
 	cursor = {
 		no_hardware_cursors = true,
+		hide_on_key_press = true,
 		-- no_warps = true,
-	},
-	plugin = {
-		-- hyprexpo = {
-		-- 	columns = 3,
-		-- 	gaps_in = 5,
-		-- 	gaps_out = 0,
-		-- 	bg_col = "rgb(111111)",
-		-- 	gesture_distance = 200,
-		-- 	cancel_key = "escape",
-		-- 	show_cursor = 1,
-		-- },
-		-- hyprfocus = {
-		-- 	mode = "bounce",
-		-- 	bounce_strength = 20,
-		-- 	fade_opacity = 0.5,
-		-- 	only_on_monitor_change = false,
-		-- },
 	},
 })
 

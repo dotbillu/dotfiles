@@ -31,6 +31,7 @@ QtObject {
             "elisa": "elisa",
             "obs": "com.obsproject.Studio",
             "obs-studio": "com.obsproject.Studio",
+            "com.obsproject.studio": "com.obsproject.Studio",
 
             "mongodb compass": "mongodb-compass",
             "mongodb-compass": "mongodb-compass",

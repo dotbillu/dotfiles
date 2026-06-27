@@ -4,6 +4,7 @@ hl.bind(mainMod .. " + BackSpace", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind("F11", hl.dsp.window.fullscreen())
+hl.bind(mainMod .. " + Tab", hl.dsp.global("overview:toggle"))
 
 hl.bind(mainMod .. " + a", hl.dsp.focus({ direction = "l" }))
 hl.bind(mainMod .. " + d", hl.dsp.focus({ direction = "r" }))
