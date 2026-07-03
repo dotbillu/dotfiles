@@ -1,0 +1,44 @@
+[global]
+    # --- Layout ---
+    width = 300
+    height = 300
+    origin = top-right
+    offset = 20x20
+    notification_limit = 5
+
+    # --- Appearance ---
+    font = JetBrainsMono Nerd Font 10
+    icon_position = left
+    max_icon_size = 64
+    corner_radius = 10
+    padding = 15
+    horizontal_padding = 15
+    frame_width = 2
+    
+    # --- Progress Bar ---
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+
+    # --- Your Catppuccin Colors ---
+    frame_color = "#89b4fa"
+    separator_color = frame
+    highlight = "#89b4fa"
+
+[urgency_low]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    timeout = 10
+
+[urgency_normal]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    timeout = 10
+
+[urgency_critical]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#fab387"
+    timeout = 0

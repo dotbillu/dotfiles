@@ -1,0 +1,28 @@
+function sudo() {
+  command sudo -n true 2>/dev/null
+  if [ $? -ne 0 ]; then
+    notify-send " Sudo Password Needed"
+  fi
+  command sudo "$@"
+}
+run() {
+  local f="$1"
+  g++ -o "$f" "${f}.cpp" && "./$f"
+}
+
+c() {
+    "$@" | wl-copy --trim-newline
+}
+
+
+
+# Static dot aliases (Zero startup overhead)
+alias -g ..='../'
+alias -g ...='../../'
+alias -g ....='../../../'
+alias -g .....='../../../../'
+alias -g ......='../../../../../'
+alias -g .......='../../../../../../'
+alias -g ........='../../../../../../../'
+alias -g .........='../../../../../../../../'
+alias -g ..........='../../../../../../../../../'

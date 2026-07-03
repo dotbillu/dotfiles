@@ -1,0 +1,4 @@
+codex() {
+  load_nvm
+  command codex "$@"
+}

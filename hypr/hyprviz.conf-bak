@@ -1,0 +1,14 @@
+# hyprviz configuration (created automatically)
+
+decoration {
+
+    blur {
+        enabled = false
+    }
+
+}
+
+animations {
+    enabled = true
+}
+bezier = windowsIn, 1, 10.0, default, gnomed
