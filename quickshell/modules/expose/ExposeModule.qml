@@ -27,7 +27,7 @@ Rectangle {
 
     Process {
         id: exposeProcess
-        command: ["bash", "-c", "hyprctl eval 'hl.plugin.hyprexpo.expo(\"toggle\")'"]
+        command: ["bash", "-c", "quickshell ipc -p .config/qs-hyprview call expose open masonry"]
     }
 
     MouseArea {

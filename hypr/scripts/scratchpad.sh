@@ -1,5 +1,4 @@
 
-#!/usr/bin/env bash
 
 SCRATCHPADS=(term zen spotify)
 

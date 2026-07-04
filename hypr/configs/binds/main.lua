@@ -10,6 +10,3 @@ hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.resize({ x = 0, y = -50, relat
 hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
 
 
-hl.bind("SUPER + G", function()
-    hl.plugin.hyprexpo.expo("toggle")
-end)

@@ -1,5 +1,3 @@
-hl.plugin.load("/var/cache/hyprpm/abhay/hyprexpo/hyprexpo.so")
-
 require("configs.import")
 hl.monitor({
 	output = "eDP-1",
@@ -37,11 +35,7 @@ hl.config({
 			natural_scroll = false,
 		},
 	},
-	plugin = {
-		hyprexpo = {
-			workspace_method = "HDMI-A-1 first 1, eDP-1 first 6",
-		},
-	},
+	-- plugin = {},
 	cursor = {
 		no_hardware_cursors = true,
 		hide_on_key_press = true,
