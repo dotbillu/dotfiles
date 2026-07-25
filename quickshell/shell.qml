@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Io
 
 import "modules/workspace"
 import "modules/clock"
@@ -122,18 +123,48 @@ ShellRoot {
                                 barScreenX: leftControls.x + 48 // Approximate absolute offset
                             }
 
-                            Item {
-                                width: 6
-                            }
+                            Item { width: 6 }
                             Rectangle {
-                                width: 1
-                                height: 14
-                                color: Theme.colors.border
+                                width: 1; height: 14; color: Theme.colors.border
                                 anchors.verticalCenter: parent.verticalCenter
                             }
-                            Item {
-                                width: 6
+                            Item { width: 6 }
+
+                            // Wayscriber Annotate Button
+                            Rectangle {
+                                width: 28; height: 28; radius: 14
+                                color: annotMouse.containsMouse ? Theme.colors.overlayLight : "transparent"
+                                anchors.verticalCenter: parent.verticalCenter
+                                Behavior on color { ColorAnimation { duration: 150 } }
+
+                                Process {
+                                    id: wayscriberProc
+                                    command: ["bash", "-c", "wayscriber --daemon-toggle"]
+                                }
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: "󰏞" // Annotate icon
+                                    font.pixelSize: 14
+                                    color: annotMouse.containsMouse ? Theme.colors.accent : Theme.colors.textSecondary
+                                    Behavior on color { ColorAnimation { duration: 150 } }
+                                }
+
+                                MouseArea {
+                                    id: annotMouse
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: wayscriberProc.startDetached()
+                                }
                             }
+
+                            Item { width: 6 }
+                            Rectangle {
+                                width: 1; height: 14; color: Theme.colors.border
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Item { width: 6 }
 
                             ExposeModule {
                                 panelWindow: bar
