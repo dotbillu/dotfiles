@@ -35,7 +35,7 @@ ShellRoot {
             property bool barVisible: false
             property bool anyWidgetOpen: systemControls.openWidget !== "" || clockModule.widgetOpen || clipboardModule.widgetOpen || archLauncher.statsOpen
             onAnyWidgetOpenChanged: {
-                if (!anyWidgetOpen && !barHover.hovered) {
+                if (!anyWidgetOpen && !barHover.hovered && !triggerHover.hovered) {
                     barHideDelay.restart();
                 }
             }
@@ -44,12 +44,11 @@ ShellRoot {
 
             color: "transparent"
 
-            // Invisible trigger zone – top-right corner only
             Item {
                 id: triggerZone
                 anchors.top: parent.top
                 anchors.left: parent.left
-                width: 200
+                anchors.right: parent.right
                 height: Math.max(parent.height, 1)  // 1px when bar hidden, full bar when visible
 
                 HoverHandler {
@@ -57,8 +56,25 @@ ShellRoot {
                     onHoveredChanged: {
                         if (hovered) {
                             barHideDelay.stop();
-                            bar.barVisible = true;
+                            if (!bar.barVisible) {
+                                barShowDelay.restart();
+                            }
+                        } else {
+                            barShowDelay.stop();
+                            if (bar.barVisible && !barHover.hovered && !bar.anyWidgetOpen) {
+                                barHideDelay.restart();
+                            }
                         }
+                    }
+                }
+            }
+
+            Timer {
+                id: barShowDelay
+                interval: 300 // Dwell time in ms (macOS style top-edge delay)
+                onTriggered: {
+                    if (triggerHover.hovered) {
+                        bar.barVisible = true;
                     }
                 }
             }
@@ -70,14 +86,16 @@ ShellRoot {
                     if (hovered) {
                         barHideDelay.stop();
                     } else {
-                        barHideDelay.restart();
+                        if (!triggerHover.hovered && !bar.anyWidgetOpen) {
+                            barHideDelay.restart();
+                        }
                     }
                 }
             }
 
             Timer {
                 id: barHideDelay
-                interval: 100
+                interval: 150
                 onTriggered: {
                     if (!barHover.hovered && !triggerHover.hovered && !bar.anyWidgetOpen)
                         bar.barVisible = false;
