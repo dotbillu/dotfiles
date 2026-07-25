@@ -34,11 +34,11 @@ hl.config({
 		},
 
 		blur = {
-			enabled = false,
+			enabled = 1,
 			size = 5,
-			passes = 2,
+			passes = 1,
 			new_optimizations = true,
-			ignore_opacity = false,
+			-- ignore_opacity = false,
 		},
 	},
 
@@ -47,9 +47,3 @@ hl.config({
 	},
 })
 
-hl.window_rule({
-	match = {
-		class = "^zen$",
-	},
-	float = true,
-})

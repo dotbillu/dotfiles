@@ -30,8 +30,8 @@ setopt AUTO_CD
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=30000
+SAVEHIST=30000
 setopt APPEND_HISTORY
 setopt SHARE_HISTORY
 

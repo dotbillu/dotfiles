@@ -18,8 +18,6 @@ require("configs.binds.utils.system")
 --animations
 
 --rules
-require("configs.rules.blur")
 require("configs.rules.main")
-require("configs.rules.transparency")
 
 
