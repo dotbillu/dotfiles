@@ -10,7 +10,6 @@ import "modules/notifications"
 import "modules/clipboard"
 import "modules/expose"
 import "modules/battery"
-import "modules/scratchpad"
 import "theme"
 
 ShellRoot {
@@ -109,6 +108,7 @@ ShellRoot {
                 height: 38
                 anchors.bottom: parent.bottom
                 color: Theme.colors.surface
+                visible: bar.barVisible
 
                 // Far left: Arch Launcher
                 Row {
@@ -190,10 +190,6 @@ ShellRoot {
                             }
 
 
-                            ScratchpadModule {
-                                panelWindow: bar
-                                visible: false
-                            }
                         }
                     }
                 }

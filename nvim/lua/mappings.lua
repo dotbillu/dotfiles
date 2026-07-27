@@ -33,6 +33,9 @@ end, { desc = "Fold: Close all" })
 
 map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Markdown: Preview" })
 
+map({ "n" }, "<C-n>", "<cmd>MCstart<CR>", {
+  desc = "Start multicursor",
+})
 ------------------------------------------------------------------
 -- Debugger (DAP)
 ------------------------------------------------------------------
@@ -272,10 +275,6 @@ map("n", "<leader>i", function()
   local image = require "image"
   image.toggle()
 end, { desc = "Toggle image preview" })
-
-map("n", "<leader>ca", function()
-  require("nvchad.tabufline").closeAllBufs()
-end, { desc = "Close all buffers" })
 
 map("n", "<leader>cq", "<cmd>qa!<CR>", { desc = "Force quit everything" })
 
