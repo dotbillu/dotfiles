@@ -148,7 +148,18 @@ return {
     dependencies = {
       "nvimtools/hydra.nvim",
     },
-    opts = {},
+    opts = {
+      hint_config = false,
+    },
+    hint_config = {
+      type = "window",
+      position = "middle-right",
+      offset = 2,
+      float_opts = {
+        border = "rounded",
+      },
+    },
+
     cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
     keys = {
       {

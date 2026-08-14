@@ -39,13 +39,6 @@ hl.window_rule({
 
 hl.window_rule({
 	match = {
-		class = "kitty",
-	},
-	no_blur = true,
-})
-
-hl.window_rule({
-	match = {
 		class = "google-chrome",
 	},
 	no_blur = true,
@@ -74,13 +67,17 @@ hl.window_rule({
 	no_blur = true,
 	float = true,
 })
-
 hl.window_rule({
 	match = {
-		class = "kitty",
+		class = "MongoDB Compass",
 	},
+	size = { 1200, 700 },
+	move = { 500, 300 },
 	no_blur = true,
+	float = true,
 })
+
+
 hl.window_rule({
 	match = { class = "Spotify" },
 	opacity = 0.8,
@@ -105,4 +102,17 @@ hl.window_rule({
 	no_blur = true,
 	float = true,
 	size = { 1200, 700 },
+})
+
+hl.window_rule({
+	match = {
+		class = "kitty-dropterm",
+	},
+	no_blur = true,
+})
+hl.window_rule({
+	match = {
+		class = "kitty",
+	},
+	no_blur = true,
 })

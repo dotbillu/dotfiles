@@ -5,39 +5,22 @@ plugins = [
     "magnify",
     "expose",
     "fetch_client_menu",
-    "menu",
 ]
 
 [scratchpads.term]
-animation = "fromTop"
-command = "kitty  --app-id kitty-dropterm"
+command = "kitty --class kitty-dropterm"
 class = "kitty-dropterm"
-size = "85% 70%"
+animation = "fromTop"
+size = "70% 60%"
 max_size = "1920px 100%"
-margin = 50
-
-
-[scratchpads.spotify]
-command = "spotify --disable-gpu"
-class = "Spotify"
-animation = "fromRight"
-size = "75% 70%"
+margin = 40
+hide_delay = 0
 lazy = true
-unfocus = "hide"
 
-[scratchpads.discord]
-command = "discord"
-class = "discord"
-animation = "fromLeft"
-size = "75% 70%"
+[scratchpads.mongodb-compass]
+command = "mongodb-compass --ignore-additional-command-line-flags --password-store='gnome-libsecret'"
+class = "MongoDB Compass"
+animation = "fromTop"
+size = "95% 90%"
 lazy = true
-unfocus = "hide"
-
-[scratchpads.obs]
-command = "obs"
-class = "com.obsproject.Studio"
-animation = "fromLeft"
-size = "75% 70%"
-lazy = true
-unfocus = "hide"
 

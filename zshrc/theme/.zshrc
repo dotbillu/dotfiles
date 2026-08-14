@@ -7,7 +7,6 @@ plugins=(
   sudo
   docker
   npm
-  # yarn
   rust
   extract
   colored-man-pages
@@ -19,12 +18,9 @@ plugins=(
   you-should-use
   zsh-autopair
 )
-# ZSH_HIGHLIGHT_MAXLENGTH=512
-# ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=1
-source $ZSH/oh-my-zsh.sh
 
-autoload -Uz compinit
-compinit
+source "$ZSH/oh-my-zsh.sh"
+
 setopt AUTO_CD
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -37,11 +33,10 @@ setopt SHARE_HISTORY
 
 bindkey -e
 
-unset ZSH_AUTOSUGGEST_USE_ASYNC
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+[[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
+[[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh

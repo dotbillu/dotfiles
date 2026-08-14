@@ -9,7 +9,7 @@ hl.monitor({
 hl.monitor({
 	output = "HDMI-A-1",
 	mode = "1920x1080@100",
-	position = "-1920x0",
+	position = "1920x0",
 	scale = 1,
 })
 hl.config({
@@ -27,7 +27,7 @@ hl.config({
 	},
 	input = {
 		kb_layout = "us",
-		repeat_rate = 100,
+		repeat_rate = 150,
 		repeat_delay = 200,
 		follow_mouse = 1,
 		sensitivity = 1,
