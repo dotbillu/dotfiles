@@ -77,7 +77,6 @@ hl.window_rule({
 	float = true,
 })
 
-
 hl.window_rule({
 	match = { class = "Spotify" },
 	opacity = 0.8,

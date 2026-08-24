@@ -11,6 +11,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 	hl.exec_cmd("systemctl --user restart xdg-desktop-portal")
 	hl.exec_cmd("swww-daemon")
+  hl.exec_cmd("~/.config/hypr/scripts/screen-share-notify.sh")
 	-- hl.exec_cmd("sleep 2 && hyprctl reload")
 	-- hl.exec_cmd("hyprpm reload -n")
 

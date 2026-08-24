@@ -13,6 +13,7 @@ local servers = {
   "cssls",
   "jsonls",
   "pyright",
+  "jdtls"
 }
 
 for _, server_name in ipairs(servers) do

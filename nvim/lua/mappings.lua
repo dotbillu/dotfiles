@@ -277,6 +277,9 @@ map("n", "<leader>i", function()
 end, { desc = "Toggle image preview" })
 
 map("n", "<leader>cq", "<cmd>qa!<CR>", { desc = "Force quit everything" })
+map("n", "<leader>ca", function()
+  require("nvchad.tabufline").closeAllBufs()
+end, { desc = "Close all buffers" })
 
 map("n", "<C-S-P>", function()
   local ext = vim.fn.expand "%:e"

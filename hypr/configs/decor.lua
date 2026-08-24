@@ -27,17 +27,17 @@ hl.config({
 		inactive_opacity = 1.0,
 
 		shadow = {
-			enabled = true,
-			range = 30,
-			render_power = 3,
-			color = 0xaa000000,
+			enabled = false,
+			-- range = 30,
+			-- render_power = 3,
+			-- color = 0xaa000000,
 		},
 
 		blur = {
-			enabled = 1,
-			size = 5,
-			passes = 1,
-			new_optimizations = true,
+			enabled = 0,
+			-- size = 5,
+			-- passes = 1,
+			-- new_optimizations = true,
 			-- ignore_opacity = false,
 		},
 	},
