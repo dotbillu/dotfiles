@@ -14,9 +14,11 @@ local options = {
     scss = { "prettier" },
     json = { "prettier" },
     yaml = { "prettier" },
+    xml = { "xmlformatter" },
     markdown = { "prettier" },
     --python
     python = { "isort", "black" },
+    sql = { "sqlfluff" },
   },
 }
 return options

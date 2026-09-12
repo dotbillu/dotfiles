@@ -143,34 +143,6 @@ return {
     },
   },
   {
-    "smoka7/multicursors.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "nvimtools/hydra.nvim",
-    },
-    opts = {
-      hint_config = false,
-    },
-    hint_config = {
-      type = "window",
-      position = "middle-right",
-      offset = 2,
-      float_opts = {
-        border = "rounded",
-      },
-    },
-
-    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-    keys = {
-      {
-        mode = { "v", "n" },
-        "<Leader>m",
-        "<cmd>MCstart<cr>",
-        desc = "Create a selection for selected text or word under the cursor",
-      },
-    },
-  },
-  {
     "3rd/image.nvim",
     event = "VeryLazy",
     dependencies = {
@@ -228,5 +200,12 @@ return {
       "nvim-mini/mini.nvim",
     },
     opts = {},
+  },
+  {
+    "jake-stewart/multicursor.nvim",
+    branch = "1.0",
+    config = function()
+      require("multicursor-nvim").setup()
+    end,
   },
 }

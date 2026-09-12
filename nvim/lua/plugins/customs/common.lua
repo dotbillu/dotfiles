@@ -18,5 +18,12 @@ return {
       require("lsp-file-operations").setup()
     end,
   },
-
+  {
+    "folke/which-key.nvim",
+    opts = {
+      triggers = {
+        { "<auto>", mode = "nixsotc" },
+      },
+    },
+  },
 }

@@ -33,8 +33,11 @@ end, { desc = "Fold: Close all" })
 
 map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Markdown: Preview" })
 
-map({ "n" }, "<C-n>", "<cmd>MCstart<CR>", {
-  desc = "Start multicursor",
+-- map({ "n" }, "<C-n>", "<cmd>MCstart<CR>", {
+--   desc = "Start multicursor",
+-- })
+map({ "n" }, "<C-s>", "<cmd>CsvViewToggle<CR>", {
+  desc = "Toggle Csv view",
 })
 ------------------------------------------------------------------
 -- Debugger (DAP)
@@ -314,3 +317,42 @@ map("n", "<leader>ti", function()
   end
   vim.cmd("TSInstall " .. ft)
 end, { desc = "Install Treesitter parser for current filetype" })
+
+
+
+------------------------------------------------------------------
+-- Multi Cursor
+------------------------------------------------------------------
+
+local mc = require("multicursor-nvim")
+
+-- Occurrences
+map({ "n", "x" }, "<C-n>", function()
+  mc.matchAddCursor(1)
+end, { desc = "MultiCursor: Next match" })
+
+map({ "n", "x" }, "<C-p>", function()
+  mc.matchAddCursor(-1)
+end, { desc = "MultiCursor: Previous match" })
+
+map({ "n", "x" }, "<C-S-n>", function()
+  mc.matchAllAddCursors()
+end, { desc = "MultiCursor: All matches" })
+
+map({ "n", "x" }, "<C-s>", function()
+  mc.matchSkipCursor(1)
+end, { desc = "MultiCursor: Skip match" })
+
+-- Lines
+map({ "n", "x" }, "<C-Up>", function()
+  mc.lineAddCursor(-1)
+end, { desc = "MultiCursor: Add cursor above" })
+
+map({ "n", "x" }, "<C-Down>", function()
+  mc.lineAddCursor(1)
+end, { desc = "MultiCursor: Add cursor below" })
+
+-- Clear
+map({ "n", "x" }, "<Esc>", mc.clearCursors, {
+  desc = "MultiCursor: Clear cursors",
+})

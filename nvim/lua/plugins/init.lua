@@ -6,5 +6,6 @@ return {
   { import = "plugins.customs.rust" },
   { import = "plugins.customs.web" },
   { import = "plugins.customs.python" },
+  { import = "plugins.customs.csv" },
   { import = "plugins.customs.git" },
 }

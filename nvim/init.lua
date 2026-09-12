@@ -55,13 +55,19 @@ vim.treesitter.language.register("bash", "env")
 vim.treesitter.language.register("bash", "dosini")
 vim.treesitter.language.register("bash", "ini")
 
-
-
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     local arg = vim.fn.argv(0)
     if arg ~= "" and vim.fn.isdirectory(arg) == 1 then
       vim.cmd("cd " .. arg)
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "sql",
+  callback = function()
+    vim.keymap.del("i", "<Left>", { buffer = true })
+    vim.keymap.del("i", "<Right>", { buffer = true })
   end,
 })

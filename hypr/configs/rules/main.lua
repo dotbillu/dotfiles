@@ -7,6 +7,16 @@ hl.window_rule({
 	size = { 1300, 800 },
 	center = true,
 })
+hl.window_rule({
+	match = {
+		class = "google-chrome",
+	},
+	no_blur = true,
+	float = true,
+	size = { 1300, 800 },
+	center = true,
+})
+
 
 hl.window_rule({
 	match = { class = "org.gnome.eog" },
