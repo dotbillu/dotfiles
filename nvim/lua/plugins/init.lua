@@ -8,4 +8,5 @@ return {
   { import = "plugins.customs.python" },
   { import = "plugins.customs.csv" },
   { import = "plugins.customs.git" },
+  { import = "plugins.customs.java" },
 }

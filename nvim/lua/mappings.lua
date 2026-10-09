@@ -78,6 +78,18 @@ map("n", "gal", function()
   })
 end, { desc = "Git: LazyGit" })
 
+map("n", "<leader>pp", function()
+  vim.cmd "terminal posting"
+  vim.cmd "startinsert"
+  vim.api.nvim_create_autocmd("TermClose", {
+    pattern = "term://*posting",
+    once = true,
+    callback = function()
+      vim.cmd "bd!"
+    end,
+  })
+end, { desc = "posting" })
+
 -- Hunks
 map("n", "gas", function()
   require("gitsigns").stage_hunk()
@@ -276,7 +288,14 @@ map("n", "<leader>cs", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "C++: Switc
 --core
 map("n", "<leader>i", function()
   local image = require "image"
-  image.toggle()
+
+  if image.is_enabled() then
+    image.disable()
+  else
+    image.enable()
+  end
+
+  vim.cmd "edit!"
 end, { desc = "Toggle image preview" })
 
 map("n", "<leader>cq", "<cmd>qa!<CR>", { desc = "Force quit everything" })
@@ -318,15 +337,11 @@ map("n", "<leader>ti", function()
   vim.cmd("TSInstall " .. ft)
 end, { desc = "Install Treesitter parser for current filetype" })
 
-
-
 ------------------------------------------------------------------
 -- Multi Cursor
 ------------------------------------------------------------------
+local mc = require "multicursor-nvim"
 
-local mc = require("multicursor-nvim")
-
--- Occurrences
 map({ "n", "x" }, "<C-n>", function()
   mc.matchAddCursor(1)
 end, { desc = "MultiCursor: Next match" })
@@ -335,15 +350,14 @@ map({ "n", "x" }, "<C-p>", function()
   mc.matchAddCursor(-1)
 end, { desc = "MultiCursor: Previous match" })
 
-map({ "n", "x" }, "<C-S-n>", function()
+map({ "n", "x" }, "<C-a>", function()
   mc.matchAllAddCursors()
 end, { desc = "MultiCursor: All matches" })
 
-map({ "n", "x" }, "<C-s>", function()
+map({ "n", "x" }, "<C-x>", function()
   mc.matchSkipCursor(1)
 end, { desc = "MultiCursor: Skip match" })
 
--- Lines
 map({ "n", "x" }, "<C-Up>", function()
   mc.lineAddCursor(-1)
 end, { desc = "MultiCursor: Add cursor above" })
@@ -352,7 +366,44 @@ map({ "n", "x" }, "<C-Down>", function()
   mc.lineAddCursor(1)
 end, { desc = "MultiCursor: Add cursor below" })
 
--- Clear
 map({ "n", "x" }, "<Esc>", mc.clearCursors, {
   desc = "MultiCursor: Clear cursors",
 })
+
+
+map("n", "<leader>p", function()
+  local api = require("nvim-tree.api")
+  local node = api.tree.get_node_under_cursor()
+
+  if not node then
+    vim.notify("Select a folder or file in nvim-tree", vim.log.levels.ERROR)
+    return
+  end
+
+  local dir = node.type == "directory"
+      and node.absolute_path
+    or vim.fn.fnamemodify(node.absolute_path, ":h")
+
+  local filename = dir .. "/image-" .. os.date("%Y%m%d-%H%M%S") .. ".png"
+
+  -- Write clipboard bytes directly to the file.
+  vim.fn.system({
+    "sh",
+    "-c",
+    'wl-paste --type image/png > "$1"',
+    "sh",
+    filename,
+  })
+
+  if vim.v.shell_error ~= 0 or vim.fn.getfsize(filename) <= 0 then
+    vim.fn.delete(filename)
+    vim.notify(
+      "No PNG data found. Check wl-paste --list-types",
+      vim.log.levels.ERROR
+    )
+    return
+  end
+
+  api.tree.reload()
+  vim.notify("Image saved: " .. filename)
+end, { desc = "Paste clipboard image" })
