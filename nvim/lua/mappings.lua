@@ -370,9 +370,8 @@ map({ "n", "x" }, "<Esc>", mc.clearCursors, {
   desc = "MultiCursor: Clear cursors",
 })
 
-
 map("n", "<leader>p", function()
-  local api = require("nvim-tree.api")
+  local api = require "nvim-tree.api"
   local node = api.tree.get_node_under_cursor()
 
   if not node then
@@ -380,27 +379,22 @@ map("n", "<leader>p", function()
     return
   end
 
-  local dir = node.type == "directory"
-      and node.absolute_path
-    or vim.fn.fnamemodify(node.absolute_path, ":h")
+  local dir = node.type == "directory" and node.absolute_path or vim.fn.fnamemodify(node.absolute_path, ":h")
 
-  local filename = dir .. "/image-" .. os.date("%Y%m%d-%H%M%S") .. ".png"
+  local filename = dir .. "/image-" .. os.date "%Y%m%d-%H%M%S" .. ".png"
 
   -- Write clipboard bytes directly to the file.
-  vim.fn.system({
+  vim.fn.system {
     "sh",
     "-c",
     'wl-paste --type image/png > "$1"',
     "sh",
     filename,
-  })
+  }
 
   if vim.v.shell_error ~= 0 or vim.fn.getfsize(filename) <= 0 then
     vim.fn.delete(filename)
-    vim.notify(
-      "No PNG data found. Check wl-paste --list-types",
-      vim.log.levels.ERROR
-    )
+    vim.notify("No PNG data found. Check wl-paste --list-types", vim.log.levels.ERROR)
     return
   end
 

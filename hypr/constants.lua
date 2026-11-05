@@ -4,8 +4,11 @@ terminal = "kitty"
 fileManager = "nemo"
 menu = "tofi-drun --drun-launch=true"
 
-HYPRSHOT_DIR = "~/Pictures/Screenshots"
+HYPRSHOT_DIR = "/home/abhay/Pictures/Screenshots"
 SCRIPTS = "~/.config/hypr/scripts/"
+
+SCREEN_2 = "eDP-1"
+SCREEN_1 = "HDMI-A-1"
 
 -----------------------------
 ---- MONOCHROME SLATE ------

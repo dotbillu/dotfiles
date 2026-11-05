@@ -2,15 +2,11 @@
 
 return {
   {
-    "mrcjkb/rustaceanvim",
-    version = "^5",
-    ft = { "rust" },
-  },
-  {
     "hat0uma/csvview.nvim",
     ---@module "csvview"
     ---@type CsvView.Options
     opts = {
+      -- display_mode = "border",
       parser = { comments = { "#", "//" } },
       keymaps = {
         -- Text objects for selecting fields

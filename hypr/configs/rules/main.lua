@@ -17,7 +17,6 @@ hl.window_rule({
 	center = true,
 })
 
-
 hl.window_rule({
 	match = { class = "org.gnome.eog" },
 	float = true,
@@ -79,12 +78,13 @@ hl.window_rule({
 })
 hl.window_rule({
 	match = {
-		class = "MongoDB Compass",
+		class = "mongodb-compass",
 	},
 	size = { 1200, 700 },
 	move = { 500, 300 },
 	no_blur = true,
 	float = true,
+	opacity = 0.91,
 })
 
 hl.window_rule({

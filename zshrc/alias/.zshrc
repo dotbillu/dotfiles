@@ -6,7 +6,7 @@ alias yay=paru
 alias vapp="nvim /home/abhay/.local/share/applications"
 alias sddmgreet="sddm-greeter --test-mode --theme /usr/share/sddm/themes/aerial-sddm-theme"
 #daily use 
-alias ping=gping
+# alias ping=gping
 alias cpwd="pwd | wl-copy"
 alias nano=nvim
 alias kro=kiro-cli

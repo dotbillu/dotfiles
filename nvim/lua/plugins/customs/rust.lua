@@ -5,10 +5,10 @@ return {
   ------------------------------------------------------------------
   -- RUST LANGUAGE SUPPORT
   ------------------------------------------------------------------
-  { 
-    "mrcjkb/rustaceanvim", 
-    version = "^5", 
-    ft = { "rust" } 
+  {
+    "mrcjkb/rustaceanvim",
+    version = "^5",
+    ft = { "rust" },
   },
   {
     "saecki/crates.nvim",

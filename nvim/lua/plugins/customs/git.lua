@@ -29,10 +29,11 @@ return {
   },
   {
     "nvim-tree/nvim-tree.lua",
+    -- dir = "~/myProjects/contributions/nvim-tree.lua",
     opts = {
       view = {
         -- side = "right",
-        width=40
+        width = 40,
       },
       renderer = {
         icons = {

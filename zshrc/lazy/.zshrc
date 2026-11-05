@@ -11,9 +11,10 @@ lazygit() { _lazy_ssh_unlock; command lazygit "$@"; }
 ssh()     { _lazy_ssh_unlock; command ssh "$@"; }
 
 load_nvm() {
-  unset -f nvm node npm npx
+  unfunction nvm node npm npx 2>/dev/null
   source /usr/share/nvm/init-nvm.sh
 }
+
 nvm()  { load_nvm; nvm "$@"; }
 node() { load_nvm; node "$@"; }
 npm()  { load_nvm; npm "$@"; }

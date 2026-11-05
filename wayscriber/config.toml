@@ -1,3 +1,5 @@
+config_revision = 1
+
 [drawing]
 default_color = [
     0,
@@ -9,6 +11,7 @@ default_eraser_size = 12.0
 default_eraser_mode = "brush"
 marker_opacity = 0.32
 default_fill_enabled = false
+polygon_sides = 5
 default_font_size = 32.0
 hit_test_tolerance = 6.0
 hit_test_linear_threshold = 400
@@ -123,14 +126,20 @@ outline_color = [
     0.9,
 ]
 use_pen_color = true
+force_in_light_mode = true
 
 [ui.context_menu]
 enabled = true
 
 [ui.toolbar]
+backend = "auto"
 layout_mode = "regular"
 top_pinned = false
 side_pinned = false
+top_minimized = false
+side_minimized = true
+side_active_pane = "draw"
+collapsed_sections = []
 use_icons = false
 scale = 1.0
 show_more_colors = true
@@ -153,12 +162,34 @@ top_offset_y = 0.0
 side_offset = -24.0
 side_offset_x = -22.55859375
 force_inline = false
+rebind_modifier = "ctrl_shift"
 
 [ui.toolbar.mode_overrides.simple]
 
 [ui.toolbar.mode_overrides.regular]
 
 [ui.toolbar.mode_overrides.advanced]
+
+[ui.toolbar.items]
+hidden = [
+    "top.utility.screenshot",
+    "side.group.text-controls",
+]
+shown = []
+
+[ui.toolbar.items.order]
+top_tools = []
+top_controls = []
+side_sections = []
+actions = []
+pages = []
+boards = []
+presets = []
+tool_options = []
+sessions = []
+
+[tray]
+icon_style = "auto"
 
 [presenter_mode]
 hide_status_bar = true
@@ -168,6 +199,12 @@ close_help_overlay = true
 enable_click_highlight = true
 tool_behavior = "force-highlight"
 show_toast = true
+
+[render_profiles]
+apply_to_canvas = true
+apply_to_ui = true
+export = "off"
+profiles = []
 
 [board]
 enabled = true
@@ -253,6 +290,11 @@ select_pen_tool = ["F"]
 select_line_tool = []
 select_rect_tool = []
 select_ellipse_tool = []
+select_triangle_tool = []
+select_parallelogram_tool = []
+select_rhombus_tool = []
+select_regular_polygon_tool = []
+select_freeform_polygon_tool = []
 select_arrow_tool = []
 select_blur_tool = []
 select_highlight_tool = []
@@ -313,6 +355,11 @@ toggle_toolbar = [
     "F9",
 ]
 toggle_presenter_mode = ["Ctrl+Shift+M"]
+toggle_light_mode = ["F6"]
+toggle_light_mode_drawing = []
+render_profile_next = []
+render_profile_previous = []
+render_profile_off = []
 toggle_fill = []
 toggle_radial_menu = []
 toggle_selection_properties = ["Ctrl+Alt+P"]
@@ -321,7 +368,10 @@ open_context_menu = [
     "Menu",
 ]
 open_configurator = ["F11"]
-toggle_command_palette = ["Ctrl+K"]
+toggle_command_palette = [
+    "Ctrl+K",
+    "Ctrl+Shift+P",
+]
 set_color_red = ["R"]
 set_color_green = ["G"]
 set_color_blue = ["B"]
@@ -330,7 +380,8 @@ set_color_orange = ["O"]
 set_color_pink = ["P"]
 set_color_white = ["W"]
 set_color_black = ["K"]
-capture_full_screen = ["Ctrl+Shift+P"]
+pick_screen_color = ["I"]
+capture_full_screen = ["Ctrl+Alt+F"]
 capture_active_window = ["Ctrl+Shift+O"]
 capture_selection = ["Ctrl+Shift+I"]
 capture_clipboard_full = ["Ctrl+C"]
@@ -339,6 +390,11 @@ capture_clipboard_selection = ["Ctrl+Shift+C"]
 capture_file_selection = ["Ctrl+Shift+S"]
 capture_clipboard_region = ["Ctrl+6"]
 capture_file_region = ["Ctrl+Alt+6"]
+export_canvas_file = []
+export_canvas_clipboard = []
+export_canvas_clipboard_and_file = []
+export_board_pdf_file = []
+export_all_boards_pdf_file = []
 open_capture_folder = ["Ctrl+Alt+O"]
 toggle_frozen_mode = ["Ctrl+Shift+F"]
 zoom_in = [
@@ -376,6 +432,39 @@ format = "png"
 copy_to_clipboard = true
 exit_after_capture = false
 
+[export.pdf]
+page_size = "viewport"
+orientation = "auto"
+fit = "viewport"
+transparent_background = "none"
+custom_width = 800.0
+custom_height = 600.0
+content_source_padding = 24.0
+
+[export.pdf.labels]
+enabled = false
+position = "bottom-center"
+content = "custom-template"
+template = "{board_name} - {page_name} ({document_page}/{document_pages})"
+font_family = "Sans"
+font_size = 10.0
+margin = 12.0
+padding_x = 6.0
+padding_y = 3.0
+text_color = [
+    0.1,
+    0.1,
+    0.1,
+    1.0,
+]
+background_enabled = true
+background_color = [
+    1.0,
+    1.0,
+    1.0,
+    0.85,
+]
+
 [tablet]
 enabled = false
 pressure_enabled = true
@@ -386,6 +475,11 @@ pressure_variation_threshold = 0.1
 pressure_thickness_edit_mode = "disabled"
 pressure_thickness_entry_mode = "pressure_only"
 pressure_thickness_scale_step = 0.1
+
+[tablet.stylus_button]
+action = "toggle_radial_menu"
+
+[tablet.stylus_button2]
 
 [session]
 persist_transparent = true

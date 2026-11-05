@@ -9,4 +9,5 @@ return {
   { import = "plugins.customs.csv" },
   { import = "plugins.customs.git" },
   { import = "plugins.customs.java" },
+  -- { import = "plugins.customs.lua" },
 }

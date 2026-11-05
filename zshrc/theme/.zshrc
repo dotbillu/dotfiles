@@ -17,6 +17,7 @@ plugins=(
   zsh-completions
   you-should-use
   zsh-autopair
+  systemadmin
 )
 
 source "$ZSH/oh-my-zsh.sh"

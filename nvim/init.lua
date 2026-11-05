@@ -2,7 +2,6 @@ vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 
 -- bootstrap lazy and all plugins
-
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.expand "~/.config/kitty/kitty.conf",
@@ -19,13 +18,6 @@ vim.opt.rtp:prepend(lazypath)
 vim.opt.lazyredraw = true
 vim.opt.swapfile = false
 local lazy_config = require "configs.lazy"
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "*",
---   callback = function()
---     vim.opt_local.foldmethod = "marker"
---     vim.opt_local.foldmarker = "{{{,}}}"
---   end,
--- })
 
 -- load plugins
 require("lazy").setup({
@@ -39,6 +31,7 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
+require "configs.drag_drop"
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")

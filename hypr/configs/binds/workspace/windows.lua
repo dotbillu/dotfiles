@@ -1,19 +1,16 @@
 local mainMod = "SUPER"
 
-MONITOR1 = "eDP-1"
-MONITOR2 = "HDMI-A-1"
+hl.workspace_rule({ workspace = "1", monitor = SCREEN_1 })
+hl.workspace_rule({ workspace = "2", monitor = SCREEN_1 })
+hl.workspace_rule({ workspace = "3", monitor = SCREEN_1 })
+hl.workspace_rule({ workspace = "4", monitor = SCREEN_1 })
+hl.workspace_rule({ workspace = "5", monitor = SCREEN_1 })
 
-hl.workspace_rule({ workspace = "1", monitor = MONITOR1 })
-hl.workspace_rule({ workspace = "2", monitor = MONITOR1 })
-hl.workspace_rule({ workspace = "3", monitor = MONITOR1 })
-hl.workspace_rule({ workspace = "4", monitor = MONITOR1 })
-hl.workspace_rule({ workspace = "5", monitor = MONITOR1 })
-
-hl.workspace_rule({ workspace = "6", monitor = MONITOR2 })
-hl.workspace_rule({ workspace = "7", monitor = MONITOR2 })
-hl.workspace_rule({ workspace = "8", monitor = MONITOR2 })
-hl.workspace_rule({ workspace = "9", monitor = MONITOR2 })
-hl.workspace_rule({ workspace = "10", monitor = MONITOR2 })
+hl.workspace_rule({ workspace = "6", monitor = SCREEN_2 })
+hl.workspace_rule({ workspace = "7", monitor = SCREEN_2 })
+hl.workspace_rule({ workspace = "8", monitor = SCREEN_2 })
+hl.workspace_rule({ workspace = "9", monitor = SCREEN_2 })
+hl.workspace_rule({ workspace = "10", monitor = SCREEN_2 })
 
 hl.bind(mainMod .. " + 1", hl.dsp.focus({ workspace = 1 }))
 hl.bind(mainMod .. " + 2", hl.dsp.focus({ workspace = 2 }))
